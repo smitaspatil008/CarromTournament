@@ -16,7 +16,6 @@ export interface Player {
   id: string;
   name: string;
   photo: string;
-  department: string;
   teamId: string;
   gamesPlayed: number;
   wins: number;
@@ -28,7 +27,6 @@ export interface Team {
   name: string;
   logo: string;
   color: string;
-  department: string;
   playerIds: string[];
   wins: number;
   losses: number;

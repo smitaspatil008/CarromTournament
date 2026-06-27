@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Camera, X, Upload, Image } from 'lucide-react';
+import { Camera, X, Upload, Image, Trash2 } from 'lucide-react';
 import Layout from '../components/layout/Layout';
 import { useTournamentStore } from '../store/tournamentStore';
 import toast from 'react-hot-toast';
@@ -8,7 +8,7 @@ import toast from 'react-hot-toast';
 const CATEGORIES = ['all', 'match', 'celebration', 'team', 'player'] as const;
 
 export default function Gallery() {
-  const { gallery, addPhoto, isAdmin } = useTournamentStore();
+  const { gallery, addPhoto, deletePhoto, isAdmin } = useTournamentStore();
   const [cat, setCat] = useState<typeof CATEGORIES[number]>('all');
   const [selected, setSelected] = useState<string | null>(null);
 
@@ -39,7 +39,7 @@ export default function Gallery() {
             <Camera className="w-7 h-7 text-brand-purple" />
             <h1 className="font-display font-bold text-3xl gradient-text">Gallery</h1>
           </div>
-          <p className="text-muted text-sm">{gallery.length} photos from JOSH Tournament 2026</p>
+          <p className="text-muted text-sm">{gallery.length} photos from Josh Tournament 2026</p>
         </div>
         {isAdmin && (
           <button onClick={handleUpload} className="btn-primary flex items-center gap-2 text-sm">
@@ -79,6 +79,12 @@ export default function Gallery() {
                 <p className="text-white/60 text-[10px] mt-0.5 capitalize">{item.category}</p>
               </div>
             </div>
+            {isAdmin && (
+              <button onClick={(e) => { e.stopPropagation(); deletePhoto(item.id); toast.success('🗑️ Photo deleted'); }}
+                className="absolute top-2 right-2 w-8 h-8 rounded-full bg-red-500/80 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-600">
+                <Trash2 className="w-4 h-4" />
+              </button>
+            )}
           </motion.div>
         ))}
       </div>

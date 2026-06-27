@@ -35,8 +35,8 @@ export default function Navbar() {
                 <Trophy className="w-5 h-5 text-white" />
               </div>
               <div className="hidden sm:block">
-                <div className="font-display font-bold text-base leading-none gradient-text">JOSH</div>
-                <div className="text-[10px] text-muted leading-none">Tournament Arena</div>
+                <div className="font-display font-bold text-base leading-none gradient-text">Josh</div>
+                <div className="text-[10px] text-muted leading-none">Carrom & Sequence</div>
               </div>
             </Link>
 

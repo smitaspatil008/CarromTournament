@@ -193,7 +193,7 @@ export default function KnockoutBracket({ matches, teams }: Props) {
                     {champion.logo}
                   </div>
                   <div className="font-bold text-sm text-yellow-500">{champion.name}</div>
-                  <div className="text-xs text-muted">{champion.department}</div>
+                  <div className="text-xs text-muted capitalize">{champion.game}</div>
                 </motion.div>
               </div>
             </>

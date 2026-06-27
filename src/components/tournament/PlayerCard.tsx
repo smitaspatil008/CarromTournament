@@ -2,9 +2,9 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import type { Player, Team } from '../../types';
 
-interface Props { player: Player; team?: Team; delay?: number; }
+interface Props { player: Player; team?: Team; delay?: number; onClick?: () => void; }
 
-export default function PlayerCard({ player, team, delay = 0 }: Props) {
+export default function PlayerCard({ player, team, delay = 0, onClick }: Props) {
   const winPct = player.gamesPlayed > 0 ? Math.round((player.wins / player.gamesPlayed) * 100) : 0;
 
   return (
@@ -13,6 +13,7 @@ export default function PlayerCard({ player, team, delay = 0 }: Props) {
       animate={{ opacity: 1, scale: 1 }}
       transition={{ delay, duration: 0.3 }}
       whileHover={{ y: -6, boxShadow: '0 20px 40px rgba(37,99,235,0.2)' }}
+      onClick={onClick}
       className="surface rounded-2xl p-5 flex flex-col items-center text-center cursor-pointer"
     >
       {/* Photo */}
@@ -28,7 +29,6 @@ export default function PlayerCard({ player, team, delay = 0 }: Props) {
       </div>
 
       <h3 className="font-semibold text-sm" style={{ color: 'var(--color-text)' }}>{player.name}</h3>
-      <p className="text-xs text-muted mt-0.5">{player.department}</p>
       {team && <p className="text-xs mt-0.5" style={{ color: team.color }}>{team.name}</p>}
 
       {/* Stats */}

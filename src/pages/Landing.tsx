@@ -57,7 +57,7 @@ export default function Landing() {
         <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
           className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 mb-6 glass">
           <LiveBadge size="sm" />
-          <span className="text-white/80 text-sm">JOSH Tournament 2026 is LIVE</span>
+          <span className="text-white/80 text-sm">Josh — Carrom & Sequence Tournament 2026 is LIVE</span>
         </motion.div>
 
         {/* Main title */}
@@ -69,9 +69,9 @@ export default function Landing() {
             </motion.div>
           </div>
           <h1 className="font-display font-black text-5xl sm:text-7xl text-white leading-none mb-2">
-            JOSH<br />
+            Josh<br />
             <span style={{ background: 'linear-gradient(135deg,#2563EB,#7C3AED,#F97316)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-              Tournament Arena
+              Carrom & Sequence
             </span>
           </h1>
           <p className="text-white/50 text-lg sm:text-xl tracking-widest uppercase">Play · Compete · Celebrate</p>

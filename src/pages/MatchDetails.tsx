@@ -71,7 +71,7 @@ export default function MatchDetails() {
                 {teamA?.logo}
               </div>
               <h2 className="font-display font-bold text-lg sm:text-xl" style={{ color: isLive ? 'white' : 'var(--color-text)' }}>{teamA?.name}</h2>
-              <p style={{ color: isLive ? 'rgba(255,255,255,0.5)' : 'var(--color-text-muted)' }} className="text-xs">{teamA?.department}</p>
+              <p style={{ color: isLive ? 'rgba(255,255,255,0.5)' : 'var(--color-text-muted)' }} className="text-xs capitalize">{teamA?.game}</p>
               {match.winner === teamA?.id && (
                 <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring', stiffness: 300 }}
                   className="mt-2 text-yellow-500 text-sm font-bold flex items-center gap-1">
@@ -104,7 +104,7 @@ export default function MatchDetails() {
                 {teamB?.logo}
               </div>
               <h2 className="font-display font-bold text-lg sm:text-xl" style={{ color: isLive ? 'white' : 'var(--color-text)' }}>{teamB?.name}</h2>
-              <p style={{ color: isLive ? 'rgba(255,255,255,0.5)' : 'var(--color-text-muted)' }} className="text-xs">{teamB?.department}</p>
+              <p style={{ color: isLive ? 'rgba(255,255,255,0.5)' : 'var(--color-text-muted)' }} className="text-xs capitalize">{teamB?.game}</p>
               {match.winner === teamB?.id && (
                 <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring', stiffness: 300 }}
                   className="mt-2 text-yellow-500 text-sm font-bold flex items-center gap-1">

@@ -39,7 +39,7 @@ export default function Login() {
             style={{ background: 'linear-gradient(135deg,#2563EB,#7C3AED)', boxShadow: '0 8px 32px rgba(37,99,235,0.4)' }}>
             <Trophy className="w-8 h-8 text-white" />
           </div>
-          <h1 className="font-display font-bold text-2xl gradient-text mb-1">JOSH Tournament Arena</h1>
+          <h1 className="font-display font-bold text-2xl gradient-text mb-1">Josh — Carrom & Sequence</h1>
           <p className="text-muted text-sm">Admin & Umpire Login</p>
         </motion.div>
 

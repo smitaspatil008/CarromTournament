@@ -21,7 +21,7 @@ export default function UmpireScreen() {
 
   useEffect(() => {
     if (match) { setScoreA(match.scoreA); setScoreB(match.scoreB); }
-  }, []);
+  }, [match?.id]);
 
   const doSave = () => {
     if (!match) return;
@@ -103,7 +103,7 @@ export default function UmpireScreen() {
             <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-white font-bold text-xl" style={{ background: teamA.color }}>{teamA.logo}</div>
             <div className="text-left">
               <div className="text-white font-semibold">{teamA.name}</div>
-              <div className="text-white/40 text-xs">{teamA.department}</div>
+              <div className="text-white/40 text-xs capitalize">{teamA.game ?? match.game}</div>
             </div>
           </div>
           <motion.div key={scoreA} initial={{ scale: 1.3 }} animate={{ scale: 1 }}
@@ -137,7 +137,7 @@ export default function UmpireScreen() {
             <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-white font-bold text-xl" style={{ background: teamB.color }}>{teamB.logo}</div>
             <div className="text-left">
               <div className="text-white font-semibold">{teamB.name}</div>
-              <div className="text-white/40 text-xs">{teamB.department}</div>
+              <div className="text-white/40 text-xs capitalize">{teamB.game ?? match.game}</div>
             </div>
           </div>
           <motion.div key={scoreB} initial={{ scale: 1.3 }} animate={{ scale: 1 }}

@@ -12,7 +12,7 @@ export default function Footer() {
                 <Trophy className="w-5 h-5 text-white" />
               </div>
               <div>
-                <div className="font-display font-bold text-base gradient-text">JOSH Tournament Arena</div>
+                <div className="font-display font-bold text-base gradient-text">Josh — Carrom & Sequence</div>
                 <div className="text-xs text-muted">Play. Compete. Celebrate.</div>
               </div>
             </div>

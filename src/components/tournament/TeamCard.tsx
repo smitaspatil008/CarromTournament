@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { Users, Trophy, TrendingUp } from 'lucide-react';
 import type { Team, Player } from '../../types';
 
-interface Props { team: Team; players?: Player[]; delay?: number; }
+interface Props { team: Team; players?: Player[]; delay?: number; onClick?: () => void; }
 
 const STATUS_STYLES: Record<string, string> = {
   active: 'bg-green-500/15 text-green-500',
@@ -11,7 +11,7 @@ const STATUS_STYLES: Record<string, string> = {
   'runner-up': 'bg-blue-500/15 text-blue-400',
 };
 
-export default function TeamCard({ team, players = [], delay = 0 }: Props) {
+export default function TeamCard({ team, players = [], delay = 0, onClick }: Props) {
   const winRate = team.wins + team.losses > 0
     ? Math.round((team.wins / (team.wins + team.losses)) * 100)
     : 0;
@@ -22,7 +22,8 @@ export default function TeamCard({ team, players = [], delay = 0 }: Props) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay, duration: 0.4 }}
       whileHover={{ y: -5, boxShadow: `0 20px 40px ${team.color}30` }}
-      className="surface rounded-2xl overflow-hidden"
+      onClick={onClick}
+      className="surface rounded-2xl overflow-hidden cursor-pointer"
     >
       {/* Header */}
       <div className="h-2" style={{ background: `linear-gradient(90deg, ${team.color}, #7C3AED)` }} />
@@ -38,7 +39,6 @@ export default function TeamCard({ team, players = [], delay = 0 }: Props) {
             </div>
             <div>
               <h3 className="font-semibold" style={{ color: 'var(--color-text)' }}>{team.name}</h3>
-              <p className="text-xs text-muted">{team.department}</p>
               <span className={`inline-block text-[10px] font-semibold px-2 py-0.5 rounded-full mt-1 capitalize ${STATUS_STYLES[team.status]}`}>
                 {team.status}
               </span>

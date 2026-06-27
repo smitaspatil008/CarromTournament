@@ -62,7 +62,7 @@ export default function GroupTable({ group, standings, teams }: Props) {
                       </div>
                       <div>
                         <div className="font-medium text-sm" style={{ color: 'var(--color-text)' }}>{team.name}</div>
-                        <div className="text-[10px] text-muted">{team.department}</div>
+                        <div className="text-[10px] text-muted capitalize">{team.game}</div>
                       </div>
                     </div>
                   </td>
