@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60" fill="none">
+  <text x="5" y="42" font-family="'Inter', sans-serif" font-weight="800" font-size="38" fill="#ea580c" font-style="italic">J</text>
+  <circle cx="48" cy="28" r="14" stroke="#ea580c" stroke-width="2" fill="none"/>
+  <g transform="translate(48,28)" stroke="#ea580c" stroke-width="1.2" stroke-linecap="round">
+    <line x1="0" y1="-10" x2="0" y2="-6"/>
+    <line x1="7" y1="-7" x2="5" y2="-4"/>
+    <line x1="10" y1="0" x2="6" y2="0"/>
+    <line x1="7" y1="7" x2="5" y2="4"/>
+    <line x1="0" y1="10" x2="0" y2="6"/>
+    <line x1="-7" y1="7" x2="-5" y2="4"/>
+    <line x1="-10" y1="0" x2="-6" y2="0"/>
+    <line x1="-7" y1="-7" x2="-5" y2="-4"/>
+  </g>
+  <text x="68" y="42" font-family="'Inter', sans-serif" font-weight="800" font-size="38" fill="#ea580c" font-style="italic">SH</text>
+  <path d="M145 12 C150 5, 158 5, 155 15 C152 25, 160 10, 155 15" stroke="#ea580c" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <path d="M150 18 C155 11, 163 11, 160 21 C157 31, 165 16, 160 21" stroke="#ea580c" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.6"/>
+  <text x="5" y="56" font-family="'Inter', sans-serif" font-weight="600" font-size="11" fill="#ea580c" font-style="italic" letter-spacing="0.5">The Funcoholics</text>
+</svg>
