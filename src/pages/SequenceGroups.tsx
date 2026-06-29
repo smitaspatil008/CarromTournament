@@ -149,7 +149,7 @@ export default function SequenceGroups() {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-4 gap-3 mb-8">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
         {[
           { value: seqTeams.length, label: 'Teams', color: '#2563EB' },
           { value: liveSeq.length, label: 'Live', color: '#ef4444' },

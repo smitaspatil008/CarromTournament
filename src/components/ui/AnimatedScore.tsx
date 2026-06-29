@@ -2,7 +2,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 interface Props { score: number; color?: string; size?: 'sm' | 'md' | 'lg' | 'xl'; }
 
-const sizeMap = { sm: 'text-xl', md: 'text-3xl', lg: 'text-5xl', xl: 'text-7xl' };
+const sizeMap = { sm: 'text-xl', md: 'text-2xl sm:text-3xl', lg: 'text-5xl', xl: 'text-5xl sm:text-7xl' };
 
 export default function AnimatedScore({ score, color = '#f8fafc', size = 'lg' }: Props) {
   return (

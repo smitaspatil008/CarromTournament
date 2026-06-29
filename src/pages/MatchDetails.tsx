@@ -61,16 +61,16 @@ export default function MatchDetails() {
         className="rounded-3xl overflow-hidden mb-8"
         style={{ background: isLive ? 'linear-gradient(135deg,#020617,#0d1b4b,#1e0a3c)' : 'var(--color-surface)', border: '1px solid var(--color-border)' }}
       >
-        <div className="p-8 sm:p-12">
+        <div className="p-4 sm:p-12">
           <div className="flex items-center justify-between gap-4">
             {/* Team A */}
             <motion.div initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.1 }}
               className="flex-1 flex flex-col items-center text-center">
-              <div className="w-20 h-20 sm:w-28 sm:h-28 rounded-3xl flex items-center justify-center text-white font-display font-black text-3xl sm:text-4xl mb-3"
+              <div className="w-14 h-14 sm:w-28 sm:h-28 rounded-2xl sm:rounded-3xl flex items-center justify-center text-white font-display font-black text-xl sm:text-4xl mb-2 sm:mb-3"
                 style={{ background: teamA?.color, boxShadow: match.winner === teamA?.id ? `0 0 30px ${teamA?.color}80` : '' }}>
                 {teamA?.logo}
               </div>
-              <h2 className="font-display font-bold text-lg sm:text-xl" style={{ color: isLive ? 'white' : 'var(--color-text)' }}>{teamA?.name}</h2>
+              <h2 className="font-display font-bold text-sm sm:text-xl" style={{ color: isLive ? 'white' : 'var(--color-text)' }}>{teamA?.name}</h2>
               <p style={{ color: isLive ? 'rgba(255,255,255,0.5)' : 'var(--color-text-muted)' }} className="text-xs capitalize">{teamA?.game}</p>
               {match.winner === teamA?.id && (
                 <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring', stiffness: 300 }}
@@ -82,7 +82,7 @@ export default function MatchDetails() {
 
             {/* Score */}
             <div className="flex flex-col items-center gap-2">
-              <div className="flex items-center gap-4 sm:gap-8">
+              <div className="flex items-center gap-2 sm:gap-8">
                 <AnimatedScore score={match.scoreA} color={teamA?.color} size="xl" />
                 <div className="flex flex-col items-center">
                   <span className="text-2xl font-bold" style={{ color: isLive ? 'rgba(255,255,255,0.4)' : 'var(--color-text-muted)' }}>—</span>
@@ -99,11 +99,11 @@ export default function MatchDetails() {
             {/* Team B */}
             <motion.div initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.1 }}
               className="flex-1 flex flex-col items-center text-center">
-              <div className="w-20 h-20 sm:w-28 sm:h-28 rounded-3xl flex items-center justify-center text-white font-display font-black text-3xl sm:text-4xl mb-3"
+              <div className="w-14 h-14 sm:w-28 sm:h-28 rounded-2xl sm:rounded-3xl flex items-center justify-center text-white font-display font-black text-xl sm:text-4xl mb-2 sm:mb-3"
                 style={{ background: teamB?.color, boxShadow: match.winner === teamB?.id ? `0 0 30px ${teamB?.color}80` : '' }}>
                 {teamB?.logo}
               </div>
-              <h2 className="font-display font-bold text-lg sm:text-xl" style={{ color: isLive ? 'white' : 'var(--color-text)' }}>{teamB?.name}</h2>
+              <h2 className="font-display font-bold text-sm sm:text-xl" style={{ color: isLive ? 'white' : 'var(--color-text)' }}>{teamB?.name}</h2>
               <p style={{ color: isLive ? 'rgba(255,255,255,0.5)' : 'var(--color-text-muted)' }} className="text-xs capitalize">{teamB?.game}</p>
               {match.winner === teamB?.id && (
                 <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring', stiffness: 300 }}

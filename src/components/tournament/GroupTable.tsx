@@ -21,7 +21,7 @@ export default function GroupTable({ group, standings, teams }: Props) {
 
       {/* Table */}
       <div className="overflow-x-auto">
-        <table className="w-full text-sm">
+        <table className="w-full text-sm min-w-[480px]">
           <thead>
             <tr style={{ background: 'var(--color-surface-2)' }}>
               <th className="text-left px-5 py-3 text-xs font-semibold text-muted">#</th>

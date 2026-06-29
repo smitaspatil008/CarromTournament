@@ -314,9 +314,9 @@ export default function AdminPortal() {
 
   return (
     <Layout>
-      <div className="mb-8 flex items-center justify-between">
-        <div>
-          <h1 className="font-display font-bold text-3xl gradient-text mb-1">
+      <div className="mb-8 flex items-start sm:items-center justify-between gap-3">
+        <div className="min-w-0">
+          <h1 className="font-display font-bold text-2xl sm:text-3xl gradient-text mb-1">
             {isUmpire ? 'Umpire Panel' : 'Admin Portal'}
           </h1>
           <p className="text-muted text-sm">
@@ -324,13 +324,13 @@ export default function AdminPortal() {
           </p>
         </div>
         <button onClick={() => { logout(); navigate('/'); toast.success('Logged out'); }}
-          className="text-sm text-red-500 hover:text-red-600 border border-red-500/30 px-3 py-1.5 rounded-lg transition-colors">
+          className="text-sm text-red-500 hover:text-red-600 border border-red-500/30 px-3 py-2 rounded-lg transition-colors flex-shrink-0">
           Logout
         </button>
       </div>
 
       {/* Quick stats */}
-      <div className="grid grid-cols-4 gap-3 mb-8">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
         {[
           { value: teams.length, label: 'Teams', color: '#2563EB' },
           { value: players.length, label: 'Players', color: '#7C3AED' },
@@ -356,9 +356,9 @@ export default function AdminPortal() {
             onClick={() => handleAction(a.id)}
             className="surface rounded-2xl p-5 flex flex-col items-center gap-2 text-center cursor-pointer"
           >
-            <div className="text-3xl">{a.icon}</div>
-            <div className="font-semibold text-sm" style={{ color: a.color }}>{a.label}</div>
-            <div className="text-xs text-muted">{a.desc}</div>
+            <div className="text-2xl sm:text-3xl">{a.icon}</div>
+            <div className="font-semibold text-xs sm:text-sm" style={{ color: a.color }}>{a.label}</div>
+            <div className="text-[10px] sm:text-xs text-muted">{a.desc}</div>
           </motion.button>
         ))}
       </div>

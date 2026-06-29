@@ -40,7 +40,7 @@ export default function History() {
 
   return (
     <Layout>
-      <div className="mb-8 flex items-start justify-between">
+      <div className="mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
         <div>
           <div className="flex items-center gap-3 mb-2">
             <Trophy className="w-7 h-7 text-yellow-500" />

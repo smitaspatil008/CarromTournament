@@ -33,7 +33,7 @@ export default function Gallery() {
 
   return (
     <Layout>
-      <div className="mb-8 flex items-start justify-between">
+      <div className="mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
         <div>
           <div className="flex items-center gap-3 mb-2">
             <Camera className="w-7 h-7 text-brand-purple" />

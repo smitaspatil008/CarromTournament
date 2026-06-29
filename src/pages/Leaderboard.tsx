@@ -27,7 +27,7 @@ export default function Leaderboard() {
       </div>
 
       {/* Game tabs */}
-      <div className="flex gap-2 mb-8">
+      <div className="flex flex-wrap gap-2 mb-8">
         {(['carrom', 'sequence'] as const).map((g) => (
           <button key={g} onClick={() => setGame(g)}
             className="px-6 py-3 rounded-xl text-sm font-semibold capitalize transition-colors"
@@ -44,7 +44,7 @@ export default function Leaderboard() {
       {/* Top 3 Podium */}
       <div className="mb-10">
         <h2 className="font-semibold mb-4 capitalize" style={{ color: 'var(--color-text)' }}>{game} Podium</h2>
-        <div className="flex items-end justify-center gap-4 h-48">
+        <div className="flex items-end justify-center gap-2 sm:gap-4 h-40 sm:h-48">
           {[1, 0, 2].map((idx) => {
             const t = gameTeams[idx];
             if (!t) return null;
@@ -55,15 +55,15 @@ export default function Leaderboard() {
                 transition={{ delay: idx * 0.15, type: 'spring', stiffness: 200 }}
                 className="flex flex-col items-center"
               >
-                <div className="text-3xl mb-1">{MEDAL_ICONS[idx]}</div>
-                <div className="w-14 h-14 rounded-xl flex items-center justify-center text-white font-bold text-lg mb-2"
+                <div className="text-2xl sm:text-3xl mb-1">{MEDAL_ICONS[idx]}</div>
+                <div className="w-10 h-10 sm:w-14 sm:h-14 rounded-xl flex items-center justify-center text-white font-bold text-sm sm:text-lg mb-1 sm:mb-2"
                   style={{ background: t.color, boxShadow: idx===0?`0 0 20px ${t.color}60`:'' }}>
                   {t.logo}
                 </div>
-                <div className="text-xs font-semibold text-center max-w-[80px] leading-tight" style={{ color: 'var(--color-text)' }}>{t.name}</div>
-                <div className="text-[10px] text-muted">{t.points} pts</div>
-                <div className="mt-2 rounded-t-xl flex items-end justify-center font-bold text-white text-sm"
-                  style={{ width: 80, height: heights[idx] * 3, background: idx===0?'linear-gradient(180deg,#fbbf24,#d97706)':idx===1?'linear-gradient(180deg,#2563EB,#1d4ed8)':'linear-gradient(180deg,#7C3AED,#5b21b6)' }}>
+                <div className="text-[10px] sm:text-xs font-semibold text-center max-w-[60px] sm:max-w-[80px] leading-tight" style={{ color: 'var(--color-text)' }}>{t.name}</div>
+                <div className="text-[9px] sm:text-[10px] text-muted">{t.points} pts</div>
+                <div className="mt-1 sm:mt-2 rounded-t-xl flex items-end justify-center font-bold text-white text-xs sm:text-sm"
+                  style={{ width: 60, height: heights[idx] * 2.2, background: idx===0?'linear-gradient(180deg,#fbbf24,#d97706)':idx===1?'linear-gradient(180deg,#2563EB,#1d4ed8)':'linear-gradient(180deg,#7C3AED,#5b21b6)' }}>
                   #{idx + 1}
                 </div>
               </motion.div>
@@ -78,7 +78,8 @@ export default function Leaderboard() {
           <Medal className="w-5 h-5 text-yellow-500" /> <span className="capitalize">{game}</span> Team Rankings
         </h2>
         <div className="surface rounded-2xl overflow-hidden">
-          <table className="w-full text-sm">
+          <div className="overflow-x-auto">
+          <table className="w-full text-sm min-w-[480px]">
             <thead style={{ background: 'var(--color-surface-2)' }}>
               <tr>
                 <th className="text-left px-4 py-3 text-xs font-semibold text-muted">#</th>
@@ -125,6 +126,7 @@ export default function Leaderboard() {
               ))}
             </tbody>
           </table>
+          </div>
         </div>
       </div>
     </Layout>

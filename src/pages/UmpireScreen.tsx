@@ -107,19 +107,21 @@ export default function UmpireScreen() {
             </div>
           </div>
           <motion.div key={scoreA} initial={{ scale: 1.3 }} animate={{ scale: 1 }}
-            className="text-8xl font-display font-black mb-4" style={{ color: teamA.color }}>
+            className="text-6xl sm:text-8xl font-display font-black mb-4" style={{ color: teamA.color }}>
             {scoreA}
           </motion.div>
           <div className="flex gap-4 justify-center">
             <motion.button whileTap={{ scale: 0.9 }}
               onClick={() => setScoreA(Math.max(0, scoreA - 1))}
-              style={{ ...btnStyle('#374151'), width: 80, height: 80, fontSize: 32 }}>
-              <Minus className="w-8 h-8" />
+              className="w-16 h-16 sm:w-20 sm:h-20"
+              style={{ ...btnStyle('#374151') }}>
+              <Minus className="w-7 h-7 sm:w-8 sm:h-8" />
             </motion.button>
             <motion.button whileTap={{ scale: 0.9 }}
               onClick={() => setScoreA(scoreA + 1)}
-              style={{ ...btnStyle(teamA.color), width: 80, height: 80, fontSize: 32 }}>
-              <Plus className="w-8 h-8" />
+              className="w-16 h-16 sm:w-20 sm:h-20"
+              style={{ ...btnStyle(teamA.color) }}>
+              <Plus className="w-7 h-7 sm:w-8 sm:h-8" />
             </motion.button>
           </div>
         </div>
@@ -141,19 +143,21 @@ export default function UmpireScreen() {
             </div>
           </div>
           <motion.div key={scoreB} initial={{ scale: 1.3 }} animate={{ scale: 1 }}
-            className="text-8xl font-display font-black mb-4" style={{ color: teamB.color }}>
+            className="text-6xl sm:text-8xl font-display font-black mb-4" style={{ color: teamB.color }}>
             {scoreB}
           </motion.div>
           <div className="flex gap-4 justify-center">
             <motion.button whileTap={{ scale: 0.9 }}
               onClick={() => setScoreB(Math.max(0, scoreB - 1))}
-              style={{ ...btnStyle('#374151'), width: 80, height: 80, fontSize: 32 }}>
-              <Minus className="w-8 h-8" />
+              className="w-16 h-16 sm:w-20 sm:h-20"
+              style={{ ...btnStyle('#374151') }}>
+              <Minus className="w-7 h-7 sm:w-8 sm:h-8" />
             </motion.button>
             <motion.button whileTap={{ scale: 0.9 }}
               onClick={() => setScoreB(scoreB + 1)}
-              style={{ ...btnStyle(teamB.color), width: 80, height: 80, fontSize: 32 }}>
-              <Plus className="w-8 h-8" />
+              className="w-16 h-16 sm:w-20 sm:h-20"
+              style={{ ...btnStyle(teamB.color) }}>
+              <Plus className="w-7 h-7 sm:w-8 sm:h-8" />
             </motion.button>
           </div>
         </div>

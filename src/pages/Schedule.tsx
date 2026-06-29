@@ -81,7 +81,7 @@ export default function Schedule() {
 
   return (
     <Layout>
-      <div className="mb-8 flex items-start justify-between">
+      <div className="mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
         <div>
           <div className="flex items-center gap-3 mb-2">
             <Calendar className="w-7 h-7 text-brand-blue" />
@@ -141,58 +141,58 @@ export default function Schedule() {
                     <motion.div key={m.id}
                       initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: di * 0.05 + i * 0.04 }}
-                      className="surface rounded-xl px-4 py-3 flex items-center gap-4"
+                      className="surface rounded-xl px-3 sm:px-4 py-3"
                       style={{ borderLeft: `3px solid ${STATUS_COLOR[m.status]}` }}>
-                      {/* Time */}
-                      <div className="flex-shrink-0 text-center w-14">
-                        <div className="text-xs font-semibold" style={{ color: STATUS_COLOR[m.status] }}>{time}</div>
-                        <div className="text-[10px] text-muted capitalize">{m.game}</div>
-                      </div>
+                      <div className="flex items-center gap-2 sm:gap-4">
+                        {/* Time */}
+                        <div className="flex-shrink-0 text-center w-12 sm:w-14">
+                          <div className="text-xs font-semibold" style={{ color: STATUS_COLOR[m.status] }}>{time}</div>
+                          <div className="text-[10px] text-muted capitalize">{m.game}</div>
+                        </div>
 
-                      {/* Teams */}
-                      <div className="flex-1 flex items-center gap-2 min-w-0">
-                        <div className="flex items-center gap-1.5">
-                          <div className="w-6 h-6 rounded flex-shrink-0 flex items-center justify-center text-white text-[10px] font-bold" style={{ background: tA?.color ?? '#64748b' }}>{tA?.logo}</div>
-                          <span className="text-sm font-medium truncate" style={{ color: 'var(--color-text)' }}>{tA?.name}</span>
+                        {/* Teams */}
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-1.5">
+                            <div className="w-5 h-5 sm:w-6 sm:h-6 rounded flex-shrink-0 flex items-center justify-center text-white text-[9px] sm:text-[10px] font-bold" style={{ background: tA?.color ?? '#64748b' }}>{tA?.logo}</div>
+                            <span className="text-xs sm:text-sm font-medium truncate" style={{ color: 'var(--color-text)' }}>{tA?.name}</span>
+                            <span className="text-[10px] sm:text-xs text-muted">vs</span>
+                            <div className="w-5 h-5 sm:w-6 sm:h-6 rounded flex-shrink-0 flex items-center justify-center text-white text-[9px] sm:text-[10px] font-bold" style={{ background: tB?.color ?? '#64748b' }}>{tB?.logo}</div>
+                            <span className="text-xs sm:text-sm font-medium truncate" style={{ color: 'var(--color-text)' }}>{tB?.name}</span>
+                          </div>
                         </div>
-                        <span className="text-xs text-muted">vs</span>
-                        <div className="flex items-center gap-1.5">
-                          <div className="w-6 h-6 rounded flex-shrink-0 flex items-center justify-center text-white text-[10px] font-bold" style={{ background: tB?.color ?? '#64748b' }}>{tB?.logo}</div>
-                          <span className="text-sm font-medium truncate" style={{ color: 'var(--color-text)' }}>{tB?.name}</span>
-                        </div>
-                      </div>
 
-                      {/* Score (if played) */}
-                      {(m.status === 'live' || m.status === 'completed') && (
-                        <div className="font-bold text-sm" style={{ color: 'var(--color-text)' }}>
-                          {m.scoreA} – {m.scoreB}
-                        </div>
-                      )}
-
-                      {/* Status + Admin edit */}
-                      <div className="flex-shrink-0 flex items-center gap-2">
-                        <div className="flex items-center gap-1 text-xs text-muted">
-                          <MapPin className="w-3 h-3" />{m.court}
-                        </div>
-                        {m.status === 'live' ? <LiveBadge size="sm" /> :
-                          <span className="text-xs px-2 py-0.5 rounded-full font-medium capitalize"
-                            style={{ background: `${STATUS_COLOR[m.status]}18`, color: STATUS_COLOR[m.status] }}>
-                            {m.status}
-                          </span>}
-                        {isAdmin && m.status !== 'completed' && (
-                          <button onClick={() => openEdit(m.id)}
-                            className="w-7 h-7 rounded-lg flex items-center justify-center hover:bg-brand-blue/10 transition-colors"
-                            title="Edit schedule">
-                            <Edit3 className="w-3.5 h-3.5 text-brand-blue" />
-                          </button>
+                        {/* Score (if played) */}
+                        {(m.status === 'live' || m.status === 'completed') && (
+                          <div className="font-bold text-xs sm:text-sm flex-shrink-0" style={{ color: 'var(--color-text)' }}>
+                            {m.scoreA}–{m.scoreB}
+                          </div>
                         )}
-                        {isAdmin && m.status === 'completed' && (
-                          <button onClick={() => { deleteMatch(m.id); toast.success('Match deleted'); }}
-                            className="w-7 h-7 rounded-lg flex items-center justify-center hover:bg-red-500/10 transition-colors"
-                            title="Delete match">
-                            <Trash2 className="w-3.5 h-3.5 text-red-500" />
-                          </button>
-                        )}
+
+                        {/* Status + Admin edit */}
+                        <div className="flex-shrink-0 flex items-center gap-1 sm:gap-2">
+                          <div className="hidden sm:flex items-center gap-1 text-xs text-muted">
+                            <MapPin className="w-3 h-3" />{m.court}
+                          </div>
+                          {m.status === 'live' ? <LiveBadge size="sm" /> :
+                            <span className="text-[10px] sm:text-xs px-1.5 sm:px-2 py-0.5 rounded-full font-medium capitalize"
+                              style={{ background: `${STATUS_COLOR[m.status]}18`, color: STATUS_COLOR[m.status] }}>
+                              {m.status}
+                            </span>}
+                          {isAdmin && m.status !== 'completed' && (
+                            <button onClick={() => openEdit(m.id)}
+                              className="w-7 h-7 rounded-lg flex items-center justify-center hover:bg-brand-blue/10 transition-colors"
+                              title="Edit schedule">
+                              <Edit3 className="w-3.5 h-3.5 text-brand-blue" />
+                            </button>
+                          )}
+                          {isAdmin && m.status === 'completed' && (
+                            <button onClick={() => { deleteMatch(m.id); toast.success('Match deleted'); }}
+                              className="w-7 h-7 rounded-lg flex items-center justify-center hover:bg-red-500/10 transition-colors"
+                              title="Delete match">
+                              <Trash2 className="w-3.5 h-3.5 text-red-500" />
+                            </button>
+                          )}
+                        </div>
                       </div>
                     </motion.div>
                   );

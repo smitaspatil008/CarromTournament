@@ -26,7 +26,7 @@ export default function CarromBracket() {
       </div>
 
       {/* Summary cards */}
-      <div className="grid grid-cols-3 sm:grid-cols-6 gap-3 mb-8">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-8">
         {[
           { label: 'Round of 16', total: 8,  done: carromMatches.filter(m=>m.round==='Round of 16'&&m.status==='completed').length },
           { label: 'Quarter Finals', total: 4, done: carromMatches.filter(m=>m.round==='Quarter Finals'&&m.status==='completed').length },
