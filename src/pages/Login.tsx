@@ -24,7 +24,7 @@ export default function Login() {
       toast.success(`Welcome, ${role === 'admin' ? 'Admin' : 'Umpire'}!`);
       navigate('/admin');
     } else {
-      toast.error('Invalid PIN. Try 1234');
+      toast.error('Invalid PIN');
       setPin('');
     }
   };
@@ -78,7 +78,7 @@ export default function Login() {
                   {showPin ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
               </div>
-              <p className="text-xs text-gray-500 mt-1.5 text-center">Demo PIN: 1234</p>
+              <p className="text-xs text-gray-500 mt-1.5 text-center">Enter your access PIN</p>
             </div>
 
             <motion.button
