@@ -11,10 +11,8 @@ const NAV_ITEMS = [
   { label: 'Sequence',    path: '/sequence' },
   { label: 'Teams',       path: '/teams' },
   { label: 'Players',     path: '/players' },
-  { label: 'Leaderboard', path: '/leaderboard' },
   { label: 'Schedule',    path: '/schedule' },
   { label: 'Gallery',     path: '/gallery' },
-  { label: 'History',     path: '/history' },
 ];
 
 export default function Navbar() {

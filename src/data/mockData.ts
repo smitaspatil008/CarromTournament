@@ -11,35 +11,35 @@ export const TOURNAMENT: Tournament = {
 
 // ─── Carrom Teams (17 teams, knockout) ────────────────────────────────────────
 export const CARROM_TEAMS: Team[] = [
-  { id: 'ct1',  name: 'TEAM_GA', logo: 'GA', color: '#2563EB', playerIds: ['p1','p2'],   wins: 0, losses: 0, points: 0, status: 'active', game: 'carrom' },
-  { id: 'ct2',  name: 'TEAM_AR', logo: 'AR', color: '#7C3AED', playerIds: ['p3','p4'],   wins: 0, losses: 0, points: 0, status: 'active', game: 'carrom' },
-  { id: 'ct3',  name: 'TEAM_MS', logo: 'MS', color: '#059669', playerIds: ['p5','p6'],   wins: 0, losses: 0, points: 0, status: 'active', game: 'carrom' },
-  { id: 'ct4',  name: 'TEAM_KA', logo: 'KA', color: '#DC2626', playerIds: ['p7','p8'],   wins: 0, losses: 0, points: 0, status: 'active', game: 'carrom' },
-  { id: 'ct5',  name: 'TEAM_VS', logo: 'VS', color: '#D97706', playerIds: ['p9','p10'],  wins: 0, losses: 0, points: 0, status: 'active', game: 'carrom' },
-  { id: 'ct6',  name: 'TEAM_KL', logo: 'KL', color: '#0891B2', playerIds: ['p11','p12'], wins: 0, losses: 0, points: 0, status: 'active', game: 'carrom' },
-  { id: 'ct7',  name: 'TEAM_HV', logo: 'HV', color: '#DB2777', playerIds: ['p13','p14'], wins: 0, losses: 0, points: 0, status: 'active', game: 'carrom' },
-  { id: 'ct8',  name: 'TEAM_SM', logo: 'SM', color: '#4F46E5', playerIds: ['p15','p16'], wins: 0, losses: 0, points: 0, status: 'active', game: 'carrom' },
-  { id: 'ct9',  name: 'TEAM_TH', logo: 'TH', color: '#EA580C', playerIds: ['p17','p18'], wins: 0, losses: 0, points: 0, status: 'active', game: 'carrom' },
-  { id: 'ct10', name: 'TEAM_PA', logo: 'PA', color: '#16A34A', playerIds: ['p19','p20'], wins: 0, losses: 0, points: 0, status: 'active', game: 'carrom' },
-  { id: 'ct11', name: 'TEAM_HT', logo: 'HT', color: '#9333EA', playerIds: ['p21','p22'], wins: 0, losses: 0, points: 0, status: 'active', game: 'carrom' },
-  { id: 'ct12', name: 'TEAM_SK', logo: 'SK', color: '#0369A1', playerIds: ['p23','p24'], wins: 0, losses: 0, points: 0, status: 'active', game: 'carrom' },
-  { id: 'ct13', name: 'TEAM_SN', logo: 'SN', color: '#B91C1C', playerIds: ['p25','p26'], wins: 0, losses: 0, points: 0, status: 'active', game: 'carrom' },
-  { id: 'ct14', name: 'TEAM_GK', logo: 'GK', color: '#1D4ED8', playerIds: ['p27','p28'], wins: 0, losses: 0, points: 0, status: 'active', game: 'carrom' },
-  { id: 'ct15', name: 'TEAM_AP', logo: 'AP', color: '#B45309', playerIds: ['p29','p30'], wins: 0, losses: 0, points: 0, status: 'active', game: 'carrom' },
-  { id: 'ct16', name: 'TEAM_RR', logo: 'RR', color: '#6D28D9', playerIds: ['p31','p32'], wins: 0, losses: 0, points: 0, status: 'active', game: 'carrom' },
-  { id: 'ct17', name: 'TEAM_UP', logo: 'UP', color: '#F97316', playerIds: ['p33','p34'], wins: 0, losses: 0, points: 0, status: 'active', game: 'carrom' },
+  { id: 'ct1',  name: 'Gopal K - Akshay N',     logo: 'GA', color: '#2563EB', playerIds: ['p1','p2'],   wins: 0, losses: 0, points: 0, status: 'active', game: 'carrom' },
+  { id: 'ct2',  name: 'Amit C - Rupam P',        logo: 'AR', color: '#7C3AED', playerIds: ['p3','p4'],   wins: 0, losses: 0, points: 0, status: 'active', game: 'carrom' },
+  { id: 'ct3',  name: 'Maaj P - Shubham S',      logo: 'MS', color: '#059669', playerIds: ['p5','p6'],   wins: 0, losses: 0, points: 0, status: 'active', game: 'carrom' },
+  { id: 'ct4',  name: 'Krushna M - Ashwini P',   logo: 'KA', color: '#DC2626', playerIds: ['p7','p8'],   wins: 0, losses: 0, points: 0, status: 'active', game: 'carrom' },
+  { id: 'ct5',  name: 'Vikas S - Sikandar S',    logo: 'VS', color: '#D97706', playerIds: ['p9','p10'],  wins: 0, losses: 0, points: 0, status: 'active', game: 'carrom' },
+  { id: 'ct6',  name: 'Krushna L - Akshay U',    logo: 'KL', color: '#0891B2', playerIds: ['p11','p12'], wins: 0, losses: 0, points: 0, status: 'active', game: 'carrom' },
+  { id: 'ct7',  name: 'Hemant N - Vishal R',     logo: 'HV', color: '#DB2777', playerIds: ['p13','p14'], wins: 0, losses: 0, points: 0, status: 'active', game: 'carrom' },
+  { id: 'ct8',  name: 'Sanjay S - Mayur D',      logo: 'SM', color: '#4F46E5', playerIds: ['p15','p16'], wins: 0, losses: 0, points: 0, status: 'active', game: 'carrom' },
+  { id: 'ct9',  name: 'Taman - Hitesh',          logo: 'TH', color: '#EA580C', playerIds: ['p17','p18'], wins: 0, losses: 0, points: 0, status: 'active', game: 'carrom' },
+  { id: 'ct10', name: 'Pushkaraj K - Akshay M',  logo: 'PA', color: '#16A34A', playerIds: ['p19','p20'], wins: 0, losses: 0, points: 0, status: 'active', game: 'carrom' },
+  { id: 'ct11', name: 'Hariom - Tushar S',       logo: 'HT', color: '#9333EA', playerIds: ['p21','p22'], wins: 0, losses: 0, points: 0, status: 'active', game: 'carrom' },
+  { id: 'ct12', name: 'Shivam G - Krushna B',    logo: 'SK', color: '#0369A1', playerIds: ['p23','p24'], wins: 0, losses: 0, points: 0, status: 'active', game: 'carrom' },
+  { id: 'ct13', name: 'Sameer D - Nuran K',      logo: 'SN', color: '#B91C1C', playerIds: ['p25','p26'], wins: 0, losses: 0, points: 0, status: 'active', game: 'carrom' },
+  { id: 'ct14', name: 'Gopal N - Karan K',       logo: 'GK', color: '#1D4ED8', playerIds: ['p27','p28'], wins: 0, losses: 0, points: 0, status: 'active', game: 'carrom' },
+  { id: 'ct15', name: 'Alim - Purnundu',         logo: 'AP', color: '#B45309', playerIds: ['p29','p30'], wins: 0, losses: 0, points: 0, status: 'active', game: 'carrom' },
+  { id: 'ct16', name: 'Rahul P - Rakesh N',      logo: 'RR', color: '#6D28D9', playerIds: ['p31','p32'], wins: 0, losses: 0, points: 0, status: 'active', game: 'carrom' },
+  { id: 'ct17', name: 'Umesh W - Pavan R',       logo: 'UP', color: '#F97316', playerIds: ['p33','p34'], wins: 0, losses: 0, points: 0, status: 'active', game: 'carrom' },
 ];
 
 // ─── Sequence Teams (8 teams, 2 groups of 4) ─────────────────────────────────
 export const SEQUENCE_TEAMS: Team[] = [
-  { id: 'st1', name: 'TEAM_A', logo: 'A',  color: '#2563EB', playerIds: ['sp1','sp2','sp3'],   wins: 0, losses: 0, points: 0, status: 'active', game: 'sequence' },
-  { id: 'st2', name: 'TEAM_B', logo: 'B',  color: '#7C3AED', playerIds: ['sp4','sp5','sp6'],   wins: 0, losses: 0, points: 0, status: 'active', game: 'sequence' },
-  { id: 'st3', name: 'TEAM_C', logo: 'C',  color: '#059669', playerIds: ['sp7','sp8','sp9'],   wins: 0, losses: 0, points: 0, status: 'active', game: 'sequence' },
-  { id: 'st4', name: 'TEAM_D', logo: 'D',  color: '#DC2626', playerIds: ['sp10','sp11','sp12'], wins: 0, losses: 0, points: 0, status: 'active', game: 'sequence' },
-  { id: 'st5', name: 'TEAM_E', logo: 'E',  color: '#D97706', playerIds: ['sp13','sp14','sp15'], wins: 0, losses: 0, points: 0, status: 'active', game: 'sequence' },
-  { id: 'st6', name: 'TEAM_F', logo: 'F',  color: '#DB2777', playerIds: ['sp16','sp17','sp18'], wins: 0, losses: 0, points: 0, status: 'active', game: 'sequence' },
-  { id: 'st7', name: 'TEAM_G', logo: 'G',  color: '#0891B2', playerIds: ['sp19','sp20','sp21'], wins: 0, losses: 0, points: 0, status: 'active', game: 'sequence' },
-  { id: 'st8', name: 'TEAM_H', logo: 'H',  color: '#4F46E5', playerIds: ['sp22','sp23','sp24'], wins: 0, losses: 0, points: 0, status: 'active', game: 'sequence' },
+  { id: 'st1', name: 'Astitwa R - Garima G - Tejaswini K',    logo: 'A',  color: '#2563EB', playerIds: ['sp1','sp2','sp3'],   wins: 0, losses: 0, points: 0, status: 'active', game: 'sequence' },
+  { id: 'st2', name: 'Sofia H - Ayush K - Manik B',           logo: 'B',  color: '#7C3AED', playerIds: ['sp4','sp5','sp6'],   wins: 0, losses: 0, points: 0, status: 'active', game: 'sequence' },
+  { id: 'st3', name: 'Shruti - Sanika - Anushree',            logo: 'C',  color: '#059669', playerIds: ['sp7','sp8','sp9'],   wins: 0, losses: 0, points: 0, status: 'active', game: 'sequence' },
+  { id: 'st4', name: 'Gauri S - Aditya V - Pranav D',         logo: 'D',  color: '#DC2626', playerIds: ['sp10','sp11','sp12'], wins: 0, losses: 0, points: 0, status: 'active', game: 'sequence' },
+  { id: 'st5', name: 'Vijay M - Rushikesh J - Vaishnavi M',   logo: 'E',  color: '#D97706', playerIds: ['sp13','sp14','sp15'], wins: 0, losses: 0, points: 0, status: 'active', game: 'sequence' },
+  { id: 'st6', name: 'Gayatri K - Tejas J - Ankita R',        logo: 'F',  color: '#DB2777', playerIds: ['sp16','sp17','sp18'], wins: 0, losses: 0, points: 0, status: 'active', game: 'sequence' },
+  { id: 'st7', name: 'Mayank B - Gauri D - Gaurav T',         logo: 'G',  color: '#0891B2', playerIds: ['sp19','sp20','sp21'], wins: 0, losses: 0, points: 0, status: 'active', game: 'sequence' },
+  { id: 'st8', name: 'Madhura J - Harshita M - Aboli D',      logo: 'H',  color: '#4F46E5', playerIds: ['sp22','sp23','sp24'], wins: 0, losses: 0, points: 0, status: 'active', game: 'sequence' },
 ];
 
 export const ALL_TEAMS = [...CARROM_TEAMS, ...SEQUENCE_TEAMS];
@@ -133,25 +133,26 @@ export const MATCHES: Match[] = [
   { id: 'm14', game: 'carrom', round: 'Semi Finals', teamAId: 'ct9', teamBId: 'ct13', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Court 2', scheduledAt: '2026-07-07T14:00' },
   // Carrom Final
   { id: 'm15', game: 'carrom', round: 'Final', teamAId: 'ct1', teamBId: 'ct9', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Main Court', scheduledAt: '2026-07-08T15:00' },
-  // Sequence Group A (round-robin: 6 matches for 4 teams)
-  { id: 'sm1', game: 'sequence', round: 'Group A', teamAId: 'st1', teamBId: 'st2', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 1', scheduledAt: '2026-07-05T09:00' },
-  { id: 'sm2', game: 'sequence', round: 'Group A', teamAId: 'st3', teamBId: 'st4', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 2', scheduledAt: '2026-07-05T09:00' },
-  { id: 'sm3', game: 'sequence', round: 'Group A', teamAId: 'st1', teamBId: 'st3', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 1', scheduledAt: '2026-07-05T10:00' },
-  { id: 'sm4', game: 'sequence', round: 'Group A', teamAId: 'st2', teamBId: 'st4', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 2', scheduledAt: '2026-07-05T10:00' },
-  { id: 'sm5', game: 'sequence', round: 'Group A', teamAId: 'st1', teamBId: 'st4', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 1', scheduledAt: '2026-07-05T11:00' },
-  { id: 'sm6', game: 'sequence', round: 'Group A', teamAId: 'st2', teamBId: 'st3', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 2', scheduledAt: '2026-07-05T11:00' },
-  // Sequence Group B (round-robin: 6 matches for 4 teams)
-  { id: 'sm7',  game: 'sequence', round: 'Group B', teamAId: 'st5', teamBId: 'st6', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 3', scheduledAt: '2026-07-05T09:00' },
-  { id: 'sm8',  game: 'sequence', round: 'Group B', teamAId: 'st7', teamBId: 'st8', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 4', scheduledAt: '2026-07-05T09:00' },
-  { id: 'sm9',  game: 'sequence', round: 'Group B', teamAId: 'st5', teamBId: 'st7', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 3', scheduledAt: '2026-07-05T10:00' },
-  { id: 'sm10', game: 'sequence', round: 'Group B', teamAId: 'st6', teamBId: 'st8', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 4', scheduledAt: '2026-07-05T10:00' },
-  { id: 'sm11', game: 'sequence', round: 'Group B', teamAId: 'st5', teamBId: 'st8', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 3', scheduledAt: '2026-07-05T11:00' },
-  { id: 'sm12', game: 'sequence', round: 'Group B', teamAId: 'st6', teamBId: 'st7', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 4', scheduledAt: '2026-07-05T11:00' },
-  // Sequence Playoffs
-  { id: 'sq_sf1', game: 'sequence', round: 'Semi Finals', teamAId: 'st1', teamBId: 'st5', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 1', scheduledAt: '2026-07-07T10:00' },
-  { id: 'sq_sf2', game: 'sequence', round: 'Semi Finals', teamAId: 'st2', teamBId: 'st6', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 2', scheduledAt: '2026-07-07T11:00' },
-  // Sequence Final
-  { id: 'sq_fin', game: 'sequence', round: 'Final', teamAId: 'st1', teamBId: 'st5', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 1', scheduledAt: '2026-07-08T14:00' },
+  // Sequence Day 1: A1vA2, B1vB2, A3vA4, B3vB4
+  { id: 'sm1', game: 'sequence', round: 'Day 1', teamAId: 'st1', teamBId: 'st2', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 1', scheduledAt: '2026-07-05T09:00' },
+  { id: 'sm2', game: 'sequence', round: 'Day 1', teamAId: 'st5', teamBId: 'st6', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 2', scheduledAt: '2026-07-05T09:30' },
+  { id: 'sm3', game: 'sequence', round: 'Day 1', teamAId: 'st3', teamBId: 'st4', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 1', scheduledAt: '2026-07-05T10:30' },
+  { id: 'sm4', game: 'sequence', round: 'Day 1', teamAId: 'st7', teamBId: 'st8', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 2', scheduledAt: '2026-07-05T11:00' },
+  // Sequence Day 2: B1vB3, A1vA3, B2vB4, A2vA4
+  { id: 'sm5', game: 'sequence', round: 'Day 2', teamAId: 'st5', teamBId: 'st7', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 1', scheduledAt: '2026-07-06T09:00' },
+  { id: 'sm6', game: 'sequence', round: 'Day 2', teamAId: 'st1', teamBId: 'st3', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 2', scheduledAt: '2026-07-06T09:30' },
+  { id: 'sm7', game: 'sequence', round: 'Day 2', teamAId: 'st6', teamBId: 'st8', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 1', scheduledAt: '2026-07-06T10:30' },
+  { id: 'sm8', game: 'sequence', round: 'Day 2', teamAId: 'st2', teamBId: 'st4', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 2', scheduledAt: '2026-07-06T11:00' },
+  // Sequence Day 3: A1vA4, B1vB4, A2vA3, B2vB3
+  { id: 'sm9',  game: 'sequence', round: 'Day 3', teamAId: 'st1', teamBId: 'st4', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 1', scheduledAt: '2026-07-07T09:00' },
+  { id: 'sm10', game: 'sequence', round: 'Day 3', teamAId: 'st5', teamBId: 'st8', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 2', scheduledAt: '2026-07-07T09:30' },
+  { id: 'sm11', game: 'sequence', round: 'Day 3', teamAId: 'st2', teamBId: 'st3', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 1', scheduledAt: '2026-07-07T10:30' },
+  { id: 'sm12', game: 'sequence', round: 'Day 3', teamAId: 'st6', teamBId: 'st7', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 2', scheduledAt: '2026-07-07T11:00' },
+  // Sequence Day 4: Semifinals
+  { id: 'sq_sf1', game: 'sequence', round: 'Day 4 - Semifinals', teamAId: 'st1', teamBId: 'st5', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 1', scheduledAt: '2026-07-08T10:00' },
+  { id: 'sq_sf2', game: 'sequence', round: 'Day 4 - Semifinals', teamAId: 'st2', teamBId: 'st6', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 2', scheduledAt: '2026-07-08T11:00' },
+  // Sequence Day 5: Final
+  { id: 'sq_fin', game: 'sequence', round: 'Day 5 - Final', teamAId: 'st1', teamBId: 'st5', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 1', scheduledAt: '2026-07-09T14:00' },
 ];
 
 // ─── Groups ───────────────────────────────────────────────────────────────────
@@ -178,13 +179,13 @@ export const GROUP_STANDINGS: Record<string, GroupStanding[]> = {
 // ─── Gallery ──────────────────────────────────────────────────────────────────
 export const GALLERY: GalleryItem[] = [
   { id: 'g1',  photo: 'https://picsum.photos/seed/josh1/400/300',  caption: 'Tournament Opening Ceremony 2026',       category: 'match',       uploadedAt: '2026-06-20T09:00' },
-  { id: 'g2',  photo: 'https://picsum.photos/seed/josh2/400/300',  caption: 'TEAM_GA in action',                      category: 'match',       uploadedAt: '2026-06-20T11:00' },
-  { id: 'g3',  photo: 'https://picsum.photos/seed/josh3/400/300',  caption: 'TEAM_VS celebrate their win',            category: 'celebration', uploadedAt: '2026-06-23T15:00' },
-  { id: 'g4',  photo: 'https://picsum.photos/seed/josh4/400/300',  caption: 'Team photo — TEAM_HT',                   category: 'team',        uploadedAt: '2026-06-21T16:00' },
+  { id: 'g2',  photo: 'https://picsum.photos/seed/josh2/400/300',  caption: 'Gopal K - Akshay N in action',             category: 'match',       uploadedAt: '2026-06-20T11:00' },
+  { id: 'g3',  photo: 'https://picsum.photos/seed/josh3/400/300',  caption: 'Vikas S - Sikandar S celebrate their win', category: 'celebration', uploadedAt: '2026-06-23T15:00' },
+  { id: 'g4',  photo: 'https://picsum.photos/seed/josh4/400/300',  caption: 'Team photo — Hariom - Tushar S',          category: 'team',        uploadedAt: '2026-06-21T16:00' },
   { id: 'g5',  photo: 'https://picsum.photos/seed/josh5/400/300',  caption: 'Gopal Kadam perfects his strike',        category: 'player',      uploadedAt: '2026-06-20T12:00' },
   { id: 'g6',  photo: 'https://picsum.photos/seed/josh6/400/300',  caption: 'Semi-final intense moments',             category: 'match',       uploadedAt: '2026-06-26T14:00' },
-  { id: 'g7',  photo: 'https://picsum.photos/seed/josh7/400/300',  caption: 'TEAM_E dominate Group B',                category: 'match',       uploadedAt: '2026-06-22T10:00' },
-  { id: 'g8',  photo: 'https://picsum.photos/seed/josh8/400/300',  caption: 'TEAM_PA team huddle',                    category: 'team',        uploadedAt: '2026-06-21T12:00' },
+  { id: 'g7',  photo: 'https://picsum.photos/seed/josh7/400/300',  caption: 'Vijay M - Rushikesh J - Vaishnavi M dominate Group B', category: 'match', uploadedAt: '2026-06-22T10:00' },
+  { id: 'g8',  photo: 'https://picsum.photos/seed/josh8/400/300',  caption: 'Pushkaraj K - Akshay M team huddle',     category: 'team',        uploadedAt: '2026-06-21T12:00' },
   { id: 'g9',  photo: 'https://picsum.photos/seed/josh9/400/300',  caption: 'JOSH 2025 Champions celebration',        category: 'celebration', uploadedAt: '2025-07-01T17:00' },
   { id: 'g10', photo: 'https://picsum.photos/seed/josh10/400/300', caption: 'Crowd cheering at the main court',       category: 'match',       uploadedAt: '2026-06-23T13:00' },
   { id: 'g11', photo: 'https://picsum.photos/seed/josh11/400/300', caption: 'Award ceremony preparations',            category: 'celebration', uploadedAt: '2026-06-24T16:00' },
@@ -194,7 +195,7 @@ export const GALLERY: GalleryItem[] = [
 // ─── Announcements ────────────────────────────────────────────────────────────
 export const ANNOUNCEMENTS: Announcement[] = [
   { id: 'a1', title: '📅 Match Schedule Released',      body: 'All Carrom Round of 16 and Sequence Group matches are now scheduled for July 5th!', type: 'info',   createdAt: '2026-06-30T10:00' },
-  { id: 'a2', title: '📢 Sequence Groups Announced',    body: 'Group A: TEAM_A, TEAM_B, TEAM_C, TEAM_D. Group B: TEAM_E, TEAM_F, TEAM_G, TEAM_H.', type: 'info',  createdAt: '2026-06-28T09:00' },
+  { id: 'a2', title: '📢 Sequence Groups Announced',    body: 'Group A: Teams A, B, C, D. Group B: Teams E, F, G, H. Round-robin over 3 days, then semifinals and final!', type: 'info',  createdAt: '2026-06-28T09:00' },
   { id: 'a3', title: '🏆 17 Carrom Teams Registered!',  body: '17 teams with 34 players are ready to compete in the Carrom knockout bracket.',     type: 'info',   createdAt: '2026-06-25T09:00' },
   { id: 'a4', title: '🃏 8 Sequence Teams Confirmed',    body: '8 teams with 24 players confirmed for the Sequence group stage tournament.',        type: 'info',   createdAt: '2026-06-25T09:00' },
   { id: 'a5', title: '🎉 Welcome to JOSH 2026!',        body: 'The biggest JOSH Tournament yet begins! 25 teams, 2 games, 1 champion.',            type: 'info',   createdAt: '2026-06-20T08:00' },
@@ -204,25 +205,25 @@ export const ANNOUNCEMENTS: Announcement[] = [
 export const HISTORY: HistoryEntry[] = [
   {
     year: 2025, tournamentName: 'JOSH Tournament 2025',
-    champion: 'TEAM_GA', runnerUp: 'TEAM_A', mvp: 'Gopal Kadam',
+    champion: 'Gopal K - Akshay N', runnerUp: 'Astitwa R - Garima G - Tejaswini K', mvp: 'Gopal Kadam',
     totalTeams: 16, totalMatches: 45, photoUrl: 'https://picsum.photos/seed/hist2025/600/400',
     stats: { 'Highest Score': '29-4', 'Total Goals': 487, 'Matches Played': 45 },
   },
   {
     year: 2024, tournamentName: 'JOSH Tournament 2024',
-    champion: 'TEAM_MS', runnerUp: 'TEAM_AR', mvp: 'Maaj Patel',
+    champion: 'Maaj P - Shubham S', runnerUp: 'Amit C - Rupam P', mvp: 'Maaj Patel',
     totalTeams: 12, totalMatches: 34, photoUrl: 'https://picsum.photos/seed/hist2024/600/400',
     stats: { 'Highest Score': '29-2', 'Total Goals': 389, 'Matches Played': 34 },
   },
   {
     year: 2023, tournamentName: 'JOSH Tournament 2023',
-    champion: 'TEAM_KA', runnerUp: 'TEAM_E', mvp: 'Krushna Muley',
+    champion: 'Krushna M - Ashwini P', runnerUp: 'Vijay M - Rushikesh J - Vaishnavi M', mvp: 'Krushna Muley',
     totalTeams: 8, totalMatches: 21, photoUrl: 'https://picsum.photos/seed/hist2023/600/400',
     stats: { 'Highest Score': '29-11', 'Total Goals': 310, 'Matches Played': 21 },
   },
   {
     year: 2022, tournamentName: 'JOSH Tournament 2022',
-    champion: 'TEAM_GA', runnerUp: 'TEAM_VS', mvp: 'Akshay Nimbolkar',
+    champion: 'Gopal K - Akshay N', runnerUp: 'Vikas S - Sikandar S', mvp: 'Akshay Nimbolkar',
     totalTeams: 8, totalMatches: 18, photoUrl: 'https://picsum.photos/seed/hist2022/600/400',
     stats: { 'Highest Score': '29-7', 'Total Goals': 276, 'Matches Played': 18 },
   },
@@ -258,10 +259,19 @@ export const CARROM_BRACKET = {
 // ─── Sequence playoff bracket ─────────────────────────────────────────────────
 export const SEQUENCE_BRACKET = {
   sf: [
-    { matchId: 'sq_sf1', slot: 0, label: 'Group A #1 vs Group B #2' },
-    { matchId: 'sq_sf2', slot: 1, label: 'Group B #1 vs Group A #2' },
+    { matchId: 'sq_sf1', slot: 0, label: 'Semifinal 1' },
+    { matchId: 'sq_sf2', slot: 1, label: 'Semifinal 2' },
   ],
   final: [
     { matchId: 'sq_fin', slot: 0 },
   ],
 };
+
+// ─── Sequence Day Schedule ───────────────────────────────────────────────────
+export const SEQUENCE_DAYS = [
+  { day: 1, label: 'Day 1', round: 'Day 1', matchIds: ['sm1','sm2','sm3','sm4'] },
+  { day: 2, label: 'Day 2', round: 'Day 2', matchIds: ['sm5','sm6','sm7','sm8'] },
+  { day: 3, label: 'Day 3', round: 'Day 3', matchIds: ['sm9','sm10','sm11','sm12'] },
+  { day: 4, label: 'Day 4 — Semifinals', round: 'Day 4 - Semifinals', matchIds: ['sq_sf1','sq_sf2'] },
+  { day: 5, label: 'Day 5 — Final', round: 'Day 5 - Final', matchIds: ['sq_fin'] },
+];

@@ -53,7 +53,8 @@ export default function CarromBracket() {
       {/* Legend */}
       <div className="flex flex-wrap items-center gap-4 mb-6 text-xs text-gray-500">
         <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-red-500 inline-block" /> Live match</span>
-        <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-blue-100 border border-blue-500 inline-block" /> Completed</span>
+        <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-green-100 border border-green-500 inline-block" /> Won / Completed</span>
+        <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-gray-100 border border-gray-300 inline-block" /> TBD</span>
         <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-yellow-100 border border-yellow-500 inline-block" /> Champion</span>
         <span className="flex items-center gap-1.5"><Info className="w-3 h-3" /> Click any match to view details</span>
       </div>

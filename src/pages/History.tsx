@@ -126,7 +126,7 @@ export default function History() {
             { label: 'Tournaments', value: history.length, icon: '🏆' },
             { label: 'Total Teams', value: history.reduce((a,h)=>a+h.totalTeams,0), icon: '🏅' },
             { label: 'Total Matches', value: history.reduce((a,h)=>a+h.totalMatches,0), icon: '🎯' },
-            { label: 'Most Titles', value: 'TEAM_GA', icon: '👑' },
+            { label: 'Most Titles', value: 'Gopal K - Akshay N', icon: '👑' },
           ].map((s) => (
             <div key={s.label}>
               <div className="text-3xl mb-1">{s.icon}</div>

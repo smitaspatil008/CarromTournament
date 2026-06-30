@@ -17,14 +17,14 @@ export default function Footer() {
               </div>
             </div>
             <p className="text-sm text-gray-500 leading-relaxed max-w-sm">
-              The official tournament management platform for JOSH organization. Track live scores, brackets, and leaderboards in real time.
+              The official tournament management platform for JOSH organization. Track live scores, brackets, and schedules in real time.
             </p>
           </div>
 
           <div>
             <h4 className="font-semibold text-xs text-gray-400 uppercase tracking-wider mb-3">Quick Links</h4>
             <ul className="space-y-2">
-              {[['Home','/'],[' Live Matches','/live'],['Carrom','/carrom'],['Sequence','/sequence'],['Leaderboard','/leaderboard']].map(([l,p]) => (
+              {[['Home','/'],[' Live Matches','/live'],['Carrom','/carrom'],['Sequence','/sequence']].map(([l,p]) => (
                 <li key={p}><Link to={p} className="text-sm text-gray-500 hover:text-blue-600 transition-colors">{l}</Link></li>
               ))}
             </ul>
@@ -33,7 +33,7 @@ export default function Footer() {
           <div>
             <h4 className="font-semibold text-xs text-gray-400 uppercase tracking-wider mb-3">Tournament</h4>
             <ul className="space-y-2">
-              {[['Schedule','/schedule'],['Gallery','/gallery'],['History','/history'],['Teams','/teams'],['Players','/players']].map(([l,p]) => (
+              {[['Schedule','/schedule'],['Gallery','/gallery'],['Teams','/teams'],['Players','/players']].map(([l,p]) => (
                 <li key={p}><Link to={p} className="text-sm text-gray-500 hover:text-blue-600 transition-colors">{l}</Link></li>
               ))}
             </ul>

@@ -109,9 +109,9 @@ export default function Landing() {
                     <Play className="w-4 h-4" /> View Live Tournament
                   </button>
                 </Link>
-                <Link to="/leaderboard">
+                <Link to="/schedule">
                   <button className="flex items-center justify-center gap-2 w-full sm:w-auto px-7 py-3.5 rounded-xl font-semibold text-white bg-white/10 border border-white/20 hover:bg-white/15 transition-colors text-sm">
-                    <Trophy className="w-4 h-4" /> Leaderboard
+                    <Calendar className="w-4 h-4" /> Schedule
                   </button>
                 </Link>
               </motion.div>
@@ -275,8 +275,8 @@ export default function Landing() {
               { label: 'Sequence', path: '/sequence', icon: '🃏', color: '#4f46e5' },
               { label: 'Teams', path: '/teams', icon: '🏅', color: '#059669' },
               { label: 'Players', path: '/players', icon: '👥', color: '#2563EB' },
+              { label: 'Schedule', path: '/schedule', icon: '📅', color: '#d97706' },
               { label: 'Gallery', path: '/gallery', icon: '📸', color: '#db2777' },
-              { label: 'History', path: '/history', icon: '🏆', color: '#d97706' },
             ].map((n) => (
               <Link key={n.path} to={n.path}>
                 <motion.div whileHover={{ y: -3 }}

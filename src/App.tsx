@@ -9,10 +9,8 @@ import CarromBracket from './pages/CarromBracket';
 import SequenceGroups from './pages/SequenceGroups';
 import Teams from './pages/Teams';
 import Players from './pages/Players';
-import Leaderboard from './pages/Leaderboard';
 import Schedule from './pages/Schedule';
 import Gallery from './pages/Gallery';
-import History from './pages/History';
 import Login from './pages/Login';
 import MatchDetails from './pages/MatchDetails';
 import AdminPortal from './pages/AdminPortal';
@@ -28,10 +26,8 @@ function AnimatedRoutes() {
       <Route path="/sequence"    element={<SequenceGroups />} />
       <Route path="/teams"       element={<Teams />} />
       <Route path="/players"     element={<Players />} />
-      <Route path="/leaderboard" element={<Leaderboard />} />
       <Route path="/schedule"    element={<Schedule />} />
       <Route path="/gallery"     element={<Gallery />} />
-      <Route path="/history"     element={<History />} />
       <Route path="/login"       element={<Login />} />
       <Route path="/match/:id"   element={<MatchDetails />} />
       <Route path="/admin"       element={<AdminPortal />} />
