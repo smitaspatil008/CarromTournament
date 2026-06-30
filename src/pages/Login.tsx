@@ -69,7 +69,7 @@ export default function Login() {
                   type={showPin ? 'text' : 'password'}
                   value={pin}
                   onChange={(e) => setPin(e.target.value)}
-                  placeholder="Enter 4-digit PIN"
+                  placeholder="Enter 6-digit PIN"
                   maxLength={6}
                   className="w-full px-4 py-3 rounded-lg border border-gray-300 text-center text-2xl font-bold tracking-[0.5em] outline-none transition-all bg-white text-gray-900 focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500"
                 />
@@ -83,7 +83,7 @@ export default function Login() {
 
             <motion.button
               whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
-              type="submit" disabled={loading || pin.length < 4}
+              type="submit" disabled={loading || pin.length < 6}
               className="w-full py-3.5 rounded-lg font-semibold text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed bg-blue-600 hover:bg-blue-700 shadow-md">
               {loading ? (
                 <div className="flex items-center justify-center gap-2">

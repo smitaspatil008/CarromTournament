@@ -67,7 +67,7 @@ export const useTournamentStore = create<TournamentState>()(
       history: HISTORY,
       scoreHistory: {},
       isAdmin: false,
-      adminPin: '1234',
+      adminPin: '123456',
       userRole: null,
 
       login: (pin, role) => {
