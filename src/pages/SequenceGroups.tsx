@@ -17,7 +17,7 @@ function MatchRow({ match, teams }: { match: any; teams: any[] }) {
   const winnerB = match.winner === tB?.id;
 
   return (
-    <Link to={`/match/${match.id}`}>
+    <Link to={`/match/${match.id}`} className="block min-w-0">
       <motion.div whileHover={{ scale: 1.01 }}
         className={`rounded-xl overflow-hidden cursor-pointer transition-all bg-white border ${
           isDone ? 'border-green-300' : isLive ? 'border-red-300 ring-2 ring-red-500' : 'border-gray-200'
@@ -32,33 +32,33 @@ function MatchRow({ match, teams }: { match: any; teams: any[] }) {
             ✓ Completed
           </div>
         )}
-        <div className="flex items-center">
+        <div className="flex items-center overflow-hidden">
           {/* Team A */}
-          <div className={`flex-1 flex items-center gap-2 px-3 py-3 ${winnerA ? 'bg-green-50' : ''}`}>
-            <span className="w-6 h-6 rounded text-white text-[10px] font-bold flex items-center justify-center flex-shrink-0"
+          <div className={`flex-1 flex items-center gap-1.5 px-2 sm:px-3 py-3 min-w-0 overflow-hidden ${winnerA ? 'bg-green-50' : ''}`}>
+            <span className="w-5 h-5 sm:w-6 sm:h-6 rounded text-white text-[9px] sm:text-[10px] font-bold flex items-center justify-center flex-shrink-0"
               style={{ background: winnerA ? '#059669' : (tA?.color ?? '#64748b') }}>
               {tA?.logo ?? '?'}
             </span>
-            <span className={`text-sm truncate ${winnerA ? 'font-bold text-green-700' : 'text-gray-900'}`}>
+            <span className={`text-xs sm:text-sm truncate ${winnerA ? 'font-bold text-green-700' : 'text-gray-900'}`}>
               {tA?.name ?? 'TBD'}
             </span>
           </div>
           {/* Score */}
-          <div className="flex items-center gap-2 px-3">
-            <span className={`text-lg font-bold tabular-nums ${winnerA ? 'text-green-600' : 'text-gray-900'}`}>
+          <div className="flex items-center gap-1 sm:gap-2 px-1 sm:px-3 flex-shrink-0">
+            <span className={`text-sm sm:text-lg font-bold tabular-nums ${winnerA ? 'text-green-600' : 'text-gray-900'}`}>
               {isDone || isLive ? match.scoreA : '-'}
             </span>
-            <span className="text-gray-300 text-sm">vs</span>
-            <span className={`text-lg font-bold tabular-nums ${winnerB ? 'text-green-600' : 'text-gray-900'}`}>
+            <span className="text-gray-300 text-xs sm:text-sm">vs</span>
+            <span className={`text-sm sm:text-lg font-bold tabular-nums ${winnerB ? 'text-green-600' : 'text-gray-900'}`}>
               {isDone || isLive ? match.scoreB : '-'}
             </span>
           </div>
           {/* Team B */}
-          <div className={`flex-1 flex items-center gap-2 px-3 py-3 justify-end ${winnerB ? 'bg-green-50' : ''}`}>
-            <span className={`text-sm truncate text-right ${winnerB ? 'font-bold text-green-700' : 'text-gray-900'}`}>
+          <div className={`flex-1 flex items-center gap-1.5 px-2 sm:px-3 py-3 justify-end min-w-0 overflow-hidden ${winnerB ? 'bg-green-50' : ''}`}>
+            <span className={`text-xs sm:text-sm truncate text-right ${winnerB ? 'font-bold text-green-700' : 'text-gray-900'}`}>
               {tB?.name ?? 'TBD'}
             </span>
-            <span className="w-6 h-6 rounded text-white text-[10px] font-bold flex items-center justify-center flex-shrink-0"
+            <span className="w-5 h-5 sm:w-6 sm:h-6 rounded text-white text-[9px] sm:text-[10px] font-bold flex items-center justify-center flex-shrink-0"
               style={{ background: winnerB ? '#059669' : (tB?.color ?? '#64748b') }}>
               {tB?.logo ?? '?'}
             </span>
@@ -154,7 +154,7 @@ export default function SequenceGroups() {
               </div>
 
               {/* Matches */}
-              <div className={`grid gap-3 ${isFinal ? 'max-w-lg mx-auto' : 'sm:grid-cols-2'}`}>
+              <div className={`grid gap-3 overflow-hidden ${isFinal ? 'max-w-lg mx-auto' : 'sm:grid-cols-2'}`}>
                 {dayMatches.map((m) => (
                   <MatchRow key={m.id} match={m} teams={seqTeams} />
                 ))}

@@ -38,7 +38,7 @@ function BracketMatchCard({ match, teamA, teamB, isChampion }: BracketMatchProps
                 style={{ background: isWinner && isDone ? '#059669' : team.color }}>
                 {team.logo}
               </span>
-              <span className="truncate max-w-[90px]"
+              <span className="truncate max-w-[110px] sm:max-w-[120px]"
                 style={{ color: isWinner && isDone ? '#059669' : '#111827' }}>
                 {team.name}
               </span>
@@ -61,7 +61,7 @@ function BracketMatchCard({ match, teamA, teamB, isChampion }: BracketMatchProps
     <Link to={`/match/${match.id}`}>
       <motion.div
         whileHover={{ scale: 1.03 }}
-        className={`rounded-xl overflow-hidden text-xs min-w-[160px] cursor-pointer transition-all bg-white border ${
+        className={`rounded-xl overflow-hidden text-xs min-w-[170px] cursor-pointer transition-all bg-white border ${
           isDone ? 'border-green-300 ring-1 ring-green-200' :
           isLive ? 'border-red-300 ring-2 ring-red-500' :
           'border-gray-200'

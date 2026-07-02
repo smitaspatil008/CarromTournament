@@ -21,16 +21,16 @@ export default function GroupTable({ group, standings, teams }: Props) {
 
       {/* Table */}
       <div className="overflow-x-auto">
-        <table className="w-full text-sm min-w-[480px]">
+        <table className="w-full text-sm">
           <thead>
             <tr className="bg-gray-50">
-              <th className="text-left px-5 py-3 text-xs font-semibold text-gray-500">#</th>
-              <th className="text-left px-2 py-3 text-xs font-semibold text-gray-500">Team</th>
-              <th className="text-center px-3 py-3 text-xs font-semibold text-gray-500">P</th>
-              <th className="text-center px-3 py-3 text-xs font-semibold text-gray-500">W</th>
-              <th className="text-center px-3 py-3 text-xs font-semibold text-gray-500">L</th>
-              <th className="text-center px-3 py-3 text-xs font-semibold text-gray-500">Pts</th>
-              <th className="text-center px-3 py-3 text-xs font-semibold text-gray-500">Status</th>
+              <th className="text-left pl-3 sm:pl-5 pr-1 py-3 text-xs font-semibold text-gray-500">#</th>
+              <th className="text-left px-1 sm:px-2 py-3 text-xs font-semibold text-gray-500">Team</th>
+              <th className="text-center px-1 sm:px-3 py-3 text-xs font-semibold text-gray-500">P</th>
+              <th className="text-center px-1 sm:px-3 py-3 text-xs font-semibold text-gray-500">W</th>
+              <th className="text-center px-1 sm:px-3 py-3 text-xs font-semibold text-gray-500">L</th>
+              <th className="text-center px-1 sm:px-3 py-3 text-xs font-semibold text-gray-500">Pts</th>
+              <th className="text-center px-1 sm:px-3 py-3 text-xs font-semibold text-gray-500 hidden sm:table-cell">Status</th>
             </tr>
           </thead>
           <tbody>
@@ -48,29 +48,29 @@ export default function GroupTable({ group, standings, teams }: Props) {
                     background: s.qualified ? 'rgba(37,99,235,0.04)' : 'transparent',
                   }}
                 >
-                  <td className="px-5 py-3.5">
+                  <td className="pl-3 sm:pl-5 pr-1 py-3.5">
                     <span className={`w-6 h-6 rounded-lg flex items-center justify-center text-xs font-bold ${idx < 2 ? 'text-white bg-blue-600' : 'text-gray-500'}`}>
                       {idx + 1}
                     </span>
                   </td>
-                  <td className="px-2 py-3.5">
-                    <div className="flex items-center gap-2">
-                      <div className="w-7 h-7 rounded-lg flex items-center justify-center text-white text-xs font-bold flex-shrink-0" style={{ background: team.color }}>
+                  <td className="px-1 sm:px-2 py-3.5">
+                    <div className="flex items-center gap-1.5 sm:gap-2">
+                      <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-lg flex items-center justify-center text-white text-[10px] sm:text-xs font-bold flex-shrink-0" style={{ background: team.color }}>
                         {team.logo}
                       </div>
-                      <div>
-                        <div className="font-medium text-sm text-gray-900">{team.name}</div>
+                      <div className="min-w-0">
+                        <div className="font-medium text-xs sm:text-sm text-gray-900 truncate">{team.name}</div>
                         <div className="text-[10px] text-gray-500 capitalize">{team.game}</div>
                       </div>
                     </div>
                   </td>
-                  <td className="text-center px-3 py-3.5 text-gray-500">{s.played}</td>
-                  <td className="text-center px-3 py-3.5 font-semibold text-green-500">{s.won}</td>
-                  <td className="text-center px-3 py-3.5 font-semibold text-red-400">{s.lost}</td>
-                  <td className="text-center px-3 py-3.5">
+                  <td className="text-center px-1 sm:px-3 py-3.5 text-gray-500">{s.played}</td>
+                  <td className="text-center px-1 sm:px-3 py-3.5 font-semibold text-green-500">{s.won}</td>
+                  <td className="text-center px-1 sm:px-3 py-3.5 font-semibold text-red-400">{s.lost}</td>
+                  <td className="text-center px-1 sm:px-3 py-3.5">
                     <span className="font-bold text-blue-600">{s.points}</span>
                   </td>
-                  <td className="text-center px-3 py-3.5">
+                  <td className="text-center px-1 sm:px-3 py-3.5 hidden sm:table-cell">
                     {s.qualified ? (
                       <span className="inline-flex items-center gap-1 text-xs font-semibold text-green-500 bg-green-50 px-2 py-0.5 rounded-full">
                         <CheckCircle2 className="w-3 h-3" /> Qualified

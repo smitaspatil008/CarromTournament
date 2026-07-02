@@ -61,7 +61,7 @@ export default function CarromBracket() {
 
       {/* Bracket */}
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}
-        className="bg-white rounded-2xl border border-gray-200 p-6">
+        className="bg-white rounded-2xl border border-gray-200 p-3 sm:p-6">
         <KnockoutBracket matches={carromMatches} teams={carromTeams} />
       </motion.div>
 
