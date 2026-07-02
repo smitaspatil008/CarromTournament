@@ -4,7 +4,7 @@ import { useShallow } from 'zustand/react/shallow';
 import type { Team, Player, Match, GalleryItem, Announcement, HistoryEntry } from '../types';
 import {
   ALL_TEAMS, PLAYERS, MATCHES, GALLERY, ANNOUNCEMENTS,
-  CARROM_TEAMS, SEQUENCE_TEAMS, HISTORY,
+  CARROM_TEAMS, SEQUENCE_TEAMS, HISTORY, TOURNAMENT,
 } from '../data/mockData';
 
 interface ScoreHistory { scoreA: number; scoreB: number; }
@@ -183,9 +183,13 @@ export const useTournamentStore = create<TournamentState>()(
     }),
     {
       name: 'josh-tournament-store',
-      version: 2,
+      version: 3,
       migrate: (persistedState: any, version: number) => {
-        if (version < 2) {
+        if (version < 3) {
+          persistedState.teams = ALL_TEAMS;
+          persistedState.players = PLAYERS;
+          persistedState.matches = MATCHES;
+          persistedState.announcements = ANNOUNCEMENTS;
           persistedState.history = HISTORY;
         }
         return persistedState as TournamentState;

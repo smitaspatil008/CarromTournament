@@ -5,11 +5,11 @@ export const TOURNAMENT: Tournament = {
   name: 'JOSH Tournament 2026',
   year: 2026,
   status: 'live',
-  startDate: '2026-06-20',
-  endDate: '2026-07-05',
+  startDate: '2026-07-20',
+  endDate: '2026-07-24',
 };
 
-// ─── Carrom Teams (17 teams, knockout) ────────────────────────────────────────
+// ─── Carrom Teams (16 teams, knockout) ────────────────────────────────────────
 export const CARROM_TEAMS: Team[] = [
   { id: 'ct1',  name: 'Gopal K - Akshay N',     logo: 'GA', color: '#2563EB', playerIds: ['p1','p2'],   wins: 0, losses: 0, points: 0, status: 'active', game: 'carrom' },
   { id: 'ct2',  name: 'Amit C - Rupam P',        logo: 'AR', color: '#7C3AED', playerIds: ['p3','p4'],   wins: 0, losses: 0, points: 0, status: 'active', game: 'carrom' },
@@ -27,7 +27,6 @@ export const CARROM_TEAMS: Team[] = [
   { id: 'ct14', name: 'Gopal N - Karan K',       logo: 'GK', color: '#1D4ED8', playerIds: ['p27','p28'], wins: 0, losses: 0, points: 0, status: 'active', game: 'carrom' },
   { id: 'ct15', name: 'Alim - Purnundu',         logo: 'AP', color: '#B45309', playerIds: ['p29','p30'], wins: 0, losses: 0, points: 0, status: 'active', game: 'carrom' },
   { id: 'ct16', name: 'Rahul P - Rakesh N',      logo: 'RR', color: '#6D28D9', playerIds: ['p31','p32'], wins: 0, losses: 0, points: 0, status: 'active', game: 'carrom' },
-  { id: 'ct17', name: 'Umesh W - Pavan R',       logo: 'UP', color: '#F97316', playerIds: ['p33','p34'], wins: 0, losses: 0, points: 0, status: 'active', game: 'carrom' },
 ];
 
 // ─── Sequence Teams (8 teams, 2 groups of 4) ─────────────────────────────────
@@ -83,8 +82,6 @@ export const PLAYERS: Player[] = [
   makePlayer('p30', 'Purnundu',              'ct15', 30, 0, 0),
   makePlayer('p31', 'Rahul Patil',           'ct16', 31, 0, 0),
   makePlayer('p32', 'Rakesh Nikalje',        'ct16', 32, 0, 0),
-  makePlayer('p33', 'Umesh Warulkal',        'ct17', 33, 0, 0),
-  makePlayer('p34', 'Pavan Rane',            'ct17', 34, 0, 0),
   // Sequence players (3 per team)
   makePlayer('sp1',  'Astitwa Roy',          'st1',  35, 0, 0),
   makePlayer('sp2',  'Garima Garg',          'st1',  36, 0, 0),
@@ -114,45 +111,45 @@ export const PLAYERS: Player[] = [
 
 // ─── Matches ──────────────────────────────────────────────────────────────────
 export const MATCHES: Match[] = [
-  // Carrom R16 (16 teams in bracket, ct17 gets bye — admin can add play-in)
-  { id: 'm1',  game: 'carrom', round: 'Round of 16', teamAId: 'ct1',  teamBId: 'ct2',  scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Court 1', scheduledAt: '2026-07-05T10:00' },
-  { id: 'm2',  game: 'carrom', round: 'Round of 16', teamAId: 'ct3',  teamBId: 'ct4',  scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Court 2', scheduledAt: '2026-07-05T10:30' },
-  { id: 'm3',  game: 'carrom', round: 'Round of 16', teamAId: 'ct5',  teamBId: 'ct6',  scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Court 3', scheduledAt: '2026-07-05T11:00' },
-  { id: 'm4',  game: 'carrom', round: 'Round of 16', teamAId: 'ct7',  teamBId: 'ct8',  scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Court 4', scheduledAt: '2026-07-05T11:30' },
-  { id: 'm5',  game: 'carrom', round: 'Round of 16', teamAId: 'ct9',  teamBId: 'ct10', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Court 1', scheduledAt: '2026-07-05T12:00' },
-  { id: 'm6',  game: 'carrom', round: 'Round of 16', teamAId: 'ct11', teamBId: 'ct12', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Court 2', scheduledAt: '2026-07-05T12:30' },
-  { id: 'm7',  game: 'carrom', round: 'Round of 16', teamAId: 'ct13', teamBId: 'ct14', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Court 3', scheduledAt: '2026-07-05T13:00' },
-  { id: 'm8',  game: 'carrom', round: 'Round of 16', teamAId: 'ct15', teamBId: 'ct16', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Court 4', scheduledAt: '2026-07-05T13:30' },
-  // Carrom QF
-  { id: 'm9',  game: 'carrom', round: 'Quarter Finals', teamAId: 'ct1',  teamBId: 'ct3',  scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Court 1', scheduledAt: '2026-07-06T10:00' },
-  { id: 'm10', game: 'carrom', round: 'Quarter Finals', teamAId: 'ct5',  teamBId: 'ct7',  scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Court 2', scheduledAt: '2026-07-06T11:00' },
-  { id: 'm11', game: 'carrom', round: 'Quarter Finals', teamAId: 'ct9',  teamBId: 'ct11', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Court 3', scheduledAt: '2026-07-06T12:00' },
-  { id: 'm12', game: 'carrom', round: 'Quarter Finals', teamAId: 'ct13', teamBId: 'ct15', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Court 4', scheduledAt: '2026-07-06T13:00' },
-  // Carrom SF
-  { id: 'm13', game: 'carrom', round: 'Semi Finals', teamAId: 'ct1', teamBId: 'ct5', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Court 1', scheduledAt: '2026-07-07T10:00' },
-  { id: 'm14', game: 'carrom', round: 'Semi Finals', teamAId: 'ct9', teamBId: 'ct13', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Court 2', scheduledAt: '2026-07-07T14:00' },
-  // Carrom Final
-  { id: 'm15', game: 'carrom', round: 'Final', teamAId: 'ct1', teamBId: 'ct9', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Main Court', scheduledAt: '2026-07-08T15:00' },
+  // Carrom R16 — 20 & 21 July 2026
+  { id: 'm1',  game: 'carrom', round: 'Round of 16', teamAId: 'ct15', teamBId: 'ct9',  scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 1', scheduledAt: '2026-07-20T09:30' },
+  { id: 'm2',  game: 'carrom', round: 'Round of 16', teamAId: 'ct1',  teamBId: 'ct3',  scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 2', scheduledAt: '2026-07-20T09:30' },
+  { id: 'm3',  game: 'carrom', round: 'Round of 16', teamAId: 'ct4',  teamBId: 'ct7',  scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 1', scheduledAt: '2026-07-20T10:15' },
+  { id: 'm4',  game: 'carrom', round: 'Round of 16', teamAId: 'ct12', teamBId: 'ct11', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 2', scheduledAt: '2026-07-20T10:15' },
+  { id: 'm5',  game: 'carrom', round: 'Round of 16', teamAId: 'ct16', teamBId: 'ct2',  scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 1', scheduledAt: '2026-07-21T09:30' },
+  { id: 'm6',  game: 'carrom', round: 'Round of 16', teamAId: 'ct5',  teamBId: 'ct14', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 2', scheduledAt: '2026-07-21T09:30' },
+  { id: 'm7',  game: 'carrom', round: 'Round of 16', teamAId: 'ct6',  teamBId: 'ct13', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 3', scheduledAt: '2026-07-20T10:15' },
+  { id: 'm8',  game: 'carrom', round: 'Round of 16', teamAId: 'ct10', teamBId: 'ct8',  scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 1', scheduledAt: '2026-07-21T10:15' },
+  // Carrom QF — 22 July 2026
+  { id: 'm9',  game: 'carrom', round: 'Quarter Finals', teamAId: 'ct15', teamBId: 'ct1',  scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 1', scheduledAt: '2026-07-22T09:30' },
+  { id: 'm10', game: 'carrom', round: 'Quarter Finals', teamAId: 'ct4',  teamBId: 'ct12', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 2', scheduledAt: '2026-07-22T09:30' },
+  { id: 'm11', game: 'carrom', round: 'Quarter Finals', teamAId: 'ct16', teamBId: 'ct5',  scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 1', scheduledAt: '2026-07-22T10:15' },
+  { id: 'm12', game: 'carrom', round: 'Quarter Finals', teamAId: 'ct6',  teamBId: 'ct10', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 2', scheduledAt: '2026-07-22T10:15' },
+  // Carrom SF — 23 July 2026
+  { id: 'm13', game: 'carrom', round: 'Semi Finals', teamAId: 'ct15', teamBId: 'ct4',  scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 1', scheduledAt: '2026-07-23T09:30' },
+  { id: 'm14', game: 'carrom', round: 'Semi Finals', teamAId: 'ct16', teamBId: 'ct6',  scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 2', scheduledAt: '2026-07-23T10:15' },
+  // Carrom Final — 24 July 2026
+  { id: 'm15', game: 'carrom', round: 'Final', teamAId: 'ct15', teamBId: 'ct16', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 1', scheduledAt: '2026-07-24T09:30' },
   // Sequence Day 1: A1vA2, B1vB2, A3vA4, B3vB4
-  { id: 'sm1', game: 'sequence', round: 'Day 1', teamAId: 'st1', teamBId: 'st2', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 1', scheduledAt: '2026-07-05T09:00' },
-  { id: 'sm2', game: 'sequence', round: 'Day 1', teamAId: 'st5', teamBId: 'st6', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 2', scheduledAt: '2026-07-05T09:30' },
-  { id: 'sm3', game: 'sequence', round: 'Day 1', teamAId: 'st3', teamBId: 'st4', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 1', scheduledAt: '2026-07-05T10:30' },
-  { id: 'sm4', game: 'sequence', round: 'Day 1', teamAId: 'st7', teamBId: 'st8', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 2', scheduledAt: '2026-07-05T11:00' },
+  { id: 'sm1', game: 'sequence', round: 'Day 1', teamAId: 'st1', teamBId: 'st2', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 1', scheduledAt: '2026-07-20T09:00' },
+  { id: 'sm2', game: 'sequence', round: 'Day 1', teamAId: 'st5', teamBId: 'st6', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 2', scheduledAt: '2026-07-20T09:30' },
+  { id: 'sm3', game: 'sequence', round: 'Day 1', teamAId: 'st3', teamBId: 'st4', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 1', scheduledAt: '2026-07-20T10:30' },
+  { id: 'sm4', game: 'sequence', round: 'Day 1', teamAId: 'st7', teamBId: 'st8', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 2', scheduledAt: '2026-07-20T11:00' },
   // Sequence Day 2: B1vB3, A1vA3, B2vB4, A2vA4
-  { id: 'sm5', game: 'sequence', round: 'Day 2', teamAId: 'st5', teamBId: 'st7', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 1', scheduledAt: '2026-07-06T09:00' },
-  { id: 'sm6', game: 'sequence', round: 'Day 2', teamAId: 'st1', teamBId: 'st3', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 2', scheduledAt: '2026-07-06T09:30' },
-  { id: 'sm7', game: 'sequence', round: 'Day 2', teamAId: 'st6', teamBId: 'st8', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 1', scheduledAt: '2026-07-06T10:30' },
-  { id: 'sm8', game: 'sequence', round: 'Day 2', teamAId: 'st2', teamBId: 'st4', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 2', scheduledAt: '2026-07-06T11:00' },
+  { id: 'sm5', game: 'sequence', round: 'Day 2', teamAId: 'st5', teamBId: 'st7', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 1', scheduledAt: '2026-07-21T09:00' },
+  { id: 'sm6', game: 'sequence', round: 'Day 2', teamAId: 'st1', teamBId: 'st3', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 2', scheduledAt: '2026-07-21T09:30' },
+  { id: 'sm7', game: 'sequence', round: 'Day 2', teamAId: 'st6', teamBId: 'st8', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 1', scheduledAt: '2026-07-21T10:30' },
+  { id: 'sm8', game: 'sequence', round: 'Day 2', teamAId: 'st2', teamBId: 'st4', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 2', scheduledAt: '2026-07-21T11:00' },
   // Sequence Day 3: A1vA4, B1vB4, A2vA3, B2vB3
-  { id: 'sm9',  game: 'sequence', round: 'Day 3', teamAId: 'st1', teamBId: 'st4', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 1', scheduledAt: '2026-07-07T09:00' },
-  { id: 'sm10', game: 'sequence', round: 'Day 3', teamAId: 'st5', teamBId: 'st8', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 2', scheduledAt: '2026-07-07T09:30' },
-  { id: 'sm11', game: 'sequence', round: 'Day 3', teamAId: 'st2', teamBId: 'st3', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 1', scheduledAt: '2026-07-07T10:30' },
-  { id: 'sm12', game: 'sequence', round: 'Day 3', teamAId: 'st6', teamBId: 'st7', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 2', scheduledAt: '2026-07-07T11:00' },
-  // Sequence Day 4: Semifinals
-  { id: 'sq_sf1', game: 'sequence', round: 'Day 4 - Semifinals', teamAId: 'st1', teamBId: 'st5', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 1', scheduledAt: '2026-07-08T10:00' },
-  { id: 'sq_sf2', game: 'sequence', round: 'Day 4 - Semifinals', teamAId: 'st2', teamBId: 'st6', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 2', scheduledAt: '2026-07-08T11:00' },
-  // Sequence Day 5: Final
-  { id: 'sq_fin', game: 'sequence', round: 'Day 5 - Final', teamAId: 'st1', teamBId: 'st5', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 1', scheduledAt: '2026-07-09T14:00' },
+  { id: 'sm9',  game: 'sequence', round: 'Day 3', teamAId: 'st1', teamBId: 'st4', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 1', scheduledAt: '2026-07-22T09:00' },
+  { id: 'sm10', game: 'sequence', round: 'Day 3', teamAId: 'st5', teamBId: 'st8', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 2', scheduledAt: '2026-07-22T09:30' },
+  { id: 'sm11', game: 'sequence', round: 'Day 3', teamAId: 'st2', teamBId: 'st3', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 1', scheduledAt: '2026-07-22T10:30' },
+  { id: 'sm12', game: 'sequence', round: 'Day 3', teamAId: 'st6', teamBId: 'st7', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 2', scheduledAt: '2026-07-22T11:00' },
+  // Sequence Day 4: Semifinals — 23 July 2026
+  { id: 'sq_sf1', game: 'sequence', round: 'Day 4 - Semifinals', teamAId: 'st1', teamBId: 'st5', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 1', scheduledAt: '2026-07-23T10:00' },
+  { id: 'sq_sf2', game: 'sequence', round: 'Day 4 - Semifinals', teamAId: 'st2', teamBId: 'st6', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 2', scheduledAt: '2026-07-23T11:00' },
+  // Sequence Day 5: Final — 24 July 2026
+  { id: 'sq_fin', game: 'sequence', round: 'Day 5 - Final', teamAId: 'st1', teamBId: 'st5', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 1', scheduledAt: '2026-07-24T14:00' },
 ];
 
 // ─── Groups ───────────────────────────────────────────────────────────────────
@@ -194,11 +191,11 @@ export const GALLERY: GalleryItem[] = [
 
 // ─── Announcements ────────────────────────────────────────────────────────────
 export const ANNOUNCEMENTS: Announcement[] = [
-  { id: 'a1', title: '📅 Match Schedule Released',      body: 'All Carrom Round of 16 and Sequence Group matches are now scheduled for July 5th!', type: 'info',   createdAt: '2026-06-30T10:00' },
-  { id: 'a2', title: '📢 Sequence Groups Announced',    body: 'Group A: Teams A, B, C, D. Group B: Teams E, F, G, H. Round-robin over 3 days, then semifinals and final!', type: 'info',  createdAt: '2026-06-28T09:00' },
-  { id: 'a3', title: '🏆 17 Carrom Teams Registered!',  body: '17 teams with 34 players are ready to compete in the Carrom knockout bracket.',     type: 'info',   createdAt: '2026-06-25T09:00' },
-  { id: 'a4', title: '🃏 8 Sequence Teams Confirmed',    body: '8 teams with 24 players confirmed for the Sequence group stage tournament.',        type: 'info',   createdAt: '2026-06-25T09:00' },
-  { id: 'a5', title: '🎉 Welcome to JOSH 2026!',        body: 'The biggest JOSH Tournament yet begins! 25 teams, 2 games, 1 champion.',            type: 'info',   createdAt: '2026-06-20T08:00' },
+  { id: 'a1', title: '📅 Match Schedule Released',      body: 'Carrom R16 starts July 20–21, QFs on 22nd, SFs on 23rd, Final on 24th. Sequence groups run alongside!', type: 'info',   createdAt: '2026-07-15T10:00' },
+  { id: 'a2', title: '📢 Sequence Groups Announced',    body: 'Group A: Teams A, B, C, D. Group B: Teams E, F, G, H. Round-robin over 3 days, then semifinals and final!', type: 'info',  createdAt: '2026-07-12T09:00' },
+  { id: 'a3', title: '🏆 16 Carrom Teams Registered!',  body: '16 teams with 32 players are ready to compete in the Carrom knockout bracket.',     type: 'info',   createdAt: '2026-07-10T09:00' },
+  { id: 'a4', title: '🃏 8 Sequence Teams Confirmed',    body: '8 teams with 24 players confirmed for the Sequence group stage tournament.',        type: 'info',   createdAt: '2026-07-10T09:00' },
+  { id: 'a5', title: '🎉 Welcome to JOSH 2026!',        body: 'The biggest JOSH Tournament yet begins! 24 teams, 2 games, 1 champion.',            type: 'info',   createdAt: '2026-07-01T08:00' },
 ];
 
 // ─── History ──────────────────────────────────────────────────────────────────
