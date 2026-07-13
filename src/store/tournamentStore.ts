@@ -8,6 +8,7 @@ import {
 } from '../data/mockData';
 
 interface ScoreHistory { scoreA: number; scoreB: number; }
+export interface BreakScore { scoreA: number; scoreB: number; }
 
 interface TournamentState {
   teams: Team[];
@@ -17,6 +18,7 @@ interface TournamentState {
   announcements: Announcement[];
   history: HistoryEntry[];
   scoreHistory: Record<string, ScoreHistory[]>;
+  breakScores: Record<string, BreakScore[]>;
   isAdmin: boolean;
   adminPin: string;
 
@@ -39,6 +41,8 @@ interface TournamentState {
   updateScore: (id: string, teamA: number, teamB: number) => void;
   undoScore: (id: string) => void;
   finishMatch: (id: string, winner: string) => void;
+
+  updateBreakScore: (matchId: string, breakIdx: number, scoreA: number, scoreB: number) => void;
 
   addPhoto: (item: Omit<GalleryItem, 'id'>) => void;
   deletePhoto: (id: string) => void;
@@ -66,6 +70,7 @@ export const useTournamentStore = create<TournamentState>()(
       announcements: ANNOUNCEMENTS,
       history: HISTORY,
       scoreHistory: {},
+      breakScores: {},
       isAdmin: false,
       adminPin: '123456',
       userRole: null,
@@ -153,6 +158,21 @@ export const useTournamentStore = create<TournamentState>()(
           ),
         })),
 
+      updateBreakScore: (matchId, breakIdx, scoreA, scoreB) =>
+        set((s) => {
+          const breaks = [...(s.breakScores[matchId] ?? [])];
+          while (breaks.length <= breakIdx) breaks.push({ scoreA: 0, scoreB: 0 });
+          breaks[breakIdx] = { scoreA, scoreB };
+          const totalA = breaks.reduce((sum, b) => sum + b.scoreA, 0);
+          const totalB = breaks.reduce((sum, b) => sum + b.scoreB, 0);
+          return {
+            breakScores: { ...s.breakScores, [matchId]: breaks },
+            matches: s.matches.map((m) =>
+              m.id === matchId ? { ...m, scoreA: totalA, scoreB: totalB } : m
+            ),
+          };
+        }),
+
       addPhoto: (item) =>
         set((s) => ({ gallery: [{ ...item, id: 'gal_' + uid() }, ...s.gallery] })),
       deletePhoto: (id) =>
@@ -179,6 +199,7 @@ export const useTournamentStore = create<TournamentState>()(
           announcements: ANNOUNCEMENTS,
           history: HISTORY,
           scoreHistory: {},
+          breakScores: {},
         }),
     }),
     {
