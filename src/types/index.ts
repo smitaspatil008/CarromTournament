@@ -104,6 +104,15 @@ export interface HistoryEntry {
   stats: Record<string, string | number>;
 }
 
+export interface TournamentUpdate {
+  id: string;
+  image: string;
+  text: string;
+  playerId?: string;
+  teamId?: string;
+  createdAt: string;
+}
+
 export interface AuthState {
   isLoggedIn: boolean;
   role: 'admin' | 'umpire' | null;

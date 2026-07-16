@@ -15,6 +15,7 @@ import Login from './pages/Login';
 import MatchDetails from './pages/MatchDetails';
 import AdminPortal from './pages/AdminPortal';
 import UmpireScreen from './pages/UmpireScreen';
+import Leaderboard from './pages/Leaderboard';
 
 function AnimatedRoutes() {
   return (
@@ -30,6 +31,7 @@ function AnimatedRoutes() {
       <Route path="/gallery"     element={<Gallery />} />
       <Route path="/login"       element={<Login />} />
       <Route path="/match/:id"   element={<MatchDetails />} />
+      <Route path="/leaderboard" element={<Leaderboard />} />
       <Route path="/admin"       element={<AdminPortal />} />
       <Route path="/umpire/:id"  element={<UmpireScreen />} />
     </Routes>

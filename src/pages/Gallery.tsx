@@ -71,7 +71,7 @@ export default function Gallery() {
             onClick={() => setSelected(item.id)}
             className="break-inside-avoid cursor-pointer group relative rounded-xl overflow-hidden"
           >
-            <img src={item.photo} alt={item.caption} className="w-full object-cover group-hover:scale-105 transition-transform duration-500" />
+            <img src={item.photo} alt={item.caption} loading="lazy" className="w-full object-cover group-hover:scale-105 transition-transform duration-500" />
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/50 transition-all duration-300 flex items-end">
               <div className="p-3 translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
                 <p className="text-white text-xs font-medium">{item.caption}</p>
@@ -109,7 +109,7 @@ export default function Gallery() {
               onClick={(e) => e.stopPropagation()}
               className="relative max-w-3xl w-full rounded-2xl overflow-hidden"
             >
-              <img src={selectedItem.photo} alt={selectedItem.caption} className="w-full" />
+              <img src={selectedItem.photo} alt={selectedItem.caption} loading="lazy" className="w-full" />
               <div className="absolute bottom-0 inset-x-0 p-4" style={{ background: 'linear-gradient(transparent,rgba(0,0,0,0.8))' }}>
                 <p className="text-white font-medium">{selectedItem.caption}</p>
                 <p className="text-white/60 text-sm capitalize mt-0.5">

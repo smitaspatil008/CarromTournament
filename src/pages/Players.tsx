@@ -78,7 +78,7 @@ export default function Players() {
             </div>
 
             <div className="flex flex-col items-center mb-4">
-              <img src={isAdmin ? editPhoto : selected.photo} alt={selected.name} className="w-20 h-20 rounded-full object-cover border-[3px] mb-3" style={{ borderColor: getTeam(selected.teamId)?.color ?? '#2563EB' }} />
+              <img src={isAdmin ? editPhoto : selected.photo} alt={selected.name} loading="lazy" className="w-20 h-20 rounded-full object-cover border-[3px] mb-3" style={{ borderColor: getTeam(selected.teamId)?.color ?? '#2563EB' }} />
             </div>
 
             {isAdmin ? (

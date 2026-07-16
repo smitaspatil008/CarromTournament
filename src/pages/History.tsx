@@ -66,7 +66,7 @@ export default function History() {
             )}
             <div className="grid md:grid-cols-3 gap-0">
               <div className="relative overflow-hidden">
-                <img src={h.photoUrl} alt={h.tournamentName} className="w-full h-48 md:h-full object-cover" />
+                <img src={h.photoUrl} alt={h.tournamentName} loading="lazy" className="w-full h-48 md:h-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent flex items-center justify-center md:block">
                   <div className="p-4 flex flex-col justify-end h-full">
                     <div className="font-display font-black text-5xl text-white/20">{h.year}</div>

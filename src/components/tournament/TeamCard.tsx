@@ -52,7 +52,7 @@ export default function TeamCard({ team, players = [], delay = 0, onClick }: Pro
           <div className="flex items-center gap-1.5 mb-4">
             {players.slice(0, 4).map((p, i) => (
               <div key={p.id} className="w-8 h-8 rounded-full overflow-hidden border-2" style={{ borderColor: team.color, marginLeft: i > 0 ? '-8px' : '0' }}>
-                <img src={p.photo} alt={p.name} className="w-full h-full object-cover" />
+                <img src={p.photo} alt={p.name} loading="lazy" className="w-full h-full object-cover" />
               </div>
             ))}
             <span className="text-xs text-gray-500 ml-1">{players.length} players</span>

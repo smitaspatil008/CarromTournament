@@ -17,7 +17,7 @@ interface Props {
 function Avatar({ src, name, color }: { src?: string; name: string; color: string }) {
   return (
     <div className="w-10 h-10 rounded-full border-2 overflow-hidden flex items-center justify-center text-white font-bold text-sm flex-shrink-0" style={{ borderColor: color, background: color }}>
-      {src ? <img src={src} alt={name} className="w-full h-full object-cover" /> : name[0]}
+      {src ? <img src={src} alt={name} loading="lazy" className="w-full h-full object-cover" /> : name[0]}
     </div>
   );
 }

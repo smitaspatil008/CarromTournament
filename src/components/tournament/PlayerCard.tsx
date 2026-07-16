@@ -19,7 +19,7 @@ export default function PlayerCard({ player, team, delay = 0, onClick }: Props) 
       {/* Photo */}
       <div className="relative mb-3">
         <div className="w-20 h-20 rounded-full overflow-hidden border-[3px]" style={{ borderColor: team?.color ?? '#2563EB' }}>
-          <img src={player.photo} alt={player.name} className="w-full h-full object-cover" />
+          <img src={player.photo} alt={player.name} loading="lazy" className="w-full h-full object-cover" />
         </div>
         {team && (
           <div className="absolute -bottom-1 -right-1 w-7 h-7 rounded-lg flex items-center justify-center text-white text-xs font-bold border-2 border-white" style={{ background: team.color }}>

@@ -133,7 +133,7 @@ export default function MatchDetails() {
             <div className="flex gap-3">
               {ps.map((p) => p && (
                 <div key={p.id} className="flex flex-col items-center gap-1">
-                  <img src={p.photo} alt={p.name} className="w-12 h-12 rounded-full object-cover border-2" style={{ borderColor: team?.color }} />
+                  <img src={p.photo} alt={p.name} loading="lazy" className="w-12 h-12 rounded-full object-cover border-2" style={{ borderColor: team?.color }} />
                   <span className="text-[10px] text-center text-gray-500 leading-tight">{p.name.split(' ')[0]}</span>
                 </div>
               ))}

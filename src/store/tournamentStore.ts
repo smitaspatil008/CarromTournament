@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { useShallow } from 'zustand/react/shallow';
-import type { Team, Player, Match, GalleryItem, Announcement, HistoryEntry, SequenceMatchStats, GroupStanding } from '../types';
+import type { Team, Player, Match, GalleryItem, Announcement, HistoryEntry, SequenceMatchStats, GroupStanding, TournamentUpdate } from '../types';
 import {
   ALL_TEAMS, PLAYERS, MATCHES, GALLERY, ANNOUNCEMENTS,
   CARROM_TEAMS, SEQUENCE_TEAMS, HISTORY, TOURNAMENT, GROUPS,
@@ -54,6 +54,10 @@ interface TournamentState {
   addHistoryEntry: (entry: HistoryEntry) => void;
   deleteHistoryEntry: (year: number) => void;
 
+  updates: TournamentUpdate[];
+  addUpdate: (update: Omit<TournamentUpdate, 'id'>) => void;
+  deleteUpdate: (id: string) => void;
+
   changePin: (newPin: string) => void;
   deleteCompletedMatches: () => void;
 
@@ -74,6 +78,7 @@ export const useTournamentStore = create<TournamentState>()(
       scoreHistory: {},
       breakScores: {},
       sequenceStats: {},
+      updates: [],
       isAdmin: false,
       adminPin: '123456',
       userRole: null,
@@ -194,6 +199,11 @@ export const useTournamentStore = create<TournamentState>()(
       deleteHistoryEntry: (year) =>
         set((s) => ({ history: s.history.filter((h) => h.year !== year) })),
 
+      addUpdate: (update) =>
+        set((s) => ({ updates: [{ ...update, id: 'upd_' + uid() }, ...s.updates] })),
+      deleteUpdate: (id) =>
+        set((s) => ({ updates: s.updates.filter((u) => u.id !== id) })),
+
       changePin: (newPin) => set({ adminPin: newPin }),
       deleteCompletedMatches: () =>
         set((s) => ({ matches: s.matches.filter((m) => m.status !== 'completed') })),
@@ -213,9 +223,9 @@ export const useTournamentStore = create<TournamentState>()(
     }),
     {
       name: 'josh-tournament-store',
-      version: 7,
+      version: 8,
       migrate: (persistedState: any, version: number) => {
-        if (version < 7) {
+        if (version < 8) {
           persistedState.teams = ALL_TEAMS;
           persistedState.players = PLAYERS;
           persistedState.matches = MATCHES;

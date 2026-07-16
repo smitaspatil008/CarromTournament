@@ -145,10 +145,11 @@ export default function Schedule() {
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-1.5">
                             <div className="w-5 h-5 sm:w-6 sm:h-6 rounded flex-shrink-0 flex items-center justify-center text-white text-[9px] sm:text-[10px] font-bold" style={{ background: tA?.color ?? '#64748b' }}>{tA?.logo}</div>
-                            <span className="text-xs sm:text-sm font-medium truncate text-gray-900">{tA?.name}</span>
-                            <span className="text-[10px] sm:text-xs text-gray-500">vs</span>
+                            <span className="text-[11px] sm:text-sm font-medium truncate text-gray-900">{tA?.name ?? 'TBD'}</span>
+                          </div>
+                          <div className="flex items-center gap-1.5 mt-1">
                             <div className="w-5 h-5 sm:w-6 sm:h-6 rounded flex-shrink-0 flex items-center justify-center text-white text-[9px] sm:text-[10px] font-bold" style={{ background: tB?.color ?? '#64748b' }}>{tB?.logo}</div>
-                            <span className="text-xs sm:text-sm font-medium truncate text-gray-900">{tB?.name}</span>
+                            <span className="text-[11px] sm:text-sm font-medium truncate text-gray-900">{tB?.name ?? 'TBD'}</span>
                           </div>
                         </div>
 
