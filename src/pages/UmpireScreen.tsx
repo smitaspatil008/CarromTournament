@@ -595,7 +595,7 @@ export default function UmpireScreen() {
                   className={`py-3 rounded-xl text-xs font-bold text-center transition-all ${
                     seqResult === 'teamA' ? 'ring-2 ring-offset-1 ring-offset-gray-900 text-white' : 'bg-gray-800 text-gray-400'
                   }`}
-                  style={seqResult === 'teamA' ? { background: teamA.color, ringColor: teamA.color } : {}}>
+                  style={seqResult === 'teamA' ? { background: teamA.color } : {}}>
                   <div className="text-lg mb-0.5">{teamA.logo}</div>
                   Wins
                 </button>
@@ -610,7 +610,7 @@ export default function UmpireScreen() {
                   className={`py-3 rounded-xl text-xs font-bold text-center transition-all ${
                     seqResult === 'teamB' ? 'ring-2 ring-offset-1 ring-offset-gray-900 text-white' : 'bg-gray-800 text-gray-400'
                   }`}
-                  style={seqResult === 'teamB' ? { background: teamB.color, ringColor: teamB.color } : {}}>
+                  style={seqResult === 'teamB' ? { background: teamB.color } : {}}>
                   <div className="text-lg mb-0.5">{teamB.logo}</div>
                   Wins
                 </button>
