@@ -223,13 +223,14 @@ export const useTournamentStore = create<TournamentState>()(
     }),
     {
       name: 'josh-tournament-store',
-      version: 8,
+      version: 9,
       migrate: (persistedState: any, version: number) => {
-        if (version < 8) {
+        if (version < 9) {
           persistedState.teams = ALL_TEAMS;
           persistedState.players = PLAYERS;
           persistedState.matches = MATCHES;
           persistedState.announcements = ANNOUNCEMENTS;
+          persistedState.adminPin = '123456';
           persistedState.history = HISTORY;
           persistedState.sequenceStats = {};
           persistedState.breakScores = {};
