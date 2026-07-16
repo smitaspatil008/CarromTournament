@@ -213,9 +213,9 @@ export const useTournamentStore = create<TournamentState>()(
     }),
     {
       name: 'josh-tournament-store',
-      version: 6,
+      version: 7,
       migrate: (persistedState: any, version: number) => {
-        if (version < 6) {
+        if (version < 7) {
           persistedState.teams = ALL_TEAMS;
           persistedState.players = PLAYERS;
           persistedState.matches = MATCHES;
