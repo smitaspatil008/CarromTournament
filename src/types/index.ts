@@ -62,8 +62,18 @@ export interface GroupStanding {
   played: number;
   won: number;
   lost: number;
+  drawn: number;
+  sequences: number;
+  chipsUsed: number;
   points: number;
   qualified: boolean;
+}
+
+export interface SequenceMatchStats {
+  sequencesA: number;
+  sequencesB: number;
+  chipsUsedA: number;
+  chipsUsedB: number;
 }
 
 export interface GalleryItem {

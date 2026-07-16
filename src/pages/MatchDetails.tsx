@@ -27,7 +27,8 @@ export default function MatchDetails() {
 
   const isLive = match.status === 'live';
   const isDone = match.status === 'completed';
-  const winnerTeam = match.winner ? teams.find((t) => t.id === match.winner) : undefined;
+  const isDraw = match.winner === 'draw';
+  const winnerTeam = match.winner && !isDraw ? teams.find((t) => t.id === match.winner) : undefined;
 
   return (
     <Layout>
@@ -77,6 +78,9 @@ export default function MatchDetails() {
                   <Trophy className="w-4 h-4" /> Winner
                 </motion.div>
               )}
+              {isDraw && isDone && (
+                <div className="mt-2 text-yellow-500 text-xs font-bold">Draw</div>
+              )}
             </motion.div>
 
             {/* Score */}
@@ -109,6 +113,9 @@ export default function MatchDetails() {
                   className="mt-2 text-yellow-500 text-sm font-bold flex items-center gap-1">
                   <Trophy className="w-4 h-4" /> Winner
                 </motion.div>
+              )}
+              {isDraw && isDone && (
+                <div className="mt-2 text-yellow-500 text-xs font-bold">Draw</div>
               )}
             </motion.div>
           </div>

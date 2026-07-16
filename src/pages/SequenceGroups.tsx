@@ -4,8 +4,8 @@ import { Trophy, Calendar } from 'lucide-react';
 import Layout from '../components/layout/Layout';
 import GroupTable from '../components/tournament/GroupTable';
 import LiveBadge from '../components/ui/LiveBadge';
-import { useTournamentStore } from '../store/tournamentStore';
-import { GROUPS, GROUP_STANDINGS, SEQUENCE_DAYS } from '../data/mockData';
+import { useTournamentStore, computeGroupStandings } from '../store/tournamentStore';
+import { GROUPS, SEQUENCE_DAYS } from '../data/mockData';
 
 function MatchRow({ match, teams }: { match: any; teams: any[] }) {
   const getTeam = (id: string) => teams.find((t: any) => t.id === id);
@@ -13,8 +13,9 @@ function MatchRow({ match, teams }: { match: any; teams: any[] }) {
   const tB = getTeam(match.teamBId);
   const isLive = match.status === 'live';
   const isDone = match.status === 'completed';
-  const winnerA = match.winner === tA?.id;
-  const winnerB = match.winner === tB?.id;
+  const isDraw = match.winner === 'draw';
+  const winnerA = !isDraw && match.winner === tA?.id;
+  const winnerB = !isDraw && match.winner === tB?.id;
 
   return (
     <Link to={`/match/${match.id}`} className="block min-w-0">
@@ -28,13 +29,17 @@ function MatchRow({ match, teams }: { match: any; teams: any[] }) {
           </div>
         )}
         {isDone && (
-          <div className="px-2 py-0.5 text-center text-[10px] font-bold text-green-600 bg-green-50">
-            ✓ Completed
+          <div className="px-2 py-0.5 text-center text-[10px] font-bold bg-green-50">
+            {isDraw ? (
+              <span className="text-yellow-600">— Draw</span>
+            ) : (
+              <span className="text-green-600">✓ Completed</span>
+            )}
           </div>
         )}
         <div className="flex items-center overflow-hidden">
           {/* Team A */}
-          <div className={`flex-1 flex items-center gap-1.5 px-2 sm:px-3 py-3 min-w-0 overflow-hidden ${winnerA ? 'bg-green-50' : ''}`}>
+          <div className={`flex-1 flex items-center gap-1.5 px-2 sm:px-3 py-3 min-w-0 overflow-hidden ${winnerA ? 'bg-green-50' : isDraw && isDone ? 'bg-yellow-50' : ''}`}>
             <span className="w-5 h-5 sm:w-6 sm:h-6 rounded text-white text-[9px] sm:text-[10px] font-bold flex items-center justify-center flex-shrink-0"
               style={{ background: winnerA ? '#059669' : (tA?.color ?? '#64748b') }}>
               {tA?.logo ?? '?'}
@@ -54,7 +59,7 @@ function MatchRow({ match, teams }: { match: any; teams: any[] }) {
             </span>
           </div>
           {/* Team B */}
-          <div className={`flex-1 flex items-center gap-1.5 px-2 sm:px-3 py-3 justify-end min-w-0 overflow-hidden ${winnerB ? 'bg-green-50' : ''}`}>
+          <div className={`flex-1 flex items-center gap-1.5 px-2 sm:px-3 py-3 justify-end min-w-0 overflow-hidden ${winnerB ? 'bg-green-50' : isDraw && isDone ? 'bg-yellow-50' : ''}`}>
             <span className={`text-xs sm:text-sm truncate text-right ${winnerB ? 'font-bold text-green-700' : 'text-gray-900'}`}>
               {tB?.name ?? 'TBD'}
             </span>
@@ -75,7 +80,7 @@ function MatchRow({ match, teams }: { match: any; teams: any[] }) {
 }
 
 export default function SequenceGroups() {
-  const { teams, matches } = useTournamentStore();
+  const { teams, matches, sequenceStats } = useTournamentStore();
   const seqTeams = teams.filter((t) => t.game === 'sequence');
   const seqMatches = matches.filter((m) => m.game === 'sequence');
   const liveSeq = seqMatches.filter((m) => m.status === 'live');
@@ -111,13 +116,30 @@ export default function SequenceGroups() {
         ))}
       </div>
 
-      {/* Group tables */}
+      {/* Group tables — standings computed from match results */}
       <div className="grid lg:grid-cols-2 gap-6 mb-10">
-        {GROUPS.map((group, i) => (
-          <motion.div key={group.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}>
-            <GroupTable group={group} standings={GROUP_STANDINGS[group.id]} teams={seqTeams} />
-          </motion.div>
-        ))}
+        {GROUPS.map((group, i) => {
+          const standings = computeGroupStandings(group.teamIds, matches, sequenceStats);
+          return (
+            <motion.div key={group.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}>
+              <GroupTable group={group} standings={standings} teams={seqTeams} />
+            </motion.div>
+          );
+        })}
+      </div>
+
+      {/* Points system info */}
+      <div className="bg-blue-50 rounded-xl border border-blue-200 p-4 mb-8">
+        <h3 className="font-bold text-blue-700 text-sm mb-2">Points System</h3>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs text-blue-600">
+          <div><span className="font-bold">Win:</span> 2 pts</div>
+          <div><span className="font-bold">Draw:</span> 1 pt</div>
+          <div><span className="font-bold">Loss:</span> 0 pts</div>
+          <div><span className="font-bold">Per Sequence:</span> +1 pt</div>
+        </div>
+        <p className="text-[11px] text-blue-500 mt-2">
+          Ranking: Max Points → Max Wins → Head-to-Head → Min Chips Used
+        </p>
       </div>
 
       {/* Day-by-Day Schedule */}
@@ -166,7 +188,8 @@ export default function SequenceGroups() {
 
       {/* Legend */}
       <div className="mt-10 flex flex-wrap items-center gap-4 text-xs text-gray-500">
-        <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-green-100 border border-green-500 inline-block" /> Won / Completed</span>
+        <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-green-100 border border-green-500 inline-block" /> Won</span>
+        <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-yellow-100 border border-yellow-500 inline-block" /> Draw</span>
         <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-red-500 inline-block" /> Live</span>
         <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-gray-100 border border-gray-300 inline-block" /> Upcoming</span>
         <span className="text-gray-400">Click any match to view details</span>

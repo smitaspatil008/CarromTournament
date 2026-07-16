@@ -7,11 +7,11 @@ import { useTournamentStore } from '../store/tournamentStore';
 import toast from 'react-hot-toast';
 import type { GameType } from '../types';
 
-type Modal = 'addTeam' | 'addPlayer' | 'startMatch' | 'updateScore' | 'finishMatch' | 'deletePlayer' | 'deleteTeam' | 'addMatch' | 'editMatch' | 'changePin' | 'deleteCompleted' | null;
+type Modal = 'addTeam' | 'editTeam' | 'addPlayer' | 'editPlayer' | 'startMatch' | 'updateScore' | 'finishMatch' | 'deletePlayer' | 'deleteTeam' | 'addMatch' | 'editMatch' | 'changePin' | 'deleteCompleted' | null;
 
 export default function AdminPortal() {
   const store = useTournamentStore();
-  const { isAdmin, userRole, teams, matches, players, addTeam, addPlayer, addMatch, updateMatch, startMatch, updateScore, finishMatch, deletePlayer, deleteTeam, changePin, deleteCompletedMatches, logout } = store;
+  const { isAdmin, userRole, teams, matches, players, addTeam, updateTeam, addPlayer, updatePlayer, addMatch, updateMatch, startMatch, updateScore, finishMatch, deletePlayer, deleteTeam, changePin, deleteCompletedMatches, logout } = store;
   const navigate = useNavigate();
   const [modal, setModal] = useState<Modal>(null);
   const [form, setForm] = useState<Record<string, string>>({});
@@ -35,7 +35,9 @@ export default function AdminPortal() {
 
   const allActions = [
     { id: 'addTeam', icon: '🏅', label: 'Add Team', color: '#2563EB', desc: 'Register a new team', adminOnly: true },
+    { id: 'editTeam', icon: '✏️', label: 'Edit Team', color: '#7C3AED', desc: 'Update team details', adminOnly: true },
     { id: 'addPlayer', icon: '👤', label: 'Add Player', color: '#2563EB', desc: 'Add player to roster', adminOnly: true },
+    { id: 'editPlayer', icon: '📝', label: 'Edit Player', color: '#7C3AED', desc: 'Update player details', adminOnly: true },
     { id: 'deletePlayer', icon: '🗑️', label: 'Delete Player', color: '#ef4444', desc: `${players.length} players`, adminOnly: true },
     { id: 'deleteTeam', icon: '❌', label: 'Delete Team', color: '#dc2626', desc: `${teams.length} teams`, adminOnly: true },
     { id: 'addMatch', icon: '📅', label: 'Add Match', color: '#0891b2', desc: 'Schedule a new match', adminOnly: true },
@@ -67,11 +69,27 @@ export default function AdminPortal() {
       if (!form.name || !form.game) { toast.error('Fill required fields'); return; }
       addTeam({ name: form.name, logo: form.name.slice(0, 2).toUpperCase(), color: form.color || '#2563EB', playerIds: [], wins: 0, losses: 0, points: 0, status: 'active', game: form.game as GameType });
       toast.success('Team added!');
+    } else if (modal === 'editTeam') {
+      if (!form.teamId) { toast.error('Select a team'); return; }
+      const updates: Partial<{ name: string; logo: string; color: string }> = {};
+      if (form.name) updates.name = form.name;
+      if (form.logo) updates.logo = form.logo;
+      if (form.color) updates.color = form.color;
+      updateTeam(form.teamId, updates);
+      toast.success('Team updated!');
     } else if (modal === 'addPlayer') {
       if (!form.name || !form.teamId) { toast.error('Fill required fields'); return; }
       const photo = form.photo || `https://i.pravatar.cc/150?img=${Math.floor(Math.random() * 80)}`;
       addPlayer({ name: form.name, photo, teamId: form.teamId, gamesPlayed: 0, wins: 0, losses: 0 });
       toast.success('Player added!');
+    } else if (modal === 'editPlayer') {
+      if (!form.playerId) { toast.error('Select a player'); return; }
+      const updates: Partial<{ name: string; photo: string; teamId: string }> = {};
+      if (form.name) updates.name = form.name;
+      if (form.photo) updates.photo = form.photo;
+      if (form.newTeamId) updates.teamId = form.newTeamId;
+      updatePlayer(form.playerId, updates);
+      toast.success('Player updated!');
     } else if (modal === 'deletePlayer') {
       if (!form.playerId) { toast.error('Select a player'); return; }
       deletePlayer(form.playerId);
@@ -140,6 +158,24 @@ export default function AdminPortal() {
           </select>
           <input type="color" value={form.color ?? '#2563EB'} onChange={e => setForm({ ...form, color: e.target.value })} className="w-12 h-12 rounded-xl border-0 cursor-pointer" />
         </>;
+      case 'editTeam':
+        return <>
+          <select value={form.teamId ?? ''} onChange={e => {
+            const t = teams.find(x => x.id === e.target.value);
+            setForm({ teamId: e.target.value, name: t?.name ?? '', logo: t?.logo ?? '', color: t?.color ?? '#2563EB' });
+          }} className={inputClasses}>
+            <option value="">Select Team to Edit</option>
+            {teams.map(t => <option key={t.id} value={t.id}>{t.name} ({t.game})</option>)}
+          </select>
+          {form.teamId && <>
+            <input placeholder="Team Name" value={form.name ?? ''} onChange={e => setForm({ ...form, name: e.target.value })} className={inputClasses} />
+            <input placeholder="Logo (2 letters)" value={form.logo ?? ''} maxLength={3} onChange={e => setForm({ ...form, logo: e.target.value })} className={inputClasses} />
+            <div className="flex items-center gap-3">
+              <label className="text-sm text-gray-500">Color</label>
+              <input type="color" value={form.color ?? '#2563EB'} onChange={e => setForm({ ...form, color: e.target.value })} className="w-10 h-10 rounded-lg border-0 cursor-pointer" />
+            </div>
+          </>}
+        </>;
       case 'addPlayer':
         return <>
           <input placeholder="Player Name *" value={form.name ?? ''} onChange={e => setForm({ ...form, name: e.target.value })} className={inputClasses} />
@@ -149,6 +185,29 @@ export default function AdminPortal() {
             {teams.map(t => <option key={t.id} value={t.id}>{t.name} ({t.game})</option>)}
           </select>
         </>;
+      case 'editPlayer': {
+        const selectedPlayer = players.find(p => p.id === form.playerId);
+        return <>
+          <select value={form.playerId ?? ''} onChange={e => {
+            const p = players.find(x => x.id === e.target.value);
+            setForm({ playerId: e.target.value, name: p?.name ?? '', photo: p?.photo ?? '', newTeamId: p?.teamId ?? '' });
+          }} className={inputClasses}>
+            <option value="">Select Player to Edit</option>
+            {players.map(p => {
+              const team = teams.find(t => t.id === p.teamId);
+              return <option key={p.id} value={p.id}>{p.name} ({team?.name})</option>;
+            })}
+          </select>
+          {form.playerId && <>
+            <input placeholder="Player Name" value={form.name ?? ''} onChange={e => setForm({ ...form, name: e.target.value })} className={inputClasses} />
+            <input placeholder="Photo URL" value={form.photo ?? ''} onChange={e => setForm({ ...form, photo: e.target.value })} className={inputClasses} />
+            <select value={form.newTeamId ?? ''} onChange={e => setForm({ ...form, newTeamId: e.target.value })} className={inputClasses}>
+              <option value="">Change Team</option>
+              {teams.map(t => <option key={t.id} value={t.id}>{t.name} ({t.game})</option>)}
+            </select>
+          </>}
+        </>;
+      }
       case 'deletePlayer':
         return (
           <select value={form.playerId ?? ''} onChange={e => setForm({ ...form, playerId: e.target.value })} className={inputClasses}>

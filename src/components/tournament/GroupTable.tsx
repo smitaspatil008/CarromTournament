@@ -26,11 +26,13 @@ export default function GroupTable({ group, standings, teams }: Props) {
             <tr className="bg-gray-50">
               <th className="text-left pl-3 sm:pl-5 pr-1 py-3 text-xs font-semibold text-gray-500">#</th>
               <th className="text-left px-1 sm:px-2 py-3 text-xs font-semibold text-gray-500">Team</th>
-              <th className="text-center px-1 sm:px-3 py-3 text-xs font-semibold text-gray-500">P</th>
-              <th className="text-center px-1 sm:px-3 py-3 text-xs font-semibold text-gray-500">W</th>
-              <th className="text-center px-1 sm:px-3 py-3 text-xs font-semibold text-gray-500">L</th>
-              <th className="text-center px-1 sm:px-3 py-3 text-xs font-semibold text-gray-500">Pts</th>
-              <th className="text-center px-1 sm:px-3 py-3 text-xs font-semibold text-gray-500 hidden sm:table-cell">Status</th>
+              <th className="text-center px-1 sm:px-2 py-3 text-xs font-semibold text-gray-500">P</th>
+              <th className="text-center px-1 sm:px-2 py-3 text-xs font-semibold text-gray-500">W</th>
+              <th className="text-center px-1 sm:px-2 py-3 text-xs font-semibold text-gray-500">D</th>
+              <th className="text-center px-1 sm:px-2 py-3 text-xs font-semibold text-gray-500">L</th>
+              <th className="text-center px-1 sm:px-2 py-3 text-xs font-semibold text-gray-500 hidden sm:table-cell" title="Sequences">Seq</th>
+              <th className="text-center px-1 sm:px-2 py-3 text-xs font-semibold text-gray-500">Pts</th>
+              <th className="text-center px-1 sm:px-2 py-3 text-xs font-semibold text-gray-500 hidden sm:table-cell">Status</th>
             </tr>
           </thead>
           <tbody>
@@ -60,20 +62,21 @@ export default function GroupTable({ group, standings, teams }: Props) {
                       </div>
                       <div className="min-w-0">
                         <div className="font-medium text-xs sm:text-sm text-gray-900 truncate">{team.name}</div>
-                        <div className="text-[10px] text-gray-500 capitalize">{team.game}</div>
                       </div>
                     </div>
                   </td>
-                  <td className="text-center px-1 sm:px-3 py-3.5 text-gray-500">{s.played}</td>
-                  <td className="text-center px-1 sm:px-3 py-3.5 font-semibold text-green-500">{s.won}</td>
-                  <td className="text-center px-1 sm:px-3 py-3.5 font-semibold text-red-400">{s.lost}</td>
-                  <td className="text-center px-1 sm:px-3 py-3.5">
+                  <td className="text-center px-1 sm:px-2 py-3.5 text-gray-500">{s.played}</td>
+                  <td className="text-center px-1 sm:px-2 py-3.5 font-semibold text-green-500">{s.won}</td>
+                  <td className="text-center px-1 sm:px-2 py-3.5 font-semibold text-yellow-500">{s.drawn}</td>
+                  <td className="text-center px-1 sm:px-2 py-3.5 font-semibold text-red-400">{s.lost}</td>
+                  <td className="text-center px-1 sm:px-2 py-3.5 text-purple-500 font-semibold hidden sm:table-cell">{s.sequences}</td>
+                  <td className="text-center px-1 sm:px-2 py-3.5">
                     <span className="font-bold text-blue-600">{s.points}</span>
                   </td>
-                  <td className="text-center px-1 sm:px-3 py-3.5 hidden sm:table-cell">
+                  <td className="text-center px-1 sm:px-2 py-3.5 hidden sm:table-cell">
                     {s.qualified ? (
                       <span className="inline-flex items-center gap-1 text-xs font-semibold text-green-500 bg-green-50 px-2 py-0.5 rounded-full">
-                        <CheckCircle2 className="w-3 h-3" /> Qualified
+                        <CheckCircle2 className="w-3 h-3" /> Q
                       </span>
                     ) : (
                       <span className="text-xs text-gray-500">—</span>
@@ -86,9 +89,14 @@ export default function GroupTable({ group, standings, teams }: Props) {
         </table>
       </div>
 
-      <div className="px-5 py-3 border-t border-gray-200 text-xs text-gray-500">
-        <span className="inline-block w-3 h-3 rounded mr-1 bg-blue-100" style={{ verticalAlign: 'middle' }} />
-        Top 2 teams qualify for playoffs
+      <div className="px-5 py-3 border-t border-gray-200 text-xs text-gray-500 space-y-1">
+        <div>
+          <span className="inline-block w-3 h-3 rounded mr-1 bg-blue-100" style={{ verticalAlign: 'middle' }} />
+          Top 2 teams qualify for playoffs
+        </div>
+        <div className="text-gray-400">
+          Win=2pts · Draw=1pt · Loss=0pts · +1pt per sequence completed
+        </div>
       </div>
     </div>
   );

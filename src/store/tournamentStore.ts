@@ -1,10 +1,10 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { useShallow } from 'zustand/react/shallow';
-import type { Team, Player, Match, GalleryItem, Announcement, HistoryEntry } from '../types';
+import type { Team, Player, Match, GalleryItem, Announcement, HistoryEntry, SequenceMatchStats, GroupStanding } from '../types';
 import {
   ALL_TEAMS, PLAYERS, MATCHES, GALLERY, ANNOUNCEMENTS,
-  CARROM_TEAMS, SEQUENCE_TEAMS, HISTORY, TOURNAMENT,
+  CARROM_TEAMS, SEQUENCE_TEAMS, HISTORY, TOURNAMENT, GROUPS,
 } from '../data/mockData';
 
 interface ScoreHistory { scoreA: number; scoreB: number; }
@@ -19,6 +19,7 @@ interface TournamentState {
   history: HistoryEntry[];
   scoreHistory: Record<string, ScoreHistory[]>;
   breakScores: Record<string, BreakScore[]>;
+  sequenceStats: Record<string, SequenceMatchStats>;
   isAdmin: boolean;
   adminPin: string;
 
@@ -43,6 +44,7 @@ interface TournamentState {
   finishMatch: (id: string, winner: string) => void;
 
   updateBreakScore: (matchId: string, breakIdx: number, scoreA: number, scoreB: number) => void;
+  updateSequenceStats: (matchId: string, stats: SequenceMatchStats) => void;
 
   addPhoto: (item: Omit<GalleryItem, 'id'>) => void;
   deletePhoto: (id: string) => void;
@@ -71,6 +73,7 @@ export const useTournamentStore = create<TournamentState>()(
       history: HISTORY,
       scoreHistory: {},
       breakScores: {},
+      sequenceStats: {},
       isAdmin: false,
       adminPin: '123456',
       userRole: null,
@@ -173,6 +176,11 @@ export const useTournamentStore = create<TournamentState>()(
           };
         }),
 
+      updateSequenceStats: (matchId, stats) =>
+        set((s) => ({
+          sequenceStats: { ...s.sequenceStats, [matchId]: stats },
+        })),
+
       addPhoto: (item) =>
         set((s) => ({ gallery: [{ ...item, id: 'gal_' + uid() }, ...s.gallery] })),
       deletePhoto: (id) =>
@@ -200,24 +208,101 @@ export const useTournamentStore = create<TournamentState>()(
           history: HISTORY,
           scoreHistory: {},
           breakScores: {},
+          sequenceStats: {},
         }),
     }),
     {
       name: 'josh-tournament-store',
-      version: 3,
+      version: 6,
       migrate: (persistedState: any, version: number) => {
-        if (version < 3) {
+        if (version < 6) {
           persistedState.teams = ALL_TEAMS;
           persistedState.players = PLAYERS;
           persistedState.matches = MATCHES;
           persistedState.announcements = ANNOUNCEMENTS;
           persistedState.history = HISTORY;
+          persistedState.sequenceStats = {};
+          persistedState.breakScores = {};
         }
         return persistedState as TournamentState;
       },
     }
   )
 );
+
+// ─── Computed group standings from match results ─────────────────────────────
+export function computeGroupStandings(
+  groupTeamIds: string[],
+  matches: Match[],
+  sequenceStats: Record<string, SequenceMatchStats>,
+): GroupStanding[] {
+  const groupMatches = matches.filter(
+    (m) => m.game === 'sequence' && m.status === 'completed'
+      && groupTeamIds.includes(m.teamAId) && groupTeamIds.includes(m.teamBId)
+  );
+
+  const map = new Map<string, GroupStanding>();
+  for (const tid of groupTeamIds) {
+    map.set(tid, { teamId: tid, played: 0, won: 0, lost: 0, drawn: 0, sequences: 0, chipsUsed: 0, points: 0, qualified: false });
+  }
+
+  for (const m of groupMatches) {
+    const a = map.get(m.teamAId)!;
+    const b = map.get(m.teamBId)!;
+    const stats = sequenceStats[m.id];
+    const seqA = stats?.sequencesA ?? 0;
+    const seqB = stats?.sequencesB ?? 0;
+    const chipsA = stats?.chipsUsedA ?? 0;
+    const chipsB = stats?.chipsUsedB ?? 0;
+
+    a.played++;
+    b.played++;
+    a.sequences += seqA;
+    b.sequences += seqB;
+
+    if (m.winner === 'draw') {
+      a.drawn++;
+      b.drawn++;
+      a.points += 1 + seqA;
+      b.points += 1 + seqB;
+    } else if (m.winner === m.teamAId) {
+      a.won++;
+      b.lost++;
+      a.points += 2 + seqA;
+      b.points += 0 + seqB;
+      a.chipsUsed += chipsA;
+    } else if (m.winner === m.teamBId) {
+      b.won++;
+      a.lost++;
+      b.points += 2 + seqB;
+      a.points += 0 + seqA;
+      b.chipsUsed += chipsB;
+    }
+  }
+
+  const standings = Array.from(map.values());
+
+  // Sort: max points → max wins → head-to-head → min chips used in wins
+  standings.sort((x, y) => {
+    if (y.points !== x.points) return y.points - x.points;
+    if (y.won !== x.won) return y.won - x.won;
+    // Head-to-head
+    const h2h = groupMatches.find(
+      (m) => m.status === 'completed' &&
+        ((m.teamAId === x.teamId && m.teamBId === y.teamId) ||
+         (m.teamAId === y.teamId && m.teamBId === x.teamId))
+    );
+    if (h2h && h2h.winner && h2h.winner !== 'draw') {
+      return h2h.winner === x.teamId ? -1 : 1;
+    }
+    // Min chips used in matches won
+    if (x.chipsUsed !== y.chipsUsed) return x.chipsUsed - y.chipsUsed;
+    return 0;
+  });
+
+  standings.forEach((s, i) => { s.qualified = i < 2; });
+  return standings;
+}
 
 // Selectors
 export const useCarromTeams = () => useTournamentStore(useShallow((s) => s.teams.filter((t) => t.game === 'carrom')));

@@ -201,15 +201,40 @@ function CarromBreaksView({ matchId, teamA, teamB, isLive }: {
   );
 }
 
+// Counter component for the sequence finish modal
+function Counter({ label, value, onChange, min = 0, max = 99, color }: {
+  label: string; value: number; onChange: (v: number) => void; min?: number; max?: number; color?: string;
+}) {
+  return (
+    <div className="flex items-center justify-between">
+      <span className="text-gray-300 text-sm">{label}</span>
+      <div className="flex items-center gap-2">
+        <button onClick={() => onChange(Math.max(min, value - 1))}
+          className="w-8 h-8 rounded-lg bg-gray-700 hover:bg-gray-600 text-white flex items-center justify-center text-lg font-bold">−</button>
+        <span className="w-8 text-center font-bold text-lg tabular-nums" style={{ color: color ?? '#fff' }}>{value}</span>
+        <button onClick={() => onChange(Math.min(max, value + 1))}
+          className="w-8 h-8 rounded-lg bg-gray-700 hover:bg-gray-600 text-white flex items-center justify-center text-lg font-bold">+</button>
+      </div>
+    </div>
+  );
+}
+
 export default function UmpireScreen() {
   const { id } = useParams<{ id: string }>();
-  const { matches, teams, isAdmin, updateScore, undoScore, finishMatch, startMatch, breakScores, updateBreakScore } = useTournamentStore();
+  const { matches, teams, isAdmin, updateScore, undoScore, finishMatch, startMatch, sequenceStats, updateSequenceStats } = useTournamentStore();
 
   const match = matches.find((m) => m.id === id);
   const teamA = match ? teams.find((t) => t.id === match.teamAId) : null;
   const teamB = match ? teams.find((t) => t.id === match.teamBId) : null;
 
   const [showFinish, setShowFinish] = useState(false);
+
+  // Sequence finish modal state
+  const [seqResult, setSeqResult] = useState<'teamA' | 'teamB' | 'draw'>('teamA');
+  const [seqA, setSeqA] = useState(0);
+  const [seqB, setSeqB] = useState(0);
+  const [chipsA, setChipsA] = useState(0);
+  const [chipsB, setChipsB] = useState(0);
 
   const addScore = useCallback((side: 'A' | 'B', delta: number) => {
     if (!match) return;
@@ -230,10 +255,37 @@ export default function UmpireScreen() {
     toast.success('Match started!');
   }, [match, startMatch]);
 
-  const handleFinish = (winner: string) => {
+  const handleFinishCarrom = (winner: string) => {
     if (!match) return;
     finishMatch(match.id, winner);
     toast.success('Match completed!');
+    setShowFinish(false);
+  };
+
+  const openSequenceFinish = () => {
+    setSeqResult('teamA');
+    setSeqA(0);
+    setSeqB(0);
+    setChipsA(0);
+    setChipsB(0);
+    setShowFinish(true);
+  };
+
+  const handleFinishSequence = () => {
+    if (!match || !teamA || !teamB) return;
+    const winner = seqResult === 'draw' ? 'draw' : seqResult === 'teamA' ? teamA.id : teamB.id;
+    updateSequenceStats(match.id, {
+      sequencesA: seqA,
+      sequencesB: seqB,
+      chipsUsedA: chipsA,
+      chipsUsedB: chipsB,
+    });
+    finishMatch(match.id, winner);
+
+    // Calculate points for display
+    const ptsA = (seqResult === 'teamA' ? 2 : seqResult === 'draw' ? 1 : 0) + seqA;
+    const ptsB = (seqResult === 'teamB' ? 2 : seqResult === 'draw' ? 1 : 0) + seqB;
+    toast.success(`Match completed! ${teamA.logo}: ${ptsA}pts · ${teamB.logo}: ${ptsB}pts`);
     setShowFinish(false);
   };
 
@@ -264,6 +316,23 @@ export default function UmpireScreen() {
   const isDone = match.status === 'completed';
   const isUpcoming = match.status === 'upcoming';
   const isCarrom = match.game === 'carrom';
+  const isSequence = match.game === 'sequence';
+  const matchStats = sequenceStats[match.id];
+
+  // Compute points for completed sequence match display
+  const getSequenceResult = () => {
+    if (!isDone || !isSequence) return null;
+    const isDraw = match.winner === 'draw';
+    const wonA = match.winner === teamA.id;
+    const wonB = match.winner === teamB.id;
+    const sA = matchStats?.sequencesA ?? 0;
+    const sB = matchStats?.sequencesB ?? 0;
+    const ptsA = (wonA ? 2 : isDraw ? 1 : 0) + sA;
+    const ptsB = (wonB ? 2 : isDraw ? 1 : 0) + sB;
+    return { isDraw, wonA, wonB, sA, sB, ptsA, ptsB, chipsA: matchStats?.chipsUsedA ?? 0, chipsB: matchStats?.chipsUsedB ?? 0 };
+  };
+
+  const seqRes = getSequenceResult();
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-950">
@@ -294,7 +363,6 @@ export default function UmpireScreen() {
       <div className="flex-1 flex flex-col justify-center px-4 py-4 max-w-lg mx-auto w-full overflow-y-auto">
 
         {isCarrom ? (
-          /* ── Carrom: 4-break scoring ── */
           <CarromBreaksView matchId={match.id} teamA={teamA} teamB={teamB} isLive={isLive} />
         ) : (
           /* ── Sequence: simple scoring ── */
@@ -394,14 +462,65 @@ export default function UmpireScreen() {
               )}
 
               <motion.button whileTap={{ scale: 0.97 }}
-                onClick={() => setShowFinish(true)}
+                onClick={isSequence ? openSequenceFinish : () => setShowFinish(true)}
                 className="w-full py-4 rounded-2xl flex items-center justify-center gap-3 font-bold text-lg bg-yellow-500 text-gray-900 hover:bg-yellow-400 shadow-lg">
-                <Trophy className="w-6 h-6" /> End Match & Declare Winner
+                <Trophy className="w-6 h-6" /> End Match & Declare Result
               </motion.button>
             </>
           )}
 
-          {isDone && (
+          {isDone && isSequence && seqRes && (
+            <div className="space-y-3">
+              <div className="text-center py-3">
+                <div className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-full font-semibold text-sm ${
+                  seqRes.isDraw ? 'bg-yellow-500/20 text-yellow-400' : 'bg-green-500/20 text-green-400'
+                }`}>
+                  <Trophy className="w-5 h-5" />
+                  {seqRes.isDraw ? 'Match Drawn' : `Winner: ${seqRes.wonA ? teamA.name : teamB.name}`}
+                </div>
+              </div>
+              {/* Points breakdown */}
+              <div className="bg-gray-800/50 rounded-xl border border-gray-700 overflow-hidden">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="border-b border-gray-700 text-gray-400">
+                      <th className="text-left px-3 py-2 text-xs">Stat</th>
+                      <th className="text-center px-3 py-2 text-xs" style={{ color: teamA.color }}>{teamA.logo}</th>
+                      <th className="text-center px-3 py-2 text-xs" style={{ color: teamB.color }}>{teamB.logo}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr className="border-b border-gray-700/50">
+                      <td className="px-3 py-2 text-xs text-gray-400">Result</td>
+                      <td className="text-center px-3 py-2 text-xs font-bold" style={{ color: seqRes.wonA ? '#22c55e' : seqRes.isDraw ? '#eab308' : '#ef4444' }}>
+                        {seqRes.wonA ? 'WIN' : seqRes.isDraw ? 'DRAW' : 'LOSS'}
+                      </td>
+                      <td className="text-center px-3 py-2 text-xs font-bold" style={{ color: seqRes.wonB ? '#22c55e' : seqRes.isDraw ? '#eab308' : '#ef4444' }}>
+                        {seqRes.wonB ? 'WIN' : seqRes.isDraw ? 'DRAW' : 'LOSS'}
+                      </td>
+                    </tr>
+                    <tr className="border-b border-gray-700/50">
+                      <td className="px-3 py-2 text-xs text-gray-400">Sequences</td>
+                      <td className="text-center px-3 py-2 font-bold text-purple-400">{seqRes.sA}</td>
+                      <td className="text-center px-3 py-2 font-bold text-purple-400">{seqRes.sB}</td>
+                    </tr>
+                    <tr className="border-b border-gray-700/50">
+                      <td className="px-3 py-2 text-xs text-gray-400">Chips Used</td>
+                      <td className="text-center px-3 py-2 text-gray-300">{seqRes.chipsA}</td>
+                      <td className="text-center px-3 py-2 text-gray-300">{seqRes.chipsB}</td>
+                    </tr>
+                    <tr className="bg-gray-700/40">
+                      <td className="px-3 py-2 text-xs font-bold text-white">Points</td>
+                      <td className="text-center px-3 py-2 font-black text-lg" style={{ color: teamA.color }}>{seqRes.ptsA}</td>
+                      <td className="text-center px-3 py-2 font-black text-lg" style={{ color: teamB.color }}>{seqRes.ptsB}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+
+          {isDone && isCarrom && (
             <div className="text-center py-4">
               <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-green-500/20 text-green-400 font-semibold text-sm">
                 <Trophy className="w-5 h-5" />
@@ -421,28 +540,28 @@ export default function UmpireScreen() {
         </div>
       </div>
 
-      {/* Finish Match Modal */}
-      {showFinish && (
+      {/* Carrom Finish Modal */}
+      {showFinish && isCarrom && (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}
           className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70"
           onClick={() => setShowFinish(false)}>
           <motion.div initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }}
             onClick={(e) => e.stopPropagation()}
             className="w-full max-w-sm rounded-2xl p-6 bg-gray-900 border border-gray-700 shadow-2xl">
-            <h3 className="font-bold text-white text-xl text-center mb-2">🏆 Declare Winner</h3>
+            <h3 className="font-bold text-white text-xl text-center mb-2">Declare Winner</h3>
             <p className="text-gray-400 text-sm text-center mb-6">
               Final Score: <span className="font-bold text-white">{match.scoreA}</span> – <span className="font-bold text-white">{match.scoreB}</span>
             </p>
             <div className="flex gap-4">
               <motion.button whileTap={{ scale: 0.95 }}
-                onClick={() => handleFinish(teamA.id)}
+                onClick={() => handleFinishCarrom(teamA.id)}
                 className="flex-1 py-5 rounded-2xl flex flex-col items-center gap-2 font-bold text-white hover:brightness-110 transition-all"
                 style={{ background: teamA.color }}>
                 <span className="text-2xl">{teamA.logo}</span>
                 <span className="text-sm truncate max-w-full px-2">{teamA.name}</span>
               </motion.button>
               <motion.button whileTap={{ scale: 0.95 }}
-                onClick={() => handleFinish(teamB.id)}
+                onClick={() => handleFinishCarrom(teamB.id)}
                 className="flex-1 py-5 rounded-2xl flex flex-col items-center gap-2 font-bold text-white hover:brightness-110 transition-all"
                 style={{ background: teamB.color }}>
                 <span className="text-2xl">{teamB.logo}</span>
@@ -451,6 +570,109 @@ export default function UmpireScreen() {
             </div>
             <button onClick={() => setShowFinish(false)}
               className="w-full mt-4 py-3 text-gray-500 text-sm hover:text-gray-300 transition-colors">
+              Cancel
+            </button>
+          </motion.div>
+        </motion.div>
+      )}
+
+      {/* Sequence Finish Modal — captures result, sequences, chips */}
+      {showFinish && isSequence && (
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70"
+          onClick={() => setShowFinish(false)}>
+          <motion.div initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }}
+            onClick={(e) => e.stopPropagation()}
+            className="w-full max-w-sm rounded-2xl p-6 bg-gray-900 border border-gray-700 shadow-2xl overflow-y-auto max-h-[90vh]">
+            <h3 className="font-bold text-white text-xl text-center mb-1">End Match</h3>
+            <p className="text-gray-500 text-xs text-center mb-5">Record the match result and stats</p>
+
+            {/* Result selection */}
+            <div className="mb-5">
+              <label className="text-gray-400 text-xs font-semibold uppercase tracking-wider mb-2 block">Match Result</label>
+              <div className="grid grid-cols-3 gap-2">
+                <button onClick={() => setSeqResult('teamA')}
+                  className={`py-3 rounded-xl text-xs font-bold text-center transition-all ${
+                    seqResult === 'teamA' ? 'ring-2 ring-offset-1 ring-offset-gray-900 text-white' : 'bg-gray-800 text-gray-400'
+                  }`}
+                  style={seqResult === 'teamA' ? { background: teamA.color, ringColor: teamA.color } : {}}>
+                  <div className="text-lg mb-0.5">{teamA.logo}</div>
+                  Wins
+                </button>
+                <button onClick={() => setSeqResult('draw')}
+                  className={`py-3 rounded-xl text-xs font-bold text-center transition-all ${
+                    seqResult === 'draw' ? 'bg-yellow-500 text-gray-900 ring-2 ring-yellow-400 ring-offset-1 ring-offset-gray-900' : 'bg-gray-800 text-gray-400'
+                  }`}>
+                  <div className="text-lg mb-0.5">🤝</div>
+                  Draw
+                </button>
+                <button onClick={() => setSeqResult('teamB')}
+                  className={`py-3 rounded-xl text-xs font-bold text-center transition-all ${
+                    seqResult === 'teamB' ? 'ring-2 ring-offset-1 ring-offset-gray-900 text-white' : 'bg-gray-800 text-gray-400'
+                  }`}
+                  style={seqResult === 'teamB' ? { background: teamB.color, ringColor: teamB.color } : {}}>
+                  <div className="text-lg mb-0.5">{teamB.logo}</div>
+                  Wins
+                </button>
+              </div>
+            </div>
+
+            {/* Sequences completed */}
+            <div className="mb-5 bg-gray-800/50 rounded-xl p-4 border border-gray-700 space-y-3">
+              <label className="text-gray-400 text-xs font-semibold uppercase tracking-wider block">Sequences Completed</label>
+              <Counter label={`${teamA.logo} — ${teamA.name}`} value={seqA} onChange={setSeqA} max={5} color={teamA.color} />
+              <Counter label={`${teamB.logo} — ${teamB.name}`} value={seqB} onChange={setSeqB} max={5} color={teamB.color} />
+            </div>
+
+            {/* Chips used */}
+            <div className="mb-5 bg-gray-800/50 rounded-xl p-4 border border-gray-700 space-y-3">
+              <label className="text-gray-400 text-xs font-semibold uppercase tracking-wider block">Chips Used (by winner)</label>
+              {seqResult === 'teamA' && (
+                <Counter label={`${teamA.logo} chips`} value={chipsA} onChange={setChipsA} max={50} color={teamA.color} />
+              )}
+              {seqResult === 'teamB' && (
+                <Counter label={`${teamB.logo} chips`} value={chipsB} onChange={setChipsB} max={50} color={teamB.color} />
+              )}
+              {seqResult === 'draw' && (
+                <p className="text-gray-500 text-xs">Not applicable for draws</p>
+              )}
+            </div>
+
+            {/* Points preview */}
+            <div className="mb-5 bg-gray-800/50 rounded-xl p-4 border border-gray-700">
+              <label className="text-gray-400 text-xs font-semibold uppercase tracking-wider mb-2 block">Points Preview</label>
+              <div className="flex justify-around">
+                <div className="text-center">
+                  <div className="text-xs text-gray-400 mb-1">{teamA.logo}</div>
+                  <div className="text-2xl font-black" style={{ color: teamA.color }}>
+                    {(seqResult === 'teamA' ? 2 : seqResult === 'draw' ? 1 : 0) + seqA}
+                  </div>
+                  <div className="text-[10px] text-gray-500 mt-0.5">
+                    {seqResult === 'teamA' ? 'Win(2)' : seqResult === 'draw' ? 'Draw(1)' : 'Loss(0)'}
+                    {seqA > 0 && ` +Seq(${seqA})`}
+                  </div>
+                </div>
+                <div className="text-center">
+                  <div className="text-xs text-gray-400 mb-1">{teamB.logo}</div>
+                  <div className="text-2xl font-black" style={{ color: teamB.color }}>
+                    {(seqResult === 'teamB' ? 2 : seqResult === 'draw' ? 1 : 0) + seqB}
+                  </div>
+                  <div className="text-[10px] text-gray-500 mt-0.5">
+                    {seqResult === 'teamB' ? 'Win(2)' : seqResult === 'draw' ? 'Draw(1)' : 'Loss(0)'}
+                    {seqB > 0 && ` +Seq(${seqB})`}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Submit */}
+            <motion.button whileTap={{ scale: 0.97 }}
+              onClick={handleFinishSequence}
+              className="w-full py-4 rounded-2xl font-bold text-lg bg-yellow-500 text-gray-900 hover:bg-yellow-400 shadow-lg flex items-center justify-center gap-2">
+              <Trophy className="w-5 h-5" /> Confirm & End Match
+            </motion.button>
+            <button onClick={() => setShowFinish(false)}
+              className="w-full mt-3 py-3 text-gray-500 text-sm hover:text-gray-300 transition-colors">
               Cancel
             </button>
           </motion.div>
