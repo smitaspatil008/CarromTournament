@@ -1,5 +1,7 @@
+import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
+import { useTournamentStore, initFirebaseSync } from './store/tournamentStore';
 
 // Pages
 import Landing from './pages/Landing';
@@ -39,6 +41,23 @@ function AnimatedRoutes() {
 }
 
 export default function App() {
+  const hydrated = useTournamentStore((s) => s._hydrated);
+
+  useEffect(() => {
+    initFirebaseSync();
+  }, []);
+
+  if (!hydrated) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-center">
+          <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+          <p className="text-gray-500 text-sm">Loading tournament data...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <BrowserRouter>
       <AnimatedRoutes />
