@@ -299,7 +299,7 @@ export const useTournamentStore = create<TournamentState>()(
 );
 
 // ─── Firebase real-time sync ────────────────────────────────────────────────
-const DATA_VERSION = 2;
+const DATA_VERSION = 3;
 
 function getSyncData(state: TournamentState) {
   const data: Record<string, unknown> = { _v: DATA_VERSION };

@@ -34,11 +34,11 @@ export const SEQUENCE_TEAMS: Team[] = [
   { id: 'st1', name: 'Astitwa R - Garima G - Tejaswini K',    logo: 'A',  color: '#2563EB', playerIds: ['sp1','sp2','sp3'],   wins: 0, losses: 0, points: 0, status: 'active', game: 'sequence' },
   { id: 'st2', name: 'Sofia H - Ayush K - Manik B',           logo: 'B',  color: '#7C3AED', playerIds: ['sp4','sp5','sp6'],   wins: 0, losses: 0, points: 0, status: 'active', game: 'sequence' },
   { id: 'st3', name: 'Shruti - Sanika - Anushree',            logo: 'C',  color: '#059669', playerIds: ['sp7','sp8','sp9'],   wins: 0, losses: 0, points: 0, status: 'active', game: 'sequence' },
-  { id: 'st4', name: 'Gauri S - Aditya V - Pranav D',         logo: 'D',  color: '#DC2626', playerIds: ['sp10','sp11','sp12'], wins: 0, losses: 0, points: 0, status: 'active', game: 'sequence' },
+  { id: 'st4', name: 'Shubham S - Aditya V - Pranav D',       logo: 'D',  color: '#DC2626', playerIds: ['sp10','sp11','sp12'], wins: 0, losses: 0, points: 0, status: 'active', game: 'sequence' },
   { id: 'st5', name: 'Vijay M - Rushikesh J - Vaishnavi M',   logo: 'E',  color: '#D97706', playerIds: ['sp13','sp14','sp15'], wins: 0, losses: 0, points: 0, status: 'active', game: 'sequence' },
   { id: 'st6', name: 'Gayatri K - Tejas J - Pandurang',       logo: 'F',  color: '#DB2777', playerIds: ['sp16','sp17','sp18'], wins: 0, losses: 0, points: 0, status: 'active', game: 'sequence' },
   { id: 'st7', name: 'Mayank B - Gauri D - Gaurav T',         logo: 'G',  color: '#0891B2', playerIds: ['sp19','sp20','sp21'], wins: 0, losses: 0, points: 0, status: 'active', game: 'sequence' },
-  { id: 'st8', name: 'Madhura J - Harshita M - Aboli D',      logo: 'H',  color: '#4F46E5', playerIds: ['sp22','sp23','sp24'], wins: 0, losses: 0, points: 0, status: 'active', game: 'sequence' },
+  { id: 'st8', name: 'Madhura J - Chaitanya P - Aboli D',     logo: 'H',  color: '#4F46E5', playerIds: ['sp22','sp23','sp24'], wins: 0, losses: 0, points: 0, status: 'active', game: 'sequence' },
 ];
 
 export const ALL_TEAMS = [...CARROM_TEAMS, ...SEQUENCE_TEAMS];
@@ -94,7 +94,7 @@ export const PLAYERS: Player[] = [
   mkP('sp7',  'Shruti',               img('Shruti Pande  Photo.jpg'),                        'st3'),
   mkP('sp8',  'Sanika',               img('100282 - Sanika Khire.jpg'),                      'st3'),
   mkP('sp9',  'Anushree',             img('Anushree.jpg'),                                   'st3'),
-  mkP('sp10', 'Gauri Shirsath',       img('Gauri Shirsath.jpg'),                             'st4'),
+  mkP('sp10', 'Shubham Shravan',      img('Gauri Shirsath.jpg'),                             'st4'),
   mkP('sp11', 'Aditya Vats',          img('Aditya Vats - Copy (1) (1).JPG'),                 'st4'),
   mkP('sp12', 'Pranav Deshpande',     img('Pranav Deshpande.JPG'),                           'st4'),
   mkP('sp13', 'Vijay Mahadik',        img('Vijay Mahadik Emp ID 100184.JPG'),                'st5'),
@@ -107,7 +107,7 @@ export const PLAYERS: Player[] = [
   mkP('sp20', 'Gauri Dighe',          img('Gauri Dighe 100179.JPG'),                         'st7'),
   mkP('sp21', 'Gaurav Thawale',       img('Gaurav Thawale 100188.JPG'),                      'st7'),
   mkP('sp22', 'Madhura Jadhav',       img('Madhura Jadhav 100263.jpg'),                      'st8'),
-  mkP('sp23', 'Harshita Mathur',      img('Harshita Mathur 100192 (1).jpg'),                 'st8'),
+  mkP('sp23', 'Chaitanya Prabhu',     img('Harshita Mathur 100192 (1).jpg'),                 'st8'),
   mkP('sp24', 'Aboli Deshmukh',       img('Aboli.jpg'),                                     'st8'),
 ];
 
