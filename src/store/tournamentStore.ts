@@ -318,6 +318,6 @@ export function computeGroupStandings(
 // Selectors
 export const useCarromTeams = () => useTournamentStore(useShallow((s) => s.teams.filter((t) => t.game === 'carrom')));
 export const useSequenceTeams = () => useTournamentStore(useShallow((s) => s.teams.filter((t) => t.game === 'sequence')));
-export const useLiveMatches = () => useTournamentStore(useShallow((s) => s.matches.filter((m) => m.status === 'live')));
-export const useUpcomingMatches = () => useTournamentStore(useShallow((s) => s.matches.filter((m) => m.status === 'upcoming')));
+export const useLiveMatches = () => useTournamentStore(useShallow((s) => s.matches.filter((m) => m.status === 'live' && m.teamAId && m.teamBId)));
+export const useUpcomingMatches = () => useTournamentStore(useShallow((s) => s.matches.filter((m) => m.status === 'upcoming' && m.teamAId && m.teamBId)));
 export const useCompletedMatches = () => useTournamentStore(useShallow((s) => s.matches.filter((m) => m.status === 'completed')));

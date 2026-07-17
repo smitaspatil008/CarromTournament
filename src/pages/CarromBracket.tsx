@@ -50,6 +50,17 @@ export default function CarromBracket() {
         </div>
       </div>
 
+      {/* Scoring System */}
+      <div className="bg-blue-50 rounded-xl border border-blue-200 p-4 mb-6">
+        <h3 className="font-bold text-blue-700 text-sm mb-2">Scoring System</h3>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs text-blue-600">
+          <div><span className="font-bold">Format:</span> 4 Breaks per match</div>
+          <div><span className="font-bold">Break Score:</span> Points per break</div>
+          <div><span className="font-bold">Winner:</span> Highest total after 4 breaks</div>
+          <div><span className="font-bold">Knockout:</span> Single elimination</div>
+        </div>
+      </div>
+
       {/* Legend */}
       <div className="flex flex-wrap items-center gap-4 mb-6 text-xs text-gray-500">
         <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-red-500 inline-block" /> Live match</span>
