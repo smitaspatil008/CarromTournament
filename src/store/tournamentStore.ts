@@ -299,8 +299,10 @@ export const useTournamentStore = create<TournamentState>()(
 );
 
 // ─── Firebase real-time sync ────────────────────────────────────────────────
+const DATA_VERSION = 2;
+
 function getSyncData(state: TournamentState) {
-  const data: Record<string, unknown> = {};
+  const data: Record<string, unknown> = { _v: DATA_VERSION };
   for (const key of SYNC_KEYS) {
     data[key] = state[key];
   }
@@ -311,7 +313,7 @@ export function initFirebaseSync() {
   onValue(DB_REF, (snapshot) => {
     const data = snapshot.val();
     _skipSync = true;
-    if (data) {
+    if (data && data._v === DATA_VERSION) {
       useTournamentStore.setState({ ...data, _hydrated: true });
     } else {
       const seed = getSyncData(useTournamentStore.getState());

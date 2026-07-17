@@ -122,16 +122,16 @@ export const MATCHES: Match[] = [
   { id: 'm6',  game: 'carrom', round: 'Round of 16', teamAId: 'ct5',  teamBId: 'ct14', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 2', scheduledAt: '2026-07-21T09:30' },
   { id: 'm7',  game: 'carrom', round: 'Round of 16', teamAId: 'ct6',  teamBId: 'ct13', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 3', scheduledAt: '2026-07-21T10:15' },
   { id: 'm8',  game: 'carrom', round: 'Round of 16', teamAId: 'ct10', teamBId: 'ct8',  scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 1', scheduledAt: '2026-07-21T10:15' },
-  // Carrom QF — 22 July 2026
-  { id: 'm9',  game: 'carrom', round: 'Quarter Finals', teamAId: 'ct15', teamBId: 'ct1',  scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 1', scheduledAt: '2026-07-22T09:30' },
-  { id: 'm10', game: 'carrom', round: 'Quarter Finals', teamAId: 'ct4',  teamBId: 'ct12', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 2', scheduledAt: '2026-07-22T09:30' },
-  { id: 'm11', game: 'carrom', round: 'Quarter Finals', teamAId: 'ct16', teamBId: 'ct5',  scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 1', scheduledAt: '2026-07-22T10:15' },
-  { id: 'm12', game: 'carrom', round: 'Quarter Finals', teamAId: 'ct6',  teamBId: 'ct10', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 2', scheduledAt: '2026-07-22T10:15' },
-  // Carrom SF — 23 July 2026
-  { id: 'm13', game: 'carrom', round: 'Semi Finals', teamAId: 'ct15', teamBId: 'ct4',  scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 1', scheduledAt: '2026-07-23T09:30' },
-  { id: 'm14', game: 'carrom', round: 'Semi Finals', teamAId: 'ct16', teamBId: 'ct6',  scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 2', scheduledAt: '2026-07-23T10:15' },
-  // Carrom Final — 24 July 2026
-  { id: 'm15', game: 'carrom', round: 'Final', teamAId: 'ct15', teamBId: 'ct16', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 1', scheduledAt: '2026-07-24T09:30' },
+  // Carrom QF — 22 July 2026 (TBD until R16 completes)
+  { id: 'm9',  game: 'carrom', round: 'Quarter Finals', teamAId: '', teamBId: '', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 1', scheduledAt: '2026-07-22T09:30' },
+  { id: 'm10', game: 'carrom', round: 'Quarter Finals', teamAId: '', teamBId: '', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 2', scheduledAt: '2026-07-22T09:30' },
+  { id: 'm11', game: 'carrom', round: 'Quarter Finals', teamAId: '', teamBId: '', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 1', scheduledAt: '2026-07-22T10:15' },
+  { id: 'm12', game: 'carrom', round: 'Quarter Finals', teamAId: '', teamBId: '', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 2', scheduledAt: '2026-07-22T10:15' },
+  // Carrom SF — 23 July 2026 (TBD until QF completes)
+  { id: 'm13', game: 'carrom', round: 'Semi Finals', teamAId: '', teamBId: '', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 1', scheduledAt: '2026-07-23T09:30' },
+  { id: 'm14', game: 'carrom', round: 'Semi Finals', teamAId: '', teamBId: '', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 2', scheduledAt: '2026-07-23T10:15' },
+  // Carrom Final — 24 July 2026 (TBD until SF completes)
+  { id: 'm15', game: 'carrom', round: 'Final', teamAId: '', teamBId: '', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 1', scheduledAt: '2026-07-24T09:30' },
   // Sequence Day 1 — 20 July 2026
   { id: 'sm1', game: 'sequence', round: 'Day 1', teamAId: 'st2', teamBId: 'st4', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 1', scheduledAt: '2026-07-20T09:30' },
   { id: 'sm2', game: 'sequence', round: 'Day 1', teamAId: 'st7', teamBId: 'st1', scoreA: 0, scoreB: 0, status: 'upcoming', court: 'Table 2', scheduledAt: '2026-07-20T09:30' },
