@@ -7,6 +7,23 @@ import {
   CARROM_TEAMS, SEQUENCE_TEAMS, HISTORY, TOURNAMENT, GROUPS,
 } from '../data/mockData';
 
+const CARROM_BRACKET: Record<string, { next: string; slot: 'teamAId' | 'teamBId' }> = {
+  'm1':  { next: 'm9',  slot: 'teamAId' },
+  'm2':  { next: 'm9',  slot: 'teamBId' },
+  'm3':  { next: 'm10', slot: 'teamAId' },
+  'm4':  { next: 'm10', slot: 'teamBId' },
+  'm5':  { next: 'm11', slot: 'teamAId' },
+  'm6':  { next: 'm11', slot: 'teamBId' },
+  'm7':  { next: 'm12', slot: 'teamAId' },
+  'm8':  { next: 'm12', slot: 'teamBId' },
+  'm9':  { next: 'm13', slot: 'teamAId' },
+  'm10': { next: 'm13', slot: 'teamBId' },
+  'm11': { next: 'm14', slot: 'teamAId' },
+  'm12': { next: 'm14', slot: 'teamBId' },
+  'm13': { next: 'm15', slot: 'teamAId' },
+  'm14': { next: 'm15', slot: 'teamBId' },
+};
+
 interface ScoreHistory { scoreA: number; scoreB: number; }
 export interface BreakScore { scoreA: number; scoreB: number; }
 
@@ -160,11 +177,66 @@ export const useTournamentStore = create<TournamentState>()(
         }),
 
       finishMatch: (id, winner) =>
-        set((s) => ({
-          matches: s.matches.map((m) =>
-            m.id === id ? { ...m, status: 'completed', winner } : m
-          ),
-        })),
+        set((s) => {
+          let matches = s.matches.map((m) =>
+            m.id === id ? { ...m, status: 'completed' as const, winner } : m
+          );
+
+          const finished = s.matches.find(m => m.id === id);
+          if (!finished) return { matches };
+
+          // Carrom knockout: advance winner to next round
+          if (finished.game === 'carrom' && winner && winner !== 'draw') {
+            const adv = CARROM_BRACKET[id];
+            if (adv) {
+              matches = matches.map(m =>
+                m.id === adv.next ? { ...m, [adv.slot]: winner } : m
+              );
+            }
+            const loserId = winner === finished.teamAId ? finished.teamBId : finished.teamAId;
+            return {
+              matches,
+              teams: s.teams.map(t => t.id === loserId ? { ...t, status: 'eliminated' as const } : t),
+            };
+          }
+
+          // Sequence: fill semifinals when all group matches complete
+          if (finished.game === 'sequence') {
+            const groupMatches = matches.filter(m =>
+              m.game === 'sequence' && !m.round.includes('Semifinals') && !m.round.includes('Final')
+            );
+            const allGroupsDone = groupMatches.every(m => m.status === 'completed');
+
+            if (allGroupsDone) {
+              const sf1 = matches.find(m => m.id === 'sq_sf1');
+              if (sf1 && !sf1.teamAId) {
+                const groupA = GROUPS.find(g => g.name === 'Group A')!;
+                const groupB = GROUPS.find(g => g.name === 'Group B')!;
+                const stA = computeGroupStandings(groupA.teamIds, matches, s.sequenceStats);
+                const stB = computeGroupStandings(groupB.teamIds, matches, s.sequenceStats);
+                matches = matches.map(m => {
+                  if (m.id === 'sq_sf1') return { ...m, teamAId: stA[0].teamId, teamBId: stB[1].teamId };
+                  if (m.id === 'sq_sf2') return { ...m, teamAId: stB[0].teamId, teamBId: stA[1].teamId };
+                  return m;
+                });
+              }
+            }
+
+            // Fill final when both semifinals complete
+            const sf1 = matches.find(m => m.id === 'sq_sf1');
+            const sf2 = matches.find(m => m.id === 'sq_sf2');
+            if (sf1?.status === 'completed' && sf2?.status === 'completed' && sf1.winner && sf2.winner) {
+              const fin = matches.find(m => m.id === 'sq_fin');
+              if (fin && !fin.teamAId) {
+                matches = matches.map(m =>
+                  m.id === 'sq_fin' ? { ...m, teamAId: sf1.winner!, teamBId: sf2.winner! } : m
+                );
+              }
+            }
+          }
+
+          return { matches };
+        }),
 
       updateBreakScore: (matchId, breakIdx, scoreA, scoreB) =>
         set((s) => {

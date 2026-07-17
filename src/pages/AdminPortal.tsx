@@ -261,7 +261,7 @@ export default function AdminPortal() {
             {matches.filter(m => m.status !== 'completed').map(m => {
               const tA = teams.find(t => t.id === m.teamAId);
               const tB = teams.find(t => t.id === m.teamBId);
-              return <option key={m.id} value={m.id}>{tA?.name} vs {tB?.name} ({m.status})</option>;
+              return <option key={m.id} value={m.id}>{tA?.name ?? 'TBD'} vs {tB?.name ?? 'TBD'} ({m.round})</option>;
             })}
           </select>
           {form.matchId && <>
@@ -274,7 +274,7 @@ export default function AdminPortal() {
         return (
           <select value={form.matchId ?? ''} onChange={e => setForm({ ...form, matchId: e.target.value })} className={inputClasses}>
             <option value="">Select Match</option>
-            {upcomingMatches.map(m => {
+            {upcomingMatches.filter(m => m.teamAId && m.teamBId).map(m => {
               const tA = teams.find(t => t.id === m.teamAId);
               const tB = teams.find(t => t.id === m.teamBId);
               return <option key={m.id} value={m.id}>{tA?.name} vs {tB?.name}</option>;
@@ -421,7 +421,7 @@ export default function AdminPortal() {
       {/* Umpire links */}
       <h2 className="font-semibold mb-4 text-gray-900">Umpire Screens</h2>
       <div className="grid sm:grid-cols-2 gap-3">
-        {liveMatches.map((m) => {
+        {liveMatches.filter(m => m.teamAId && m.teamBId).map((m) => {
           const tA = teams.find(t => t.id === m.teamAId);
           const tB = teams.find(t => t.id === m.teamBId);
           return (
