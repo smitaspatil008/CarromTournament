@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Camera, X, Upload, Image, Trash2 } from 'lucide-react';
+import { Camera, X, Upload, Image, Trash2, Share2 } from 'lucide-react';
 import Layout from '../components/layout/Layout';
+import ShareButton from '../components/ui/ShareButton';
 import { useTournamentStore } from '../store/tournamentStore';
 import toast from 'react-hot-toast';
 
@@ -11,6 +13,16 @@ export default function Gallery() {
   const { gallery, addPhoto, deletePhoto, isAdmin } = useTournamentStore();
   const [cat, setCat] = useState<typeof CATEGORIES[number]>('all');
   const [selected, setSelected] = useState<string | null>(null);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  useEffect(() => {
+    const photoId = searchParams.get('photo');
+    if (photoId && gallery.some((g) => g.id === photoId)) {
+      setSelected(photoId);
+      searchParams.delete('photo');
+      setSearchParams(searchParams, { replace: true });
+    }
+  }, [gallery]);
 
   const filtered = cat === 'all' ? gallery : gallery.filter((g) => g.category === cat);
   const selectedItem = gallery.find((g) => g.id === selected);
@@ -116,10 +128,19 @@ export default function Gallery() {
                   {selectedItem.category} · {new Date(selectedItem.uploadedAt).toLocaleDateString()}
                 </p>
               </div>
-              <button onClick={() => setSelected(null)}
-                className="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-white hover:bg-white/40 transition-colors">
-                <X className="w-4 h-4" />
-              </button>
+              <div className="absolute top-4 right-4 flex items-center gap-2">
+                <ShareButton
+                  title={selectedItem.caption}
+                  text={`${selectedItem.caption} — Josh Tournament 2026`}
+                  url={`${window.location.origin}/gallery?photo=${selectedItem.id}`}
+                  size="sm"
+                  className="bg-white/20 border-white/30 text-white hover:bg-white/40"
+                />
+                <button onClick={() => setSelected(null)}
+                  className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-white hover:bg-white/40 transition-colors">
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
             </motion.div>
           </motion.div>
         )}

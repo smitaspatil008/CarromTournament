@@ -6,6 +6,7 @@ import Layout from '../components/layout/Layout';
 import { useTournamentStore } from '../store/tournamentStore';
 import toast from 'react-hot-toast';
 import type { GameType } from '../types';
+import { getMatchLabel } from '../utils/matchLabels';
 
 type Modal = 'addTeam' | 'editTeam' | 'addPlayer' | 'editPlayer' | 'startMatch' | 'updateScore' | 'finishMatch' | 'deletePlayer' | 'deleteTeam' | 'addMatch' | 'editMatch' | 'changePin' | 'deleteCompleted' | null;
 
@@ -275,7 +276,7 @@ export default function AdminPortal() {
             {matches.filter(m => m.status !== 'completed').map(m => {
               const tA = teams.find(t => t.id === m.teamAId);
               const tB = teams.find(t => t.id === m.teamBId);
-              return <option key={m.id} value={m.id}>{tA?.name ?? 'TBD'} vs {tB?.name ?? 'TBD'} ({m.round})</option>;
+              return <option key={m.id} value={m.id}>{getMatchLabel(m)} — {tA?.name ?? 'TBD'} vs {tB?.name ?? 'TBD'}</option>;
             })}
           </select>
           {form.matchId && <>
@@ -291,7 +292,7 @@ export default function AdminPortal() {
             {upcomingMatches.filter(m => m.teamAId && m.teamBId).map(m => {
               const tA = teams.find(t => t.id === m.teamAId);
               const tB = teams.find(t => t.id === m.teamBId);
-              return <option key={m.id} value={m.id}>{tA?.name} vs {tB?.name}</option>;
+              return <option key={m.id} value={m.id}>{getMatchLabel(m)} — {tA?.name} vs {tB?.name}</option>;
             })}
           </select>
         );
@@ -305,7 +306,7 @@ export default function AdminPortal() {
             {liveMatches.map(m => {
               const tA = teams.find(t => t.id === m.teamAId);
               const tB = teams.find(t => t.id === m.teamBId);
-              return <option key={m.id} value={m.id}>{tA?.name} vs {tB?.name} ({m.scoreA}-{m.scoreB})</option>;
+              return <option key={m.id} value={m.id}>{getMatchLabel(m)} — {tA?.name} vs {tB?.name} ({m.scoreA}-{m.scoreB})</option>;
             })}
           </select>
           {form.matchId && (() => {
@@ -333,7 +334,7 @@ export default function AdminPortal() {
             {liveMatches.map(m => {
               const tA = teams.find(t => t.id === m.teamAId);
               const tB = teams.find(t => t.id === m.teamBId);
-              return <option key={m.id} value={m.id}>{tA?.name} vs {tB?.name} ({m.scoreA}-{m.scoreB})</option>;
+              return <option key={m.id} value={m.id}>{getMatchLabel(m)} — {tA?.name} vs {tB?.name} ({m.scoreA}-{m.scoreB})</option>;
             })}
           </select>
           {form.matchId && (() => {
@@ -460,7 +461,7 @@ export default function AdminPortal() {
                 style={{ borderLeftColor: '#ef4444' }}>
                 <div>
                   <div className="font-medium text-sm text-gray-900">{tA?.name} vs {tB?.name}</div>
-                  <div className="text-xs text-gray-500 capitalize">{m.game} · {m.court}</div>
+                  <div className="text-xs text-gray-500">{getMatchLabel(m)} · {m.court}</div>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="font-bold text-gray-900">{m.scoreA}–{m.scoreB}</span>

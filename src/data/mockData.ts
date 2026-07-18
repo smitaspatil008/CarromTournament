@@ -94,7 +94,7 @@ export const PLAYERS: Player[] = [
   mkP('sp7',  'Shruti',               img('Shruti Pande  Photo.jpg'),                        'st3'),
   mkP('sp8',  'Sanika',               img('100282 - Sanika Khire.jpg'),                      'st3'),
   mkP('sp9',  'Anushree',             img('Anushree.jpg'),                                   'st3'),
-  mkP('sp10', 'Shubham Shravan',      img('Gauri Shirsath.jpg'),                             'st4'),
+  mkP('sp10', 'Shubham Shravan',      placeholder(33),                                       'st4'),
   mkP('sp11', 'Aditya Vats',          img('Aditya Vats - Copy (1) (1).JPG'),                 'st4'),
   mkP('sp12', 'Pranav Deshpande',     img('Pranav Deshpande.JPG'),                           'st4'),
   mkP('sp13', 'Vijay Mahadik',        img('Vijay Mahadik Emp ID 100184.JPG'),                'st5'),
@@ -107,7 +107,7 @@ export const PLAYERS: Player[] = [
   mkP('sp20', 'Gauri Dighe',          img('Gauri Dighe 100179.JPG'),                         'st7'),
   mkP('sp21', 'Gaurav Thawale',       img('Gaurav Thawale 100188.JPG'),                      'st7'),
   mkP('sp22', 'Madhura Jadhav',       img('Madhura Jadhav 100263.jpg'),                      'st8'),
-  mkP('sp23', 'Chaitanya Prabhu',     img('Harshita Mathur 100192 (1).jpg'),                 'st8'),
+  mkP('sp23', 'Chaitanya Prabhu',     placeholder(57),                                       'st8'),
   mkP('sp24', 'Aboli Deshmukh',       img('Aboli.jpg'),                                     'st8'),
 ];
 

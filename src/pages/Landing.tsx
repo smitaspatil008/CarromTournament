@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { Trophy, Calendar, Users, TrendingUp, Bell, ArrowRight, Play, Target, Brain, Award, Gamepad2, Zap, Newspaper, Plus, X, Trash2, ChevronLeft, ChevronRight } from 'lucide-react';
 import Layout from '../components/layout/Layout';
 import LiveBadge from '../components/ui/LiveBadge';
 import CountdownTimer from '../components/ui/CountdownTimer';
 import MatchCard from '../components/tournament/MatchCard';
 import TrophySection from '../components/tournament/TrophySection';
+import ShareButton from '../components/ui/ShareButton';
 import { useTournamentStore, useLiveMatches, useUpcomingMatches } from '../store/tournamentStore';
 import toast from 'react-hot-toast';
 
@@ -47,6 +48,24 @@ export default function Landing() {
   const updatesScrollRef = useRef<HTMLDivElement>(null);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [updateForm, setUpdateForm] = useState({ image: '', text: '', playerId: '', teamId: '' });
+  const [highlightId, setHighlightId] = useState<string | null>(null);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  useEffect(() => {
+    const announcementId = searchParams.get('announcement');
+    const updateId = searchParams.get('update');
+    const targetId = announcementId || updateId;
+    if (targetId) {
+      setHighlightId(targetId);
+      searchParams.delete('announcement');
+      searchParams.delete('update');
+      setSearchParams(searchParams, { replace: true });
+      setTimeout(() => {
+        document.getElementById(`item-${targetId}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 500);
+      setTimeout(() => setHighlightId(null), 4000);
+    }
+  }, []);
 
   const getTeam = (id: string) => teams.find((t) => t.id === id);
   const getPlayer = (id: string) => players.find((p) => p.id === id);
@@ -275,9 +294,12 @@ export default function Landing() {
                 const team = teams.find((t) => t.id === u.teamId);
                 return (
                   <motion.div key={u.id}
+                    id={`item-${u.id}`}
                     initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: i * 0.1, type: 'spring', stiffness: 200, damping: 20 }}
-                    className="flex-shrink-0 w-[280px] sm:w-[300px] snap-start bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
+                    className={`flex-shrink-0 w-[280px] sm:w-[300px] snap-start bg-white rounded-xl border overflow-hidden hover:shadow-md transition-all duration-500 ${
+                      highlightId === u.id ? 'border-blue-400 ring-2 ring-blue-200' : 'border-gray-200'
+                    }`}>
                     {u.image && (
                       <div className="aspect-video bg-gray-100 overflow-hidden">
                         <img src={u.image} alt="" loading="lazy" className="w-full h-full object-cover" />
@@ -301,6 +323,13 @@ export default function Landing() {
                         </div>
                         <div className="flex items-center gap-1.5 flex-shrink-0">
                           <span className="text-[10px] text-gray-400">{new Date(u.createdAt).toLocaleDateString([], { month: 'short', day: 'numeric' })}</span>
+                          <ShareButton
+                            title="Josh Tournament Update"
+                            text={u.text}
+                            url={`${window.location.origin}/?update=${u.id}`}
+                            size="sm"
+                            className="w-6 h-6"
+                          />
                           {isAdmin && (
                             <button onClick={() => { deleteUpdate(u.id); toast.success('Update deleted'); }}
                               className="w-6 h-6 rounded flex items-center justify-center hover:bg-red-50">
@@ -334,7 +363,10 @@ export default function Landing() {
                 initial={{ opacity: 0, x: -12 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: i * 0.05 }}
-                className="bg-white rounded-xl border border-gray-200 px-5 py-4 flex items-start gap-4 hover:shadow-sm transition-shadow"
+                id={`item-${a.id}`}
+                className={`bg-white rounded-xl border px-5 py-4 flex items-start gap-4 hover:shadow-sm transition-all duration-500 ${
+                  highlightId === a.id ? 'border-blue-400 ring-2 ring-blue-200 bg-blue-50' : 'border-gray-200'
+                }`}
               >
                 <span className="text-2xl flex-shrink-0">{ANNOUNCEMENT_ICONS[a.type]}</span>
                 <div className="min-w-0 flex-1">
@@ -342,12 +374,20 @@ export default function Landing() {
                   <p className="text-sm text-gray-500 mt-0.5">{a.body}</p>
                   <p className="text-xs text-gray-400 mt-1">{new Date(a.createdAt).toLocaleDateString([], { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</p>
                 </div>
-                <span className={`text-xs px-2 py-0.5 rounded-full flex-shrink-0 font-medium ${
-                  a.type === 'champion' ? 'bg-yellow-50 text-yellow-600' :
-                  a.type === 'winner' ? 'bg-green-50 text-green-600' :
-                  a.type === 'match' ? 'bg-red-50 text-red-600' :
-                  'bg-blue-50 text-blue-600'
-                }`}>{a.type}</span>
+                <div className="flex items-center gap-2 flex-shrink-0">
+                  <ShareButton
+                    title={a.title}
+                    text={`${a.title} — ${a.body}`}
+                    url={`${window.location.origin}/?announcement=${a.id}`}
+                    size="sm"
+                  />
+                  <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${
+                    a.type === 'champion' ? 'bg-yellow-50 text-yellow-600' :
+                    a.type === 'winner' ? 'bg-green-50 text-green-600' :
+                    a.type === 'match' ? 'bg-red-50 text-red-600' :
+                    'bg-blue-50 text-blue-600'
+                  }`}>{a.type}</span>
+                </div>
               </motion.div>
             ))}
           </div>
@@ -431,7 +471,7 @@ export default function Landing() {
             <div className="flex gap-3 mt-5">
               <button onClick={() => setShowUpdateModal(false)} className="flex-1 py-3 rounded-lg border border-gray-200 text-sm font-medium text-gray-500 hover:bg-gray-50">Cancel</button>
               <button onClick={() => {
-                if (!updateForm.image || !updateForm.text) { toast.error('Image and description are required'); return; }
+                if (!updateForm.text) { toast.error('Description is required'); return; }
                 addUpdate({
                   image: updateForm.image,
                   text: updateForm.text,

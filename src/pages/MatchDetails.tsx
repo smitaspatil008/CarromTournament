@@ -4,7 +4,9 @@ import { ArrowLeft, MapPin, Clock, Trophy } from 'lucide-react';
 import Layout from '../components/layout/Layout';
 import LiveBadge from '../components/ui/LiveBadge';
 import AnimatedScore from '../components/ui/AnimatedScore';
+import ShareButton from '../components/ui/ShareButton';
 import { useTournamentStore } from '../store/tournamentStore';
+import { getMatchLabel } from '../utils/matchLabels';
 
 export default function MatchDetails() {
   const { id } = useParams<{ id: string }>();
@@ -46,13 +48,20 @@ export default function MatchDetails() {
               isDone ? 'bg-green-100 text-green-600' : isLive ? '' : 'bg-blue-100 text-blue-600'
             }`}>{!isLive && match.status}</span>
           </div>
-          <p className="text-gray-500 text-sm capitalize">{match.game} · {match.round}</p>
+          <p className="text-gray-500 text-sm">{getMatchLabel(match)}</p>
         </div>
-        <div className="text-right text-sm text-gray-500">
-          <div className="flex items-center gap-1 justify-end"><MapPin className="w-3 h-3" />{match.court}</div>
-          <div className="flex items-center gap-1 justify-end mt-0.5">
-            <Clock className="w-3 h-3" />
-            {new Date(match.scheduledAt).toLocaleString([], { month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' })}
+        <div className="flex items-center gap-3">
+          <ShareButton
+            title={`${teamA?.name} vs ${teamB?.name} — ${getMatchLabel(match)}`}
+            text={isDone ? `${teamA?.name} ${match.scoreA} - ${match.scoreB} ${teamB?.name}` : `${teamA?.name} vs ${teamB?.name}`}
+            url={`${window.location.origin}/match/${match.id}`}
+          />
+          <div className="text-right text-sm text-gray-500">
+            <div className="flex items-center gap-1 justify-end"><MapPin className="w-3 h-3" />{match.court}</div>
+            <div className="flex items-center gap-1 justify-end mt-0.5">
+              <Clock className="w-3 h-3" />
+              {new Date(match.scheduledAt).toLocaleString([], { month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' })}
+            </div>
           </div>
         </div>
       </div>

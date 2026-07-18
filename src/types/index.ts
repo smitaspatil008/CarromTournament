@@ -106,7 +106,7 @@ export interface HistoryEntry {
 
 export interface TournamentUpdate {
   id: string;
-  image: string;
+  image?: string;
   text: string;
   playerId?: string;
   teamId?: string;
