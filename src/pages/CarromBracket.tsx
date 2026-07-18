@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Target, Info } from 'lucide-react';
+import { Target, Info, Download } from 'lucide-react';
 import Layout from '../components/layout/Layout';
 import KnockoutBracket from '../components/tournament/KnockoutBracket';
 import { useTournamentStore } from '../store/tournamentStore';
@@ -22,6 +22,10 @@ export default function CarromBracket() {
           <h1 className="font-display font-bold text-2xl sm:text-3xl text-blue-600 font-extrabold">Carrom Bracket</h1>
         </div>
         <p className="text-gray-500 text-sm">Knockout tournament · Round of 16 to Champion</p>
+        <a href="/Carrom_Rulebook.pdf" download
+          className="inline-flex items-center gap-2 mt-3 px-4 py-2 rounded-lg text-sm font-semibold text-blue-600 bg-blue-50 border border-blue-200 hover:bg-blue-100 transition-colors">
+          <Download className="w-4 h-4" /> Download Rulebook
+        </a>
       </div>
 
       {/* Summary cards */}
