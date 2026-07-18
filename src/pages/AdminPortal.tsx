@@ -8,7 +8,7 @@ import toast from 'react-hot-toast';
 import type { GameType } from '../types';
 import { getMatchLabel } from '../utils/matchLabels';
 
-type Modal = 'addTeam' | 'editTeam' | 'addPlayer' | 'editPlayer' | 'startMatch' | 'updateScore' | 'finishMatch' | 'deletePlayer' | 'deleteTeam' | 'addMatch' | 'editMatch' | 'changePin' | 'deleteCompleted' | null;
+type Modal = 'addTeam' | 'editTeam' | 'addPlayer' | 'editPlayer' | 'startMatch' | 'updateScore' | 'finishMatch' | 'editResult' | 'deletePlayer' | 'deleteTeam' | 'addMatch' | 'editMatch' | 'changePin' | 'deleteCompleted' | null;
 
 export default function AdminPortal() {
   const store = useTournamentStore();
@@ -46,6 +46,7 @@ export default function AdminPortal() {
     { id: 'startMatch', icon: '▶️', label: 'Start Match', color: '#059669', desc: `${upcomingMatches.length} upcoming`, adminOnly: false },
     { id: 'updateScore', icon: '📊', label: 'Update Score', color: '#2563EB', desc: `${liveMatches.length} live`, adminOnly: false },
     { id: 'finishMatch', icon: '✅', label: 'Finish Match', color: '#D97706', desc: 'End a live match', adminOnly: false },
+    { id: 'editResult', icon: '📝', label: 'Edit Result', color: '#8b5cf6', desc: `${completedMatches.length} completed`, adminOnly: false },
     { id: 'deleteCompleted', icon: '🧹', label: 'Delete Completed', color: '#78716c', desc: `${completedMatches.length} completed`, adminOnly: true },
     { id: 'changePin', icon: '🔑', label: 'Change PIN', color: '#0d9488', desc: 'Update access PIN', adminOnly: true },
   ];
@@ -147,6 +148,17 @@ export default function AdminPortal() {
       finishMatch(m.id, winner);
       const winLabel = winner === 'draw' ? 'Draw' : teams.find(t => t.id === winner)?.name;
       toast.success(`Match finished! Result: ${winLabel}`);
+    } else if (modal === 'editResult') {
+      if (!form.matchId) { toast.error('Select a match'); return; }
+      const m = matches.find(x => x.id === form.matchId);
+      if (!m) return;
+      const newScoreA = Number(form.scoreA ?? m.scoreA);
+      const newScoreB = Number(form.scoreB ?? m.scoreB);
+      updateScore(m.id, newScoreA, newScoreB);
+      const winner = form.winner || (newScoreA > newScoreB ? m.teamAId : newScoreB > newScoreA ? m.teamBId : 'draw');
+      finishMatch(m.id, winner);
+      const winLabel = winner === 'draw' ? 'Draw' : teams.find(t => t.id === winner)?.name;
+      toast.success(`Result updated! Winner: ${winLabel}`);
     } else if (modal === 'changePin') {
       if (!form.newPin || form.newPin.length < 4) { toast.error('PIN must be at least 4 digits'); return; }
       if (form.newPin !== form.confirmPin) { toast.error('PINs do not match'); return; }
@@ -366,6 +378,48 @@ export default function AdminPortal() {
             );
           })()}
         </>;
+      case 'editResult': {
+        const selMatch = form.matchId ? matches.find(x => x.id === form.matchId) : null;
+        return <>
+          <select value={form.matchId ?? ''} onChange={e => {
+            const m = matches.find(x => x.id === e.target.value);
+            if (m) setForm({ ...form, matchId: e.target.value, scoreA: String(m.scoreA), scoreB: String(m.scoreB), winner: m.winner || '' });
+            else setForm({ ...form, matchId: '' });
+          }} className={inputClasses}>
+            <option value="">Select Completed Match</option>
+            {completedMatches.map(m => {
+              const tA = teams.find(t => t.id === m.teamAId);
+              const tB = teams.find(t => t.id === m.teamBId);
+              return <option key={m.id} value={m.id}>{getMatchLabel(m)} — {tA?.name} vs {tB?.name} ({m.scoreA}-{m.scoreB})</option>;
+            })}
+          </select>
+          {selMatch && (() => {
+            const tA = teams.find(t => t.id === selMatch.teamAId);
+            const tB = teams.find(t => t.id === selMatch.teamBId);
+            return <>
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="text-xs text-gray-500 mb-1 block">{tA?.name} Score</label>
+                  <input type="number" min={0} value={form.scoreA ?? ''} onChange={e => setForm({ ...form, scoreA: e.target.value })} className={inputClasses} />
+                </div>
+                <div>
+                  <label className="text-xs text-gray-500 mb-1 block">{tB?.name} Score</label>
+                  <input type="number" min={0} value={form.scoreB ?? ''} onChange={e => setForm({ ...form, scoreB: e.target.value })} className={inputClasses} />
+                </div>
+              </div>
+              <div>
+                <label className="text-xs text-gray-500 mb-1 block">Winner</label>
+                <select value={form.winner ?? ''} onChange={e => setForm({ ...form, winner: e.target.value })} className={inputClasses}>
+                  <option value="">Auto (higher score)</option>
+                  <option value={selMatch.teamAId}>{tA?.name}</option>
+                  <option value={selMatch.teamBId}>{tB?.name}</option>
+                  <option value="draw">Draw</option>
+                </select>
+              </div>
+            </>;
+          })()}
+        </>;
+      }
       case 'changePin':
         return <>
           <input type="password" placeholder="New PIN (min 4 digits)" value={form.newPin ?? ''} onChange={e => setForm({ ...form, newPin: e.target.value })} className={`${inputClasses} text-center text-xl tracking-[0.3em]`} maxLength={6} />
