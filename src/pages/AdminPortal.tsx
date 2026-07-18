@@ -485,7 +485,7 @@ export default function AdminPortal() {
 
       {/* Action buttons */}
       <h2 className="font-semibold mb-4 text-gray-900">Quick Actions</h2>
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 sm:gap-4 mb-8">
         {actions.map((a, i) => (
           <motion.button key={a.id}
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
@@ -493,7 +493,7 @@ export default function AdminPortal() {
             whileHover={{ y: -2 }}
             whileTap={{ scale: 0.96 }}
             onClick={() => handleAction(a.id)}
-            className="bg-white rounded-2xl border border-gray-200 p-5 flex flex-col items-center gap-2 text-center cursor-pointer hover:shadow-md transition-shadow"
+            className="bg-white rounded-xl sm:rounded-2xl border border-gray-200 p-3 sm:p-5 flex flex-col items-center gap-1.5 sm:gap-2 text-center cursor-pointer hover:shadow-md transition-shadow"
           >
             <div className="text-2xl sm:text-3xl">{a.icon}</div>
             <div className="font-semibold text-xs sm:text-sm" style={{ color: a.color }}>{a.label}</div>

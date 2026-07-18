@@ -51,7 +51,7 @@ function MatchCard({ match, teamA, teamB, round, isChampion }: {
   );
 
   return (
-    <Link to={`/match/${match.id}`} className="block w-[150px] sm:w-[180px]">
+    <Link to={`/match/${match.id}`} className="block w-[130px] sm:w-[180px]">
       <motion.div
         whileHover={{ scale: 1.03 }}
         transition={{ type: 'spring', stiffness: 400, damping: 20 }}
@@ -78,8 +78,8 @@ function MatchCard({ match, teamA, teamB, round, isChampion }: {
 
 function BracketPair({ top, bottom, next }: { top: React.ReactNode; bottom: React.ReactNode; next: React.ReactNode }) {
   return (
-    <div className="flex items-center gap-3 sm:gap-5">
-      <div className="flex flex-col gap-2">
+    <div className="flex items-center gap-2 sm:gap-5">
+      <div className="flex flex-col gap-1.5 sm:gap-2">
         {top}
         {bottom}
       </div>
@@ -139,30 +139,30 @@ export default function KnockoutBracket({ matches, teams }: Props) {
     <div className="overflow-x-auto pb-4 -mx-3 sm:-mx-6 px-3 sm:px-6">
       <div className="inline-block">
         {/* Round headers */}
-        <div className="flex items-center mb-3 gap-3 sm:gap-5">
-          <div className="w-[150px] sm:w-[180px] flex justify-center">
+        <div className="flex items-center mb-3 gap-2 sm:gap-5">
+          <div className="w-[130px] sm:w-[180px] flex justify-center">
             <span className={`text-[9px] sm:text-[10px] font-bold px-3 py-1 rounded-full text-white ${ROUND_COLORS.r16.bg}`}>Round of 16</span>
           </div>
-          <div className="w-[150px] sm:w-[180px] flex justify-center">
+          <div className="w-[130px] sm:w-[180px] flex justify-center">
             <span className={`text-[9px] sm:text-[10px] font-bold px-3 py-1 rounded-full text-white ${ROUND_COLORS.qf.bg}`}>Quarter Finals</span>
           </div>
-          <div className="w-[150px] sm:w-[180px] flex justify-center">
+          <div className="w-[130px] sm:w-[180px] flex justify-center">
             <span className={`text-[9px] sm:text-[10px] font-bold px-3 py-1 rounded-full text-white ${ROUND_COLORS.sf.bg}`}>Semi Finals</span>
           </div>
-          <div className="w-[150px] sm:w-[180px] flex justify-center">
+          <div className="w-[130px] sm:w-[180px] flex justify-center">
             <span className={`text-[9px] sm:text-[10px] font-bold px-3 py-1 rounded-full text-white ${ROUND_COLORS.final.bg}`}>Final</span>
           </div>
           {champion && (
-            <div className="w-[120px] sm:w-[140px] flex justify-center">
+            <div className="w-[100px] sm:w-[140px] flex justify-center">
               <span className="text-[9px] sm:text-[10px] font-bold px-3 py-1 rounded-full text-white bg-yellow-500">Champion</span>
             </div>
           )}
         </div>
 
         {/* Nested bracket: R16 → QF → SF → Final */}
-        <div className="flex items-center gap-3 sm:gap-5">
+        <div className="flex items-center gap-2 sm:gap-5">
           {/* Top half: SF1 ← QF1,QF2 ← M1-M4 */}
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-4 sm:gap-6">
             <BracketPair
               top={
                 <BracketPair
@@ -212,7 +212,7 @@ export default function KnockoutBracket({ matches, teams }: Props) {
               <motion.div
                 initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}
                 transition={{ duration: 0.6, type: 'spring' }}
-                className="w-[120px] sm:w-[140px] rounded-2xl p-3 text-center bg-gradient-to-b from-yellow-50 to-amber-50 border-2 border-yellow-300 shadow-lg shadow-yellow-100"
+                className="w-[100px] sm:w-[140px] rounded-2xl p-2 sm:p-3 text-center bg-gradient-to-b from-yellow-50 to-amber-50 border-2 border-yellow-300 shadow-lg shadow-yellow-100"
               >
                 <Trophy className="w-6 h-6 text-yellow-500 mx-auto mb-1" />
                 <div className="w-8 h-8 rounded-lg flex items-center justify-center text-white font-bold text-sm mx-auto mb-1 shadow-md" style={{ background: champion.color }}>

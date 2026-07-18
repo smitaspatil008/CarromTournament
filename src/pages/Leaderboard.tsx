@@ -43,7 +43,7 @@ export default function Leaderboard() {
       {/* Top 3 Podium */}
       <div className="mb-10">
         <h2 className="font-semibold mb-4 capitalize text-gray-900">{game} Podium</h2>
-        <div className="flex items-end justify-center gap-3 sm:gap-4 h-52 sm:h-56">
+        <div className="flex items-end justify-center gap-2 sm:gap-4 h-48 sm:h-56">
           {[1, 0, 2].map((idx) => {
             const t = gameTeams[idx];
             if (!t) return null;
@@ -52,7 +52,7 @@ export default function Leaderboard() {
               <motion.div key={t.id}
                 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: idx * 0.15, type: 'spring', stiffness: 200 }}
-                className="flex flex-col items-center w-[90px] sm:w-[100px]"
+                className="flex flex-col items-center w-[80px] sm:w-[100px]"
               >
                 <div className="text-2xl sm:text-3xl mb-1">{MEDAL_ICONS[idx]}</div>
                 <div className="w-10 h-10 sm:w-14 sm:h-14 rounded-xl flex items-center justify-center text-white font-bold text-sm sm:text-lg mb-1 sm:mb-2"

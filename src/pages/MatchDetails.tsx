@@ -40,7 +40,7 @@ export default function MatchDetails() {
       </Link>
 
       {/* Status bar */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
         <div>
           <div className="flex items-center gap-2 mb-1">
             {isLive && <LiveBadge />}
@@ -56,7 +56,7 @@ export default function MatchDetails() {
             text={isDone ? `${teamA?.name} ${match.scoreA} - ${match.scoreB} ${teamB?.name}` : `${teamA?.name} vs ${teamB?.name}`}
             url={`${window.location.origin}/match/${match.id}`}
           />
-          <div className="text-right text-sm text-gray-500">
+          <div className="text-right text-xs sm:text-sm text-gray-500">
             <div className="flex items-center gap-1 justify-end"><MapPin className="w-3 h-3" />{match.court}</div>
             <div className="flex items-center gap-1 justify-end mt-0.5">
               <Clock className="w-3 h-3" />
@@ -71,7 +71,7 @@ export default function MatchDetails() {
         className="rounded-2xl overflow-hidden mb-8 bg-white border border-gray-200"
       >
         <div className="p-4 sm:p-12">
-          <div className="flex items-center justify-between gap-2 sm:gap-4">
+          <div className="flex items-center justify-between gap-1 sm:gap-4">
             {/* Team A */}
             <motion.div initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.1 }}
               className="flex-1 flex flex-col items-center text-center">
