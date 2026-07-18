@@ -326,7 +326,7 @@ export default function Landing() {
                           <ShareButton
                             title="Josh Tournament Update"
                             text={u.text}
-                            url={`${window.location.origin}/?update=${u.id}`}
+                            url={`${window.location.origin}/post/${u.id}`}
                             size="sm"
                             className="w-6 h-6"
                           />
@@ -378,7 +378,7 @@ export default function Landing() {
                   <ShareButton
                     title={a.title}
                     text={`${a.title} — ${a.body}`}
-                    url={`${window.location.origin}/?announcement=${a.id}`}
+                    url={`${window.location.origin}/announcement/${a.id}`}
                     size="sm"
                   />
                   <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${

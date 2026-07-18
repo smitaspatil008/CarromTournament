@@ -18,6 +18,7 @@ import MatchDetails from './pages/MatchDetails';
 import AdminPortal from './pages/AdminPortal';
 import UmpireScreen from './pages/UmpireScreen';
 import Leaderboard from './pages/Leaderboard';
+import { SharedPost, SharedAnnouncement } from './pages/SharedContent';
 
 function AnimatedRoutes() {
   return (
@@ -36,6 +37,8 @@ function AnimatedRoutes() {
       <Route path="/leaderboard" element={<Leaderboard />} />
       <Route path="/admin"       element={<AdminPortal />} />
       <Route path="/umpire/:id"  element={<UmpireScreen />} />
+      <Route path="/post/:id"   element={<SharedPost />} />
+      <Route path="/announcement/:id" element={<SharedAnnouncement />} />
     </Routes>
   );
 }
