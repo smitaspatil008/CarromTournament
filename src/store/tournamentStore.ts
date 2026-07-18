@@ -101,18 +101,22 @@ export const useTournamentStore = create<TournamentState>()(
     breakScores: {},
     sequenceStats: {},
     updates: [],
-    isAdmin: false,
+    isAdmin: localStorage.getItem('josh_role') !== null,
     adminPin: '123456',
-    userRole: null,
+    userRole: (localStorage.getItem('josh_role') as 'admin' | 'umpire') || null,
 
     login: (pin, role) => {
       if (pin === get().adminPin) {
+        localStorage.setItem('josh_role', role);
         set({ isAdmin: true, userRole: role });
         return true;
       }
       return false;
     },
-    logout: () => set({ isAdmin: false, userRole: null }),
+    logout: () => {
+      localStorage.removeItem('josh_role');
+      set({ isAdmin: false, userRole: null });
+    },
 
     addTeam: (team) =>
       set((s) => ({ teams: [...s.teams, { ...team, id: 't_' + uid() }] })),
