@@ -102,7 +102,7 @@ export const useTournamentStore = create<TournamentState>()(
     sequenceStats: {},
     updates: [],
     isAdmin: localStorage.getItem('josh_role') !== null,
-    adminPin: '123456',
+    adminPin: localStorage.getItem('josh_pin') || '123456',
     userRole: (localStorage.getItem('josh_role') as 'admin' | 'umpire') || null,
 
     login: (pin, role) => {
@@ -282,7 +282,10 @@ export const useTournamentStore = create<TournamentState>()(
     deleteUpdate: (id) =>
       set((s) => ({ updates: s.updates.filter((u) => u.id !== id) })),
 
-    changePin: (newPin) => set({ adminPin: newPin }),
+    changePin: (newPin) => {
+      localStorage.setItem('josh_pin', newPin);
+      set({ adminPin: newPin });
+    },
     deleteCompletedMatches: () =>
       set((s) => ({ matches: s.matches.filter((m) => m.status !== 'completed') })),
 
@@ -318,7 +321,14 @@ export function initFirebaseSync() {
     const data = snapshot.val();
     _skipSync = true;
     if (data && data._v === DATA_VERSION) {
-      useTournamentStore.setState({ ...data, _hydrated: true });
+      const localPin = localStorage.getItem('josh_pin');
+      const localRole = localStorage.getItem('josh_role') as 'admin' | 'umpire' | null;
+      useTournamentStore.setState({
+        ...data,
+        _hydrated: true,
+        ...(localPin ? { adminPin: localPin } : {}),
+        ...(localRole ? { isAdmin: true, userRole: localRole } : {}),
+      });
     } else {
       const seed = getSyncData(useTournamentStore.getState());
       fbSet(DB_REF, seed);
