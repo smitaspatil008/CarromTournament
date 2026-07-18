@@ -17,9 +17,6 @@ const ROUND_COLORS: Record<string, { bg: string; label: string }> = {
   final: { bg: 'bg-yellow-500', label: 'Final' },
 };
 
-const CARD_H = 56;
-const GAP = 8;
-
 function MatchCard({ match, teamA, teamB, round, isChampion }: {
   match: Match; teamA?: Team; teamB?: Team; round: string; isChampion?: boolean;
 }) {
@@ -54,7 +51,7 @@ function MatchCard({ match, teamA, teamB, round, isChampion }: {
   );
 
   return (
-    <Link to={`/match/${match.id}`} className="block">
+    <Link to={`/match/${match.id}`} className="block w-[150px] sm:w-[180px]">
       <motion.div
         whileHover={{ scale: 1.03 }}
         transition={{ type: 'spring', stiffness: 400, damping: 20 }}
@@ -79,13 +76,18 @@ function MatchCard({ match, teamA, teamB, round, isChampion }: {
   );
 }
 
-function getCardTop(roundIndex: number, posInRound: number): number {
-  if (roundIndex === 0) {
-    return posInRound * (CARD_H + GAP);
-  }
-  const prevTop1 = getCardTop(roundIndex - 1, posInRound * 2);
-  const prevTop2 = getCardTop(roundIndex - 1, posInRound * 2 + 1);
-  return (prevTop1 + prevTop2) / 2;
+function BracketPair({ top, bottom, next }: { top: React.ReactNode; bottom: React.ReactNode; next: React.ReactNode }) {
+  return (
+    <div className="flex items-center gap-3 sm:gap-5">
+      <div className="flex flex-col gap-2">
+        {top}
+        {bottom}
+      </div>
+      <div className="flex items-center">
+        {next}
+      </div>
+    </div>
+  );
 }
 
 export default function KnockoutBracket({ matches, teams }: Props) {
@@ -109,74 +111,119 @@ export default function KnockoutBracket({ matches, teams }: Props) {
     return undefined;
   };
 
-  const totalH = 8 * CARD_H + 7 * GAP;
-  const colW = 160;
-  const colGap = 16;
-  const headerH = 28;
+  const r16Card = (id: string) => {
+    const m = getMatch(id);
+    if (!m) return null;
+    return <MatchCard match={m} round="r16" teamA={getTeam(m.teamAId)} teamB={getTeam(m.teamBId)} />;
+  };
 
-  const rounds: { key: string; round: string; matches: Match[]; roundIdx: number }[] = [
-    { key: 'r16', round: 'r16', matches: r16, roundIdx: 0 },
-    { key: 'qf', round: 'qf', matches: qf, roundIdx: 1 },
-    { key: 'sf', round: 'sf', matches: sf, roundIdx: 2 },
-  ];
-  if (fin) rounds.push({ key: 'final', round: 'final', matches: [fin], roundIdx: 3 });
+  const qfCard = (id: string) => {
+    const m = getMatch(id);
+    if (!m) return null;
+    return <MatchCard match={m} round="qf" teamA={getTeamForMatch(m, 'A')} teamB={getTeamForMatch(m, 'B')} />;
+  };
 
-  const totalCols = rounds.length + (champion ? 1 : 0);
-  const totalW = totalCols * colW + (totalCols - 1) * colGap;
+  const sfCard = (id: string) => {
+    const m = getMatch(id);
+    if (!m) return null;
+    return <MatchCard match={m} round="sf" teamA={getTeamForMatch(m, 'A')} teamB={getTeamForMatch(m, 'B')} />;
+  };
+
+  const finalCard = fin ? (
+    <MatchCard match={fin} round="final"
+      teamA={getTeamForMatch(fin, 'A')} teamB={getTeamForMatch(fin, 'B')}
+      isChampion={fin.status === 'completed'} />
+  ) : null;
 
   return (
     <div className="overflow-x-auto pb-4 -mx-3 sm:-mx-6 px-3 sm:px-6">
-      <div className="relative" style={{ width: totalW, height: totalH + headerH }}>
-        {rounds.map((r, ci) => {
-          const rc = ROUND_COLORS[r.round];
-          const x = ci * (colW + colGap);
-          return (
-            <div key={r.key}>
-              {/* Round header */}
-              <div className="absolute" style={{ left: x, top: 0, width: colW }}>
-                <div className="flex justify-center">
-                  <span className={`text-[9px] sm:text-[10px] font-bold px-3 py-1 rounded-full text-white ${rc.bg}`}>
-                    {rc.label}
-                  </span>
-                </div>
-              </div>
-              {/* Cards */}
-              {r.matches.map((m, i) => {
-                const top = getCardTop(r.roundIdx, i) + headerH;
-                return (
-                  <div key={m.id} className="absolute" style={{ left: x, top, width: colW }}>
-                    <MatchCard match={m} round={r.round}
-                      teamA={r.roundIdx === 0 ? getTeam(m.teamAId) : getTeamForMatch(m, 'A')}
-                      teamB={r.roundIdx === 0 ? getTeam(m.teamBId) : getTeamForMatch(m, 'B')}
-                      isChampion={r.round === 'final' && m.status === 'completed'}
-                    />
-                  </div>
-                );
-              })}
-            </div>
-          );
-        })}
-
-        {/* Champion */}
-        {champion && (
-          <div className="absolute" style={{ left: rounds.length * (colW + colGap), top: headerH + getCardTop(3, 0) - 20, width: colW }}>
-            <div className="flex justify-center mb-2">
+      <div className="inline-block">
+        {/* Round headers */}
+        <div className="flex items-center mb-3 gap-3 sm:gap-5">
+          <div className="w-[150px] sm:w-[180px] flex justify-center">
+            <span className={`text-[9px] sm:text-[10px] font-bold px-3 py-1 rounded-full text-white ${ROUND_COLORS.r16.bg}`}>Round of 16</span>
+          </div>
+          <div className="w-[150px] sm:w-[180px] flex justify-center">
+            <span className={`text-[9px] sm:text-[10px] font-bold px-3 py-1 rounded-full text-white ${ROUND_COLORS.qf.bg}`}>Quarter Finals</span>
+          </div>
+          <div className="w-[150px] sm:w-[180px] flex justify-center">
+            <span className={`text-[9px] sm:text-[10px] font-bold px-3 py-1 rounded-full text-white ${ROUND_COLORS.sf.bg}`}>Semi Finals</span>
+          </div>
+          <div className="w-[150px] sm:w-[180px] flex justify-center">
+            <span className={`text-[9px] sm:text-[10px] font-bold px-3 py-1 rounded-full text-white ${ROUND_COLORS.final.bg}`}>Final</span>
+          </div>
+          {champion && (
+            <div className="w-[120px] sm:w-[140px] flex justify-center">
               <span className="text-[9px] sm:text-[10px] font-bold px-3 py-1 rounded-full text-white bg-yellow-500">Champion</span>
             </div>
-            <motion.div
-              initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.6, type: 'spring' }}
-              className="rounded-2xl p-3 text-center bg-gradient-to-b from-yellow-50 to-amber-50 border-2 border-yellow-300 shadow-lg shadow-yellow-100"
-            >
-              <Trophy className="w-6 h-6 text-yellow-500 mx-auto mb-1" />
-              <div className="w-8 h-8 rounded-lg flex items-center justify-center text-white font-bold text-sm mx-auto mb-1 shadow-md" style={{ background: champion.color }}>
-                {champion.logo}
-              </div>
-              <div className="font-bold text-[10px] text-yellow-700">{champion.name}</div>
-              <div className="text-[9px] text-yellow-600 font-semibold mt-0.5">CHAMPION</div>
-            </motion.div>
+          )}
+        </div>
+
+        {/* Nested bracket: R16 → QF → SF → Final */}
+        <div className="flex items-center gap-3 sm:gap-5">
+          {/* Top half: SF1 ← QF1,QF2 ← M1-M4 */}
+          <div className="flex flex-col gap-6">
+            <BracketPair
+              top={
+                <BracketPair
+                  top={r16Card('m1')}
+                  bottom={r16Card('m2')}
+                  next={qfCard('m9')}
+                />
+              }
+              bottom={
+                <BracketPair
+                  top={r16Card('m3')}
+                  bottom={r16Card('m4')}
+                  next={qfCard('m10')}
+                />
+              }
+              next={sfCard('m13')}
+            />
+
+            {/* Bottom half: SF2 ← QF3,QF4 ← M5-M8 */}
+            <BracketPair
+              top={
+                <BracketPair
+                  top={r16Card('m5')}
+                  bottom={r16Card('m6')}
+                  next={qfCard('m11')}
+                />
+              }
+              bottom={
+                <BracketPair
+                  top={r16Card('m7')}
+                  bottom={r16Card('m8')}
+                  next={qfCard('m12')}
+                />
+              }
+              next={sfCard('m14')}
+            />
           </div>
-        )}
+
+          {/* Final */}
+          <div className="flex items-center">
+            {finalCard}
+          </div>
+
+          {/* Champion */}
+          {champion && (
+            <div className="flex items-center">
+              <motion.div
+                initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}
+                transition={{ duration: 0.6, type: 'spring' }}
+                className="w-[120px] sm:w-[140px] rounded-2xl p-3 text-center bg-gradient-to-b from-yellow-50 to-amber-50 border-2 border-yellow-300 shadow-lg shadow-yellow-100"
+              >
+                <Trophy className="w-6 h-6 text-yellow-500 mx-auto mb-1" />
+                <div className="w-8 h-8 rounded-lg flex items-center justify-center text-white font-bold text-sm mx-auto mb-1 shadow-md" style={{ background: champion.color }}>
+                  {champion.logo}
+                </div>
+                <div className="font-bold text-[10px] text-yellow-700">{champion.name}</div>
+                <div className="text-[9px] text-yellow-600 font-semibold mt-0.5">CHAMPION</div>
+              </motion.div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
