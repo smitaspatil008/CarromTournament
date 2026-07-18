@@ -96,7 +96,7 @@ export default function SequenceGroups() {
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-2">
           <div className="w-10 h-10 rounded-xl flex items-center justify-center text-2xl bg-blue-600 text-white">🃏</div>
-          <h1 className="font-display font-bold text-3xl text-blue-600 font-extrabold">Sequence Tournament</h1>
+          <h1 className="font-display font-bold text-2xl sm:text-3xl text-blue-600 font-extrabold">Sequence Tournament</h1>
         </div>
         <p className="text-gray-500 text-sm">2 groups × 4 teams · Round-robin → Semifinals → Final</p>
       </div>

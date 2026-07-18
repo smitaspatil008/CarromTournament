@@ -77,7 +77,7 @@ export default function Landing() {
             style={{ background: 'radial-gradient(circle, #3b82f6 0%, transparent 70%)' }} />
         </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28 lg:py-36">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-28 lg:py-36">
           <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
             {/* Left content */}
             <div className="flex-1 text-center lg:text-left">
@@ -92,7 +92,7 @@ export default function Landing() {
 
               <motion.h1
                 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1, duration: 0.5 }}
-                className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold text-white leading-[1.1] mb-4"
+                className="text-3xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold text-white leading-[1.1] mb-4"
               >
                 Josh <br />
                 <span className="text-blue-400">Carrom & Sequence</span> <br />
@@ -101,7 +101,7 @@ export default function Landing() {
 
               <motion.p
                 initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
-                className="text-lg text-white/50 mb-8 max-w-xl mx-auto lg:mx-0">
+                className="text-sm sm:text-lg text-white/50 mb-6 sm:mb-8 max-w-xl mx-auto lg:mx-0">
                 Play Together. Compete Together. Celebrate Together.
               </motion.p>
 
@@ -122,7 +122,7 @@ export default function Landing() {
 
               {/* Stats row */}
               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }}
-                className="flex flex-wrap justify-center lg:justify-start gap-8">
+                className="flex flex-wrap justify-center lg:justify-start gap-4 sm:gap-8">
                 {[
                   { value: teams.length, label: 'Teams', icon: <Users className="w-4 h-4 text-blue-400" /> },
                   { value: players.length, label: 'Players', icon: <Users className="w-4 h-4 text-blue-400" /> },
@@ -171,7 +171,7 @@ export default function Landing() {
       </section>
 
       {/* ═══ CONTENT ═══ */}
-      <div id="content" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 space-y-16">
+      <div id="content" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-16 space-y-10 sm:space-y-16">
 
         {/* Live Matches */}
         {liveMatches.length > 0 && (
@@ -179,7 +179,7 @@ export default function Landing() {
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-3">
                 <LiveBadge />
-                <h2 className="font-bold text-2xl text-gray-900">Live Matches</h2>
+                <h2 className="font-bold text-xl sm:text-2xl text-gray-900">Live Matches</h2>
               </div>
               <Link to="/live" className="text-sm text-blue-600 hover:underline flex items-center gap-1">
                 View all <ArrowRight className="w-3 h-3" />
@@ -243,7 +243,7 @@ export default function Landing() {
               <div className="w-9 h-9 rounded-lg bg-blue-600 flex items-center justify-center text-white">
                 <Newspaper className="w-5 h-5" />
               </div>
-              <h2 className="font-bold text-2xl text-gray-900">Updates</h2>
+              <h2 className="font-bold text-xl sm:text-2xl text-gray-900">Updates</h2>
             </div>
             <div className="flex items-center gap-2">
               {updates.length > 1 && (
@@ -325,7 +325,7 @@ export default function Landing() {
             <div className="w-9 h-9 rounded-lg bg-blue-600 flex items-center justify-center text-white">
               <Bell className="w-5 h-5" />
             </div>
-            <h2 className="font-bold text-2xl text-gray-900">Announcements</h2>
+            <h2 className="font-bold text-xl sm:text-2xl text-gray-900">Announcements</h2>
           </div>
           <div className="space-y-3">
             {announcements.slice(0, 5).map((a, i) => (
@@ -355,7 +355,7 @@ export default function Landing() {
 
         {/* Quick nav */}
         <section>
-          <h2 className="font-bold text-2xl text-gray-900 mb-6">Explore Arena</h2>
+          <h2 className="font-bold text-xl sm:text-2xl text-gray-900 mb-6">Explore Arena</h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
             {[
               { label: 'Carrom', path: '/carrom', icon: '🎯', color: '#2563EB' },

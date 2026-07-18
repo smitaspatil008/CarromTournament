@@ -31,9 +31,9 @@ export default function Navbar() {
               <div className="w-9 h-9 rounded-lg bg-blue-600 flex items-center justify-center group-hover:bg-blue-700 transition-colors">
                 <Trophy className="w-5 h-5 text-white" />
               </div>
-              <div className="hidden sm:block">
+              <div>
                 <div className="font-bold text-[15px] text-gray-900 leading-none">Josh</div>
-                <div className="text-[11px] text-gray-500 leading-none mt-0.5">Carrom & Sequence</div>
+                <div className="text-[11px] text-gray-500 leading-none mt-0.5 hidden sm:block">Carrom & Sequence</div>
               </div>
             </Link>
 

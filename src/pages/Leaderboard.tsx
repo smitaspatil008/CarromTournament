@@ -21,7 +21,7 @@ export default function Leaderboard() {
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-2">
           <TrendingUp className="w-7 h-7 text-blue-600" />
-          <h1 className="font-display font-bold text-3xl text-blue-600 font-extrabold">Leaderboard</h1>
+          <h1 className="font-display font-bold text-2xl sm:text-3xl text-blue-600 font-extrabold">Leaderboard</h1>
         </div>
         <p className="text-gray-500 text-sm">Team rankings for Josh 2026</p>
       </div>

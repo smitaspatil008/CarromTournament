@@ -4,9 +4,9 @@ import { Trophy } from 'lucide-react';
 export default function Footer() {
   return (
     <footer className="border-t border-gray-200 bg-gray-50 mt-auto">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          <div className="md:col-span-2">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
+          <div className="col-span-2">
             <div className="flex items-center gap-2.5 mb-3">
               <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center">
                 <Trophy className="w-4 h-4 text-white" />

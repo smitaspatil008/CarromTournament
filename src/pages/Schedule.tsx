@@ -79,7 +79,7 @@ export default function Schedule() {
         <div>
           <div className="flex items-center gap-3 mb-2">
             <Calendar className="w-7 h-7 text-blue-600" />
-            <h1 className="font-display font-bold text-3xl text-blue-600 font-extrabold">Schedule</h1>
+            <h1 className="font-display font-bold text-2xl sm:text-3xl text-blue-600 font-extrabold">Schedule</h1>
           </div>
           <p className="text-gray-500 text-sm">Full match schedule for Josh Tournament 2026</p>
         </div>

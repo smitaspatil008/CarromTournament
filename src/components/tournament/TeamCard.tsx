@@ -27,18 +27,18 @@ export default function TeamCard({ team, players = [], delay = 0, onClick }: Pro
     >
       {/* Header */}
       <div className="h-2" style={{ background: team.color }} />
-      <div className="p-5">
+      <div className="p-4 sm:p-5">
         {/* Logo + name */}
-        <div className="flex items-start justify-between mb-4">
-          <div className="flex items-center gap-3">
+        <div className="flex items-start justify-between mb-3 sm:mb-4">
+          <div className="flex items-center gap-2 sm:gap-3 min-w-0">
             <div
-              className="w-14 h-14 rounded-2xl flex items-center justify-center text-white font-display font-bold text-xl shadow-sm"
+              className="w-10 h-10 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl flex items-center justify-center text-white font-display font-bold text-sm sm:text-xl shadow-sm flex-shrink-0"
               style={{ background: team.color }}
             >
               {team.logo}
             </div>
-            <div>
-              <h3 className="font-semibold text-gray-900">{team.name}</h3>
+            <div className="min-w-0">
+              <h3 className="font-semibold text-sm sm:text-base text-gray-900 truncate">{team.name}</h3>
               <span className={`inline-block text-[10px] font-semibold px-2 py-0.5 rounded-full mt-1 capitalize ${STATUS_STYLES[team.status]}`}>
                 {team.status}
               </span>
@@ -60,18 +60,18 @@ export default function TeamCard({ team, players = [], delay = 0, onClick }: Pro
         )}
 
         {/* Stats */}
-        <div className="grid grid-cols-3 gap-3">
-          <div className="bg-gray-50 rounded-xl p-3 text-center">
-            <div className="font-bold text-xl text-green-500">{team.wins}</div>
-            <div className="text-[10px] text-gray-500">Wins</div>
+        <div className="grid grid-cols-3 gap-2 sm:gap-3">
+          <div className="bg-gray-50 rounded-lg sm:rounded-xl p-2 sm:p-3 text-center">
+            <div className="font-bold text-lg sm:text-xl text-green-500">{team.wins}</div>
+            <div className="text-[9px] sm:text-[10px] text-gray-500">Wins</div>
           </div>
-          <div className="bg-gray-50 rounded-xl p-3 text-center">
-            <div className="font-bold text-xl text-red-500">{team.losses}</div>
-            <div className="text-[10px] text-gray-500">Losses</div>
+          <div className="bg-gray-50 rounded-lg sm:rounded-xl p-2 sm:p-3 text-center">
+            <div className="font-bold text-lg sm:text-xl text-red-500">{team.losses}</div>
+            <div className="text-[9px] sm:text-[10px] text-gray-500">Losses</div>
           </div>
-          <div className="bg-gray-50 rounded-xl p-3 text-center">
-            <div className="font-bold text-xl" style={{ color: team.color }}>{team.points}</div>
-            <div className="text-[10px] text-gray-500">Points</div>
+          <div className="bg-gray-50 rounded-lg sm:rounded-xl p-2 sm:p-3 text-center">
+            <div className="font-bold text-lg sm:text-xl" style={{ color: team.color }}>{team.points}</div>
+            <div className="text-[9px] sm:text-[10px] text-gray-500">Points</div>
           </div>
         </div>
 

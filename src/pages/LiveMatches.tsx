@@ -21,7 +21,7 @@ export default function LiveMatches() {
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-2">
           <LiveBadge />
-          <h1 className="font-display font-bold text-3xl text-blue-600 font-extrabold">Live Matches</h1>
+          <h1 className="font-display font-bold text-2xl sm:text-3xl text-blue-600 font-extrabold">Live Matches</h1>
         </div>
         <p className="text-gray-500 text-sm">{live.length} match{live.length !== 1 ? 'es' : ''} live right now</p>
       </div>

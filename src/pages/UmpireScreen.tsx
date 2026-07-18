@@ -263,7 +263,9 @@ export default function UmpireScreen() {
   };
 
   const openSequenceFinish = () => {
-    setSeqResult('teamA');
+    if (!match || !teamA || !teamB) return;
+    const autoResult = match.scoreA > match.scoreB ? 'teamA' : match.scoreB > match.scoreA ? 'teamB' : 'draw';
+    setSeqResult(autoResult as 'teamA' | 'teamB' | 'draw');
     setSeqA(0);
     setSeqB(0);
     setChipsA(0);
@@ -540,41 +542,72 @@ export default function UmpireScreen() {
         </div>
       </div>
 
-      {/* Carrom Finish Modal */}
-      {showFinish && isCarrom && (
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70"
-          onClick={() => setShowFinish(false)}>
-          <motion.div initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }}
-            onClick={(e) => e.stopPropagation()}
-            className="w-full max-w-sm rounded-2xl p-6 bg-gray-900 border border-gray-700 shadow-2xl">
-            <h3 className="font-bold text-white text-xl text-center mb-2">Declare Winner</h3>
-            <p className="text-gray-400 text-sm text-center mb-6">
-              Final Score: <span className="font-bold text-white">{match.scoreA}</span> – <span className="font-bold text-white">{match.scoreB}</span>
-            </p>
-            <div className="flex gap-4">
-              <motion.button whileTap={{ scale: 0.95 }}
-                onClick={() => handleFinishCarrom(teamA.id)}
-                className="flex-1 py-5 rounded-2xl flex flex-col items-center gap-2 font-bold text-white hover:brightness-110 transition-all"
-                style={{ background: teamA.color }}>
-                <span className="text-2xl">{teamA.logo}</span>
-                <span className="text-sm truncate max-w-full px-2">{teamA.name}</span>
+      {/* Carrom Finish Modal — system auto-determines winner */}
+      {showFinish && isCarrom && (() => {
+        const breaks = useTournamentStore.getState().breakScores[match.id] ?? [];
+        const tA = breaks.reduce((s, b) => s + b.scoreA, 0);
+        const tB = breaks.reduce((s, b) => s + b.scoreB, 0);
+        const isTied = tA === tB;
+        const winnerTeam = tA > tB ? teamA : teamB;
+        const loserTeam = tA > tB ? teamB : teamA;
+        return (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70"
+            onClick={() => setShowFinish(false)}>
+            <motion.div initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }}
+              onClick={(e) => e.stopPropagation()}
+              className="w-full max-w-sm rounded-2xl p-6 bg-gray-900 border border-gray-700 shadow-2xl">
+              <h3 className="font-bold text-white text-xl text-center mb-4">Match Result</h3>
+
+              {/* Score summary */}
+              <div className="flex items-center justify-around mb-5">
+                <div className="text-center">
+                  <div className="w-12 h-12 rounded-xl flex items-center justify-center text-white font-bold text-lg mx-auto mb-1" style={{ background: teamA.color }}>{teamA.logo}</div>
+                  <div className="text-xs text-gray-400 truncate max-w-[100px]">{teamA.name}</div>
+                  <div className="text-3xl font-black mt-1" style={{ color: teamA.color }}>{tA}</div>
+                </div>
+                <span className="text-gray-500 text-sm font-bold">VS</span>
+                <div className="text-center">
+                  <div className="w-12 h-12 rounded-xl flex items-center justify-center text-white font-bold text-lg mx-auto mb-1" style={{ background: teamB.color }}>{teamB.logo}</div>
+                  <div className="text-xs text-gray-400 truncate max-w-[100px]">{teamB.name}</div>
+                  <div className="text-3xl font-black mt-1" style={{ color: teamB.color }}>{tB}</div>
+                </div>
+              </div>
+
+              {/* System verdict */}
+              {isTied ? (
+                <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-4 text-center mb-5">
+                  <div className="text-yellow-400 font-bold text-sm mb-1">⚠ Scores are tied!</div>
+                  <p className="text-gray-400 text-xs">Scores are equal. Play a tie-breaker or update break scores before finishing.</p>
+                </div>
+              ) : (
+                <div className="bg-green-500/10 border border-green-500/30 rounded-xl p-4 text-center mb-5">
+                  <Trophy className="w-6 h-6 text-yellow-500 mx-auto mb-2" />
+                  <div className="text-green-400 font-bold text-sm">Winner: {winnerTeam.name}</div>
+                  <p className="text-gray-400 text-xs mt-1">
+                    {winnerTeam.logo} {tA > tB ? tA : tB} – {tA > tB ? tB : tA} {loserTeam.logo}
+                  </p>
+                </div>
+              )}
+
+              <motion.button whileTap={{ scale: 0.97 }}
+                onClick={() => handleFinishCarrom(winnerTeam.id)}
+                disabled={isTied}
+                className={`w-full py-4 rounded-2xl font-bold text-lg shadow-lg flex items-center justify-center gap-2 ${
+                  isTied
+                    ? 'bg-gray-700 text-gray-500 cursor-not-allowed'
+                    : 'bg-yellow-500 text-gray-900 hover:bg-yellow-400'
+                }`}>
+                <Trophy className="w-5 h-5" /> Publish Result
               </motion.button>
-              <motion.button whileTap={{ scale: 0.95 }}
-                onClick={() => handleFinishCarrom(teamB.id)}
-                className="flex-1 py-5 rounded-2xl flex flex-col items-center gap-2 font-bold text-white hover:brightness-110 transition-all"
-                style={{ background: teamB.color }}>
-                <span className="text-2xl">{teamB.logo}</span>
-                <span className="text-sm truncate max-w-full px-2">{teamB.name}</span>
-              </motion.button>
-            </div>
-            <button onClick={() => setShowFinish(false)}
-              className="w-full mt-4 py-3 text-gray-500 text-sm hover:text-gray-300 transition-colors">
-              Cancel
-            </button>
+              <button onClick={() => setShowFinish(false)}
+                className="w-full mt-3 py-3 text-gray-500 text-sm hover:text-gray-300 transition-colors">
+                Cancel
+              </button>
+            </motion.div>
           </motion.div>
-        </motion.div>
-      )}
+        );
+      })()}
 
       {/* Sequence Finish Modal — captures result, sequences, chips */}
       {showFinish && isSequence && (
@@ -584,36 +617,30 @@ export default function UmpireScreen() {
           <motion.div initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }}
             onClick={(e) => e.stopPropagation()}
             className="w-full max-w-sm rounded-2xl p-6 bg-gray-900 border border-gray-700 shadow-2xl overflow-y-auto max-h-[90vh]">
-            <h3 className="font-bold text-white text-xl text-center mb-1">End Match</h3>
-            <p className="text-gray-500 text-xs text-center mb-5">Record the match result and stats</p>
+            <h3 className="font-bold text-white text-xl text-center mb-1">Match Result</h3>
+            <p className="text-gray-500 text-xs text-center mb-4">System-determined from scores</p>
 
-            {/* Result selection */}
+            {/* Auto-determined result display */}
             <div className="mb-5">
-              <label className="text-gray-400 text-xs font-semibold uppercase tracking-wider mb-2 block">Match Result</label>
-              <div className="grid grid-cols-3 gap-2">
-                <button onClick={() => setSeqResult('teamA')}
-                  className={`py-3 rounded-xl text-xs font-bold text-center transition-all ${
-                    seqResult === 'teamA' ? 'ring-2 ring-offset-1 ring-offset-gray-900 text-white' : 'bg-gray-800 text-gray-400'
-                  }`}
-                  style={seqResult === 'teamA' ? { background: teamA.color } : {}}>
-                  <div className="text-lg mb-0.5">{teamA.logo}</div>
-                  Wins
-                </button>
-                <button onClick={() => setSeqResult('draw')}
-                  className={`py-3 rounded-xl text-xs font-bold text-center transition-all ${
-                    seqResult === 'draw' ? 'bg-yellow-500 text-gray-900 ring-2 ring-yellow-400 ring-offset-1 ring-offset-gray-900' : 'bg-gray-800 text-gray-400'
-                  }`}>
-                  <div className="text-lg mb-0.5">🤝</div>
-                  Draw
-                </button>
-                <button onClick={() => setSeqResult('teamB')}
-                  className={`py-3 rounded-xl text-xs font-bold text-center transition-all ${
-                    seqResult === 'teamB' ? 'ring-2 ring-offset-1 ring-offset-gray-900 text-white' : 'bg-gray-800 text-gray-400'
-                  }`}
-                  style={seqResult === 'teamB' ? { background: teamB.color } : {}}>
-                  <div className="text-lg mb-0.5">{teamB.logo}</div>
-                  Wins
-                </button>
+              <div className="flex items-center justify-around mb-3">
+                <div className="text-center">
+                  <div className="w-10 h-10 rounded-xl flex items-center justify-center text-white font-bold text-sm mx-auto mb-1" style={{ background: teamA.color }}>{teamA.logo}</div>
+                  <div className="text-xs text-gray-400 truncate max-w-[90px]">{teamA.name}</div>
+                  <div className="text-2xl font-black mt-1" style={{ color: teamA.color }}>{match.scoreA}</div>
+                </div>
+                <span className="text-gray-500 text-sm font-bold">VS</span>
+                <div className="text-center">
+                  <div className="w-10 h-10 rounded-xl flex items-center justify-center text-white font-bold text-sm mx-auto mb-1" style={{ background: teamB.color }}>{teamB.logo}</div>
+                  <div className="text-xs text-gray-400 truncate max-w-[90px]">{teamB.name}</div>
+                  <div className="text-2xl font-black mt-1" style={{ color: teamB.color }}>{match.scoreB}</div>
+                </div>
+              </div>
+              <div className={`rounded-xl p-3 text-center text-sm font-bold ${
+                seqResult === 'draw'
+                  ? 'bg-yellow-500/10 border border-yellow-500/30 text-yellow-400'
+                  : 'bg-green-500/10 border border-green-500/30 text-green-400'
+              }`}>
+                {seqResult === 'draw' ? '🤝 Draw' : `🏆 Winner: ${seqResult === 'teamA' ? teamA.name : teamB.name}`}
               </div>
             </div>
 
@@ -669,7 +696,7 @@ export default function UmpireScreen() {
             <motion.button whileTap={{ scale: 0.97 }}
               onClick={handleFinishSequence}
               className="w-full py-4 rounded-2xl font-bold text-lg bg-yellow-500 text-gray-900 hover:bg-yellow-400 shadow-lg flex items-center justify-center gap-2">
-              <Trophy className="w-5 h-5" /> Confirm & End Match
+              <Trophy className="w-5 h-5" /> Publish Result
             </motion.button>
             <button onClick={() => setShowFinish(false)}
               className="w-full mt-3 py-3 text-gray-500 text-sm hover:text-gray-300 transition-colors">

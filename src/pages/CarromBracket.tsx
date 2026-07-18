@@ -19,7 +19,7 @@ export default function CarromBracket() {
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-2">
           <div className="w-10 h-10 rounded-xl flex items-center justify-center text-white text-xl bg-blue-600">🎯</div>
-          <h1 className="font-display font-bold text-3xl text-blue-600 font-extrabold">Carrom Bracket</h1>
+          <h1 className="font-display font-bold text-2xl sm:text-3xl text-blue-600 font-extrabold">Carrom Bracket</h1>
         </div>
         <p className="text-gray-500 text-sm">Knockout tournament · Round of 16 to Champion</p>
       </div>
@@ -71,6 +71,9 @@ export default function CarromBracket() {
       </div>
 
       {/* Bracket */}
+      <div className="sm:hidden text-center text-xs text-gray-400 mb-2 flex items-center justify-center gap-1">
+        <span>←</span> Swipe to view full bracket <span>→</span>
+      </div>
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}
         className="bg-white rounded-2xl border border-gray-200 p-3 sm:p-6">
         <KnockoutBracket matches={carromMatches} teams={carromTeams} />

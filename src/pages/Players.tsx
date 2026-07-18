@@ -34,7 +34,7 @@ export default function Players() {
   return (
     <Layout>
       <div className="mb-8">
-        <h1 className="font-display font-bold text-3xl text-blue-600 font-extrabold mb-1">Players</h1>
+        <h1 className="font-display font-bold text-2xl sm:text-3xl text-blue-600 font-extrabold mb-1">Players</h1>
         <p className="text-gray-500 text-sm">{players.length} athletes competing in Josh 2026</p>
       </div>
 

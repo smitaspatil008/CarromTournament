@@ -129,9 +129,23 @@ export default function AdminPortal() {
       updateScore(form.matchId, Number(form.scoreA ?? 0), Number(form.scoreB ?? 0));
       toast.success('Score updated!');
     } else if (modal === 'finishMatch') {
-      if (!form.matchId || !form.winner) { toast.error('Select match and winner'); return; }
-      finishMatch(form.matchId, form.winner);
-      toast.success('Match finished!');
+      if (!form.matchId) { toast.error('Select a match'); return; }
+      const m = matches.find(x => x.id === form.matchId);
+      if (!m) return;
+      let winner: string;
+      if (m.game === 'carrom') {
+        const breaks = store.breakScores[m.id] ?? [];
+        const tA = breaks.reduce((s: number, b: any) => s + b.scoreA, 0);
+        const tB = breaks.reduce((s: number, b: any) => s + b.scoreB, 0);
+        if (tA === tB) { toast.error('Scores are tied — update scores first'); return; }
+        winner = tA > tB ? m.teamAId : m.teamBId;
+      } else {
+        if (m.scoreA === m.scoreB) { winner = 'draw'; }
+        else { winner = m.scoreA > m.scoreB ? m.teamAId : m.teamBId; }
+      }
+      finishMatch(m.id, winner);
+      const winLabel = winner === 'draw' ? 'Draw' : teams.find(t => t.id === winner)?.name;
+      toast.success(`Match finished! Result: ${winLabel}`);
     } else if (modal === 'changePin') {
       if (!form.newPin || form.newPin.length < 4) { toast.error('PIN must be at least 4 digits'); return; }
       if (form.newPin !== form.confirmPin) { toast.error('PINs do not match'); return; }
@@ -319,22 +333,37 @@ export default function AdminPortal() {
             {liveMatches.map(m => {
               const tA = teams.find(t => t.id === m.teamAId);
               const tB = teams.find(t => t.id === m.teamBId);
-              return <option key={m.id} value={m.id}>{tA?.name} vs {tB?.name}</option>;
+              return <option key={m.id} value={m.id}>{tA?.name} vs {tB?.name} ({m.scoreA}-{m.scoreB})</option>;
             })}
           </select>
-          {form.matchId && (
-            <select value={form.winner ?? ''} onChange={e => setForm({ ...form, winner: e.target.value })} className={inputClasses}>
-              <option value="">Select Winner</option>
-              {(() => {
-                const m = matches.find(x => x.id === form.matchId);
-                if (!m) return null;
-                return [
-                  <option key={m.teamAId} value={m.teamAId}>{teams.find(t => t.id === m.teamAId)?.name}</option>,
-                  <option key={m.teamBId} value={m.teamBId}>{teams.find(t => t.id === m.teamBId)?.name}</option>,
-                ];
-              })()}
-            </select>
-          )}
+          {form.matchId && (() => {
+            const m = matches.find(x => x.id === form.matchId);
+            if (!m) return null;
+            const tA = teams.find(t => t.id === m.teamAId);
+            const tB = teams.find(t => t.id === m.teamBId);
+            let autoWinner: string;
+            let winLabel: string;
+            if (m.game === 'carrom') {
+              const breaks = store.breakScores[m.id] ?? [];
+              const totalA = breaks.reduce((s: number, b: any) => s + b.scoreA, 0);
+              const totalB = breaks.reduce((s: number, b: any) => s + b.scoreB, 0);
+              if (totalA === totalB) { autoWinner = ''; winLabel = '⚠ Tied — update scores first'; }
+              else { autoWinner = totalA > totalB ? m.teamAId : m.teamBId; winLabel = `🏆 ${totalA > totalB ? tA?.name : tB?.name} wins (${Math.max(totalA,totalB)}–${Math.min(totalA,totalB)})`; }
+            } else {
+              if (m.scoreA === m.scoreB) { autoWinner = 'draw'; winLabel = '🤝 Draw'; }
+              else { autoWinner = m.scoreA > m.scoreB ? m.teamAId : m.teamBId; winLabel = `🏆 ${m.scoreA > m.scoreB ? tA?.name : tB?.name} wins (${m.scoreA}–${m.scoreB})`; }
+            }
+            return (
+              <div className={`p-4 rounded-xl text-sm font-semibold text-center ${
+                !autoWinner ? 'bg-yellow-50 text-yellow-700 border border-yellow-200' :
+                autoWinner === 'draw' ? 'bg-yellow-50 text-yellow-700 border border-yellow-200' :
+                'bg-green-50 text-green-700 border border-green-200'
+              }`}>
+                <div className="text-xs text-gray-500 mb-1 font-normal">System-determined result</div>
+                {winLabel}
+              </div>
+            );
+          })()}
         </>;
       case 'changePin':
         return <>
@@ -463,7 +492,7 @@ export default function AdminPortal() {
             <div className="flex gap-3 mt-5">
               <button onClick={closeModal} className="flex-1 py-3 rounded-lg border border-gray-200 text-sm font-medium transition-colors hover:bg-red-50 hover:text-red-500 text-gray-500">Cancel</button>
               <button onClick={handleSubmit} className={`flex-1 py-3 rounded-lg text-sm font-semibold text-white ${modal === 'deletePlayer' || modal === 'deleteTeam' || modal === 'deleteCompleted' ? 'bg-red-500 hover:bg-red-600' : 'bg-blue-600 hover:bg-blue-700'}`}>
-                {modal === 'deletePlayer' || modal === 'deleteTeam' || modal === 'deleteCompleted' ? 'Delete' : 'Confirm'}
+                {modal === 'deletePlayer' || modal === 'deleteTeam' || modal === 'deleteCompleted' ? 'Delete' : modal === 'finishMatch' ? 'Publish Result' : 'Confirm'}
               </button>
             </div>
           </motion.div>

@@ -62,7 +62,7 @@ export default function MatchDetails() {
         className="rounded-2xl overflow-hidden mb-8 bg-white border border-gray-200"
       >
         <div className="p-4 sm:p-12">
-          <div className="flex items-center justify-between gap-4">
+          <div className="flex items-center justify-between gap-2 sm:gap-4">
             {/* Team A */}
             <motion.div initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.1 }}
               className="flex-1 flex flex-col items-center text-center">

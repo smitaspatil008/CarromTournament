@@ -39,7 +39,7 @@ export default function Teams() {
   return (
     <Layout>
       <div className="mb-8">
-        <h1 className="font-display font-bold text-3xl text-blue-600 font-extrabold mb-1">Teams</h1>
+        <h1 className="font-display font-bold text-2xl sm:text-3xl text-blue-600 font-extrabold mb-1">Teams</h1>
         <p className="text-gray-500 text-sm">{teams.length} teams across 2 games</p>
       </div>
 
