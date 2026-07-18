@@ -330,9 +330,51 @@ export function initFirebaseSync() {
         ...(localRole ? { isAdmin: true, userRole: localRole } : {}),
       });
     } else {
-      const seed = getSyncData(useTournamentStore.getState());
-      fbSet(DB_REF, seed);
-      useTournamentStore.setState({ _hydrated: true });
+      const defaults = useTournamentStore.getState();
+      const merged: Record<string, unknown> = { _v: DATA_VERSION };
+
+      if (data) {
+        // Merge matches: keep scores/status/winner from Firebase, update structure from defaults
+        const oldMatches: Match[] = (data.matches as Match[]) || [];
+        merged.matches = defaults.matches.map((defMatch) => {
+          const old = oldMatches.find((m) => m.id === defMatch.id);
+          if (old && (old.status === 'live' || old.status === 'completed')) {
+            return { ...defMatch, scoreA: old.scoreA, scoreB: old.scoreB, status: old.status, winner: old.winner, history: old.history };
+          }
+          if (old && old.teamAId !== 'tbd' && old.teamBId !== 'tbd') {
+            return { ...defMatch, teamAId: old.teamAId, teamBId: old.teamBId };
+          }
+          return defMatch;
+        });
+
+        // Preserve user-generated data
+        merged.updates = (data.updates as unknown[]) || [];
+        merged.scoreHistory = data.scoreHistory || {};
+        merged.breakScores = data.breakScores || {};
+        merged.sequenceStats = data.sequenceStats || {};
+        merged.gallery = (data.gallery as unknown[])?.length ? data.gallery : defaults.gallery;
+
+        // Use latest structural data
+        merged.teams = defaults.teams;
+        merged.players = defaults.players;
+        merged.announcements = defaults.announcements;
+        merged.history = defaults.history;
+        merged.adminPin = data.adminPin || defaults.adminPin;
+      } else {
+        for (const key of SYNC_KEYS) {
+          merged[key] = defaults[key as keyof TournamentState];
+        }
+      }
+
+      fbSet(DB_REF, merged);
+      const localPin = localStorage.getItem('josh_pin');
+      const localRole = localStorage.getItem('josh_role') as 'admin' | 'umpire' | null;
+      useTournamentStore.setState({
+        ...merged,
+        _hydrated: true,
+        ...(localPin ? { adminPin: localPin } : {}),
+        ...(localRole ? { isAdmin: true, userRole: localRole } : {}),
+      });
     }
     _skipSync = false;
   });
