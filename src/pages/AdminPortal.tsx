@@ -576,7 +576,7 @@ export default function AdminPortal() {
           onClick={closeModal}>
           <motion.div initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }}
             onClick={(e) => e.stopPropagation()}
-            className="bg-white rounded-2xl shadow-xl p-6 w-full max-w-sm max-h-[80vh] overflow-y-auto">
+            className="bg-white rounded-2xl shadow-xl p-4 sm:p-6 w-full max-w-sm max-h-[80vh] overflow-y-auto">
             <h3 className="font-bold text-lg mb-4 text-gray-900">{modalTitle}</h3>
             <div className="space-y-3">
               {renderModalContent()}

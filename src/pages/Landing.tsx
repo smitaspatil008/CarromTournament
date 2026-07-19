@@ -427,7 +427,7 @@ export default function Landing() {
           onClick={() => setShowUpdateModal(false)}>
           <motion.div initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }}
             onClick={(e) => e.stopPropagation()}
-            className="bg-white rounded-2xl shadow-xl p-6 w-full max-w-sm max-h-[85vh] overflow-y-auto">
+            className="bg-white rounded-2xl shadow-xl p-4 sm:p-6 w-full max-w-sm max-h-[85vh] overflow-y-auto">
             <div className="flex items-center justify-between mb-4">
               <h3 className="font-bold text-lg text-gray-900">Post Update</h3>
               <button onClick={() => setShowUpdateModal(false)} className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-gray-100">

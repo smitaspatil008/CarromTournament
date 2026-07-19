@@ -142,7 +142,7 @@ export default function Gallery() {
             className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ background: 'rgba(0,0,0,0.7)' }}>
             <motion.div initial={{ scale: 0.9 }} animate={{ scale: 1 }} exit={{ scale: 0.9 }}
               onClick={(e) => e.stopPropagation()}
-              className="bg-white rounded-2xl p-6 max-w-md w-full shadow-xl">
+              className="bg-white rounded-2xl p-4 sm:p-6 max-w-md w-full shadow-xl">
               <h3 className="font-bold text-lg mb-4">Upload Photo</h3>
               {uploadPreview && (
                 <img src={uploadPreview} alt="Preview" className="w-full max-h-48 object-cover rounded-xl mb-4" />
