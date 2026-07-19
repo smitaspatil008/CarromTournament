@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { Plus, Users, Trophy, Zap, CheckCircle, Play, RotateCcw, Shield, Trash2, Calendar, Edit3, Lock, Key } from 'lucide-react';
+import { Plus, Users, Trophy, Zap, CheckCircle, Play, RotateCcw, Shield, Trash2, Calendar, Edit3, Lock, Key, Upload, Loader2 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import Layout from '../components/layout/Layout';
 import { useTournamentStore } from '../store/tournamentStore';
+import { uploadImage } from '../utils/firebaseStorage';
 import toast from 'react-hot-toast';
 import type { GameType } from '../types';
 import { getMatchLabel } from '../utils/matchLabels';
@@ -16,6 +17,8 @@ export default function AdminPortal() {
   const navigate = useNavigate();
   const [modal, setModal] = useState<Modal>(null);
   const [form, setForm] = useState<Record<string, string>>({});
+  const [uploadingPhoto, setUploadingPhoto] = useState(false);
+  const photoInputRef = useRef<HTMLInputElement>(null);
 
   if (!isAdmin) {
     return (
@@ -206,7 +209,24 @@ export default function AdminPortal() {
       case 'addPlayer':
         return <>
           <input placeholder="Player Name *" value={form.name ?? ''} onChange={e => setForm({ ...form, name: e.target.value })} className={inputClasses} />
-          <input placeholder="Photo URL (optional)" value={form.photo ?? ''} onChange={e => setForm({ ...form, photo: e.target.value })} className={inputClasses} />
+          <div>
+            <label className="text-xs text-gray-500 mb-1 block">Player Photo</label>
+            {form.photo && <img src={form.photo} alt="Preview" className="w-16 h-16 rounded-lg object-cover mb-2" />}
+            <div className="flex gap-2">
+              <input placeholder="Photo URL (optional)" value={form.photo ?? ''} onChange={e => setForm({ ...form, photo: e.target.value })} className={`${inputClasses} flex-1`} />
+              <input ref={photoInputRef} type="file" accept="image/*" className="hidden" onChange={async (e) => {
+                const file = e.target.files?.[0]; if (!file) return;
+                setUploadingPhoto(true);
+                try { const url = await uploadImage(file, 'players'); setForm(f => ({ ...f, photo: url })); toast.success('Photo uploaded!'); }
+                catch { toast.error('Upload failed'); }
+                finally { setUploadingPhoto(false); e.target.value = ''; }
+              }} />
+              <button type="button" disabled={uploadingPhoto} onClick={() => photoInputRef.current?.click()}
+                className="px-3 py-2 rounded-lg border border-gray-300 text-sm font-medium hover:bg-gray-50 disabled:opacity-50 flex items-center gap-1.5 flex-shrink-0">
+                {uploadingPhoto ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
+              </button>
+            </div>
+          </div>
           <select value={form.teamId ?? ''} onChange={e => setForm({ ...form, teamId: e.target.value })} className={inputClasses}>
             <option value="">Select Team *</option>
             {teams.map(t => <option key={t.id} value={t.id}>{t.name} ({t.game})</option>)}
@@ -227,7 +247,24 @@ export default function AdminPortal() {
           </select>
           {form.playerId && <>
             <input placeholder="Player Name" value={form.name ?? ''} onChange={e => setForm({ ...form, name: e.target.value })} className={inputClasses} />
-            <input placeholder="Photo URL" value={form.photo ?? ''} onChange={e => setForm({ ...form, photo: e.target.value })} className={inputClasses} />
+            <div>
+              <label className="text-xs text-gray-500 mb-1 block">Player Photo</label>
+              {form.photo && <img src={form.photo} alt="Preview" className="w-16 h-16 rounded-lg object-cover mb-2" />}
+              <div className="flex gap-2">
+                <input placeholder="Photo URL" value={form.photo ?? ''} onChange={e => setForm({ ...form, photo: e.target.value })} className={`${inputClasses} flex-1`} />
+                <input type="file" accept="image/*" className="hidden" id="editPlayerPhoto" onChange={async (e) => {
+                  const file = e.target.files?.[0]; if (!file) return;
+                  setUploadingPhoto(true);
+                  try { const url = await uploadImage(file, 'players'); setForm(f => ({ ...f, photo: url })); toast.success('Photo uploaded!'); }
+                  catch { toast.error('Upload failed'); }
+                  finally { setUploadingPhoto(false); e.target.value = ''; }
+                }} />
+                <button type="button" disabled={uploadingPhoto} onClick={() => document.getElementById('editPlayerPhoto')?.click()}
+                  className="px-3 py-2 rounded-lg border border-gray-300 text-sm font-medium hover:bg-gray-50 disabled:opacity-50 flex items-center gap-1.5 flex-shrink-0">
+                  {uploadingPhoto ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
+                </button>
+              </div>
+            </div>
             <select value={form.newTeamId ?? ''} onChange={e => setForm({ ...form, newTeamId: e.target.value })} className={inputClasses}>
               <option value="">Change Team</option>
               {teams.map(t => <option key={t.id} value={t.id}>{t.name} ({t.game})</option>)}

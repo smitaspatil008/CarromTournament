@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link, useSearchParams } from 'react-router-dom';
-import { Trophy, Calendar, Users, TrendingUp, Bell, ArrowRight, Play, Target, Brain, Award, Gamepad2, Zap, Newspaper, Plus, X, Trash2, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Trophy, Calendar, Users, TrendingUp, Bell, ArrowRight, Play, Target, Brain, Award, Gamepad2, Zap, Newspaper, Plus, X, Trash2, ChevronLeft, ChevronRight, Upload, Loader2 } from 'lucide-react';
 import Layout from '../components/layout/Layout';
 import LiveBadge from '../components/ui/LiveBadge';
 import CountdownTimer from '../components/ui/CountdownTimer';
@@ -9,6 +9,7 @@ import MatchCard from '../components/tournament/MatchCard';
 import TrophySection from '../components/tournament/TrophySection';
 import ShareButton from '../components/ui/ShareButton';
 import { useTournamentStore, useLiveMatches, useUpcomingMatches } from '../store/tournamentStore';
+import { uploadImage } from '../utils/firebaseStorage';
 import toast from 'react-hot-toast';
 
 const ANNOUNCEMENT_ICONS: Record<string, string> = {
@@ -48,6 +49,8 @@ export default function Landing() {
   const updatesScrollRef = useRef<HTMLDivElement>(null);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [updateForm, setUpdateForm] = useState({ image: '', text: '', playerId: '', teamId: '' });
+  const [uploadingPostImage, setUploadingPostImage] = useState(false);
+  const postImageInputRef = useRef<HTMLInputElement>(null);
   const [highlightId, setHighlightId] = useState<string | null>(null);
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -306,7 +309,7 @@ export default function Landing() {
                       </div>
                     )}
                     <div className="p-4">
-                      <p className="text-sm text-gray-800 leading-relaxed line-clamp-3">{u.text}</p>
+                      <p className="text-sm text-gray-800 leading-relaxed whitespace-pre-line">{u.text}</p>
                       <div className="flex items-center justify-between mt-3">
                         <div className="flex items-center gap-2 min-w-0">
                           {player && (
@@ -433,17 +436,34 @@ export default function Landing() {
             </div>
             <div className="space-y-3">
               <div>
-                <label className="text-xs text-gray-500 mb-1 block">Image URL (optional)</label>
-                <input placeholder="https://... or /images/photo.jpg" value={updateForm.image}
-                  onChange={(e) => setUpdateForm({ ...updateForm, image: e.target.value })}
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 text-sm outline-none bg-white text-gray-900" />
-              </div>
-              {updateForm.image && (
-                <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
-                  <img src={updateForm.image} alt="Preview" className="w-full h-full object-cover"
-                    onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+                <label className="text-xs text-gray-500 mb-1 block">Image (optional)</label>
+                {updateForm.image && (
+                  <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden mb-2 relative">
+                    <img src={updateForm.image} alt="Preview" className="w-full h-full object-cover"
+                      onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+                    <button onClick={() => setUpdateForm({ ...updateForm, image: '' })}
+                      className="absolute top-2 right-2 w-6 h-6 rounded-full bg-black/50 flex items-center justify-center text-white hover:bg-black/70">
+                      <X className="w-3 h-3" />
+                    </button>
+                  </div>
+                )}
+                <div className="flex gap-2">
+                  <input placeholder="Paste URL or upload →" value={updateForm.image}
+                    onChange={(e) => setUpdateForm({ ...updateForm, image: e.target.value })}
+                    className="w-full px-4 py-3 rounded-lg border border-gray-300 text-sm outline-none bg-white text-gray-900 flex-1" />
+                  <input ref={postImageInputRef} type="file" accept="image/*" className="hidden" onChange={async (e) => {
+                    const file = e.target.files?.[0]; if (!file) return;
+                    setUploadingPostImage(true);
+                    try { const url = await uploadImage(file, 'updates'); setUpdateForm(f => ({ ...f, image: url })); toast.success('Image uploaded!'); }
+                    catch { toast.error('Upload failed'); }
+                    finally { setUploadingPostImage(false); e.target.value = ''; }
+                  }} />
+                  <button type="button" disabled={uploadingPostImage} onClick={() => postImageInputRef.current?.click()}
+                    className="px-3 py-2 rounded-lg border border-gray-300 text-sm font-medium hover:bg-gray-50 disabled:opacity-50 flex items-center gap-1.5 flex-shrink-0">
+                    {uploadingPostImage ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
+                  </button>
                 </div>
-              )}
+              </div>
               <div>
                 <label className="text-xs text-gray-500 mb-1 block">Description *</label>
                 <textarea placeholder="Player experience, achievements, details..." value={updateForm.text}
