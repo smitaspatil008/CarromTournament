@@ -308,19 +308,69 @@ export const useTournamentStore = create<TournamentState>()(
 // ─── Firebase real-time sync ────────────────────────────────────────────────
 const DATA_VERSION = 5;
 
+const ARRAY_KEYS = new Set(['teams', 'players', 'matches', 'gallery', 'announcements', 'history', 'updates']);
+
+function toArray(val: unknown): unknown[] {
+  if (Array.isArray(val)) return val;
+  if (val && typeof val === 'object') {
+    if ((val as Record<string, unknown>).__empty) return [];
+    return Object.values(val);
+  }
+  return [];
+}
+
+const OBJECT_KEYS = new Set(['scoreHistory', 'breakScores', 'sequenceStats']);
+
+function normalizeFirebaseData(data: Record<string, unknown>): Record<string, unknown> {
+  const result: Record<string, unknown> = {};
+  for (const [key, val] of Object.entries(data)) {
+    if (ARRAY_KEYS.has(key)) {
+      if (val && typeof val === 'object' && (val as Record<string, unknown>).__empty) {
+        result[key] = [];
+      } else {
+        result[key] = toArray(val);
+      }
+    } else if (OBJECT_KEYS.has(key)) {
+      if (!val || (typeof val === 'object' && (val as Record<string, unknown>).__empty)) {
+        result[key] = {};
+      } else {
+        result[key] = val;
+      }
+    } else {
+      result[key] = val;
+    }
+  }
+  for (const key of ARRAY_KEYS) {
+    if (!(key in result)) result[key] = [];
+  }
+  for (const key of OBJECT_KEYS) {
+    if (!(key in result)) result[key] = {};
+  }
+  return result;
+}
+
 function getSyncData(state: TournamentState) {
   const data: Record<string, unknown> = { _v: DATA_VERSION };
   for (const key of SYNC_KEYS) {
-    data[key] = state[key];
+    const val = state[key];
+    // Firebase RTDB strips empty arrays and empty objects — store placeholder to preserve
+    if (Array.isArray(val) && val.length === 0) {
+      data[key] = { __empty: true };
+    } else if (val && typeof val === 'object' && !Array.isArray(val) && Object.keys(val).length === 0) {
+      data[key] = { __empty: true };
+    } else {
+      data[key] = val;
+    }
   }
   return data;
 }
 
 export function initFirebaseSync() {
   onValue(DB_REF, (snapshot) => {
-    const data = snapshot.val();
+    const raw = snapshot.val();
     _skipSync = true;
-    if (data && data._v === DATA_VERSION) {
+    if (raw && raw._v === DATA_VERSION) {
+      const data = normalizeFirebaseData(raw);
       const localPin = localStorage.getItem('josh_pin');
       const localRole = localStorage.getItem('josh_role') as 'admin' | 'umpire' | null;
       useTournamentStore.setState({
@@ -332,10 +382,11 @@ export function initFirebaseSync() {
     } else {
       const defaults = useTournamentStore.getState();
       const merged: Record<string, unknown> = { _v: DATA_VERSION };
+      const data = raw;
 
       if (data) {
         // Merge matches: keep scores/status/winner from Firebase, update structure from defaults
-        const oldMatches: Match[] = (data.matches as Match[]) || [];
+        const oldMatches: Match[] = toArray(data.matches) as Match[];
         merged.matches = defaults.matches.map((defMatch) => {
           const old = oldMatches.find((m) => m.id === defMatch.id);
           if (old && (old.status === 'live' || old.status === 'completed')) {
@@ -348,11 +399,12 @@ export function initFirebaseSync() {
         });
 
         // Preserve user-generated data
-        merged.updates = (data.updates as unknown[]) || [];
+        merged.updates = toArray(data.updates);
         merged.scoreHistory = data.scoreHistory || {};
         merged.breakScores = data.breakScores || {};
         merged.sequenceStats = data.sequenceStats || {};
-        merged.gallery = (data.gallery as unknown[])?.length ? data.gallery : defaults.gallery;
+        const fbGallery = toArray(data.gallery);
+        merged.gallery = fbGallery.length ? fbGallery : defaults.gallery;
 
         // Use latest structural data
         merged.teams = defaults.teams;
@@ -366,7 +418,7 @@ export function initFirebaseSync() {
         }
       }
 
-      fbSet(DB_REF, merged);
+      fbSet(DB_REF, merged).catch((err) => console.error('[sync] Firebase migration write FAILED:', err));
       const localPin = localStorage.getItem('josh_pin');
       const localRole = localStorage.getItem('josh_role') as 'admin' | 'umpire' | null;
       useTournamentStore.setState({
@@ -386,7 +438,9 @@ export function initFirebaseSync() {
       if (state[key] !== prev[key]) { changed = true; break; }
     }
     if (changed) {
-      fbSet(DB_REF, getSyncData(state));
+      fbSet(DB_REF, getSyncData(state)).catch((err) => {
+        console.error('[sync] Firebase write failed:', err);
+      });
     }
   });
 }
