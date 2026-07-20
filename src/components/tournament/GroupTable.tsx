@@ -14,26 +14,26 @@ export default function GroupTable({ group, standings, teams }: Props) {
   return (
     <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
       {/* Header */}
-      <div className="px-5 py-4 flex items-center justify-between border-b border-gray-200 bg-gray-50">
-        <h3 className="font-display font-extrabold text-lg text-blue-600">{group.name}</h3>
-        <span className="text-xs text-gray-500 capitalize px-2 py-1 rounded-lg bg-gray-100">{group.game}</span>
+      <div className="px-3 sm:px-5 py-3 sm:py-4 flex items-center justify-between border-b border-gray-200 bg-gray-50">
+        <h3 className="font-display font-extrabold text-base sm:text-lg text-blue-600">{group.name}</h3>
+        <span className="text-[10px] sm:text-xs text-gray-500 capitalize px-2 py-1 rounded-lg bg-gray-100">{group.game}</span>
       </div>
 
       {/* Table */}
       <div className="overflow-x-auto">
-        <table className="w-full text-sm">
+        <table className="w-full text-xs sm:text-sm">
           <thead>
             <tr className="bg-gray-50">
-              <th className="text-left pl-3 sm:pl-5 pr-1 py-3 text-xs font-semibold text-gray-500">#</th>
-              <th className="text-left px-1 sm:px-2 py-3 text-xs font-semibold text-gray-500">Team</th>
-              <th className="text-center px-1 sm:px-2 py-3 text-xs font-semibold text-gray-500">P</th>
-              <th className="text-center px-1 sm:px-2 py-3 text-xs font-semibold text-gray-500">W</th>
-              <th className="text-center px-1 sm:px-2 py-3 text-xs font-semibold text-gray-500">D</th>
-              <th className="text-center px-1 sm:px-2 py-3 text-xs font-semibold text-gray-500">L</th>
-              <th className="text-center px-1 sm:px-2 py-3 text-xs font-semibold text-gray-500 hidden sm:table-cell" title="Sequences">Seq</th>
-              <th className="text-center px-1 sm:px-2 py-3 text-xs font-semibold text-gray-500 hidden sm:table-cell" title="Chips Used">🪙</th>
-              <th className="text-center px-1 sm:px-2 py-3 text-xs font-semibold text-gray-500">Pts</th>
-              <th className="text-center px-1 sm:px-2 py-3 text-xs font-semibold text-gray-500 hidden sm:table-cell">Status</th>
+              <th className="text-left pl-2 sm:pl-5 pr-1 py-2 sm:py-3 text-[10px] sm:text-xs font-semibold text-gray-500">#</th>
+              <th className="text-left px-1 py-2 sm:py-3 text-[10px] sm:text-xs font-semibold text-gray-500">Team</th>
+              <th className="text-center px-1 py-2 sm:py-3 text-[10px] sm:text-xs font-semibold text-gray-500">P</th>
+              <th className="text-center px-1 py-2 sm:py-3 text-[10px] sm:text-xs font-semibold text-gray-500">W</th>
+              <th className="text-center px-1 py-2 sm:py-3 text-[10px] sm:text-xs font-semibold text-gray-500">D</th>
+              <th className="text-center px-1 py-2 sm:py-3 text-[10px] sm:text-xs font-semibold text-gray-500">L</th>
+              <th className="text-center px-1 py-2 sm:py-3 text-[10px] sm:text-xs font-semibold text-gray-500" title="Sequences">Seq</th>
+              <th className="text-center px-1 py-2 sm:py-3 text-[10px] sm:text-xs font-semibold text-gray-500" title="Chips Used">🪙</th>
+              <th className="text-center px-1 py-2 sm:py-3 text-[10px] sm:text-xs font-semibold text-gray-500">Pts</th>
+              <th className="text-center px-1 py-2 sm:py-3 text-[10px] sm:text-xs font-semibold text-gray-500 hidden sm:table-cell">Status</th>
             </tr>
           </thead>
           <tbody>
@@ -51,31 +51,31 @@ export default function GroupTable({ group, standings, teams }: Props) {
                     background: s.qualified ? 'rgba(37,99,235,0.04)' : 'transparent',
                   }}
                 >
-                  <td className="pl-3 sm:pl-5 pr-1 py-3.5">
-                    <span className={`w-6 h-6 rounded-lg flex items-center justify-center text-xs font-bold ${idx < 2 ? 'text-white bg-blue-600' : 'text-gray-500'}`}>
+                  <td className="pl-2 sm:pl-5 pr-1 py-2.5 sm:py-3.5">
+                    <span className={`w-5 h-5 sm:w-6 sm:h-6 rounded-lg flex items-center justify-center text-[10px] sm:text-xs font-bold ${idx < 2 ? 'text-white bg-blue-600' : 'text-gray-500'}`}>
                       {idx + 1}
                     </span>
                   </td>
-                  <td className="px-1 sm:px-2 py-3.5">
-                    <div className="flex items-center gap-1.5 sm:gap-2">
-                      <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-lg flex items-center justify-center text-white text-[10px] sm:text-xs font-bold flex-shrink-0" style={{ background: team.color }}>
+                  <td className="px-1 py-2.5 sm:py-3.5">
+                    <div className="flex items-center gap-1 sm:gap-2">
+                      <div className="w-5 h-5 sm:w-7 sm:h-7 rounded-md sm:rounded-lg flex items-center justify-center text-white text-[8px] sm:text-xs font-bold flex-shrink-0" style={{ background: team.color }}>
                         {team.logo}
                       </div>
                       <div className="min-w-0">
-                        <div className="font-medium text-xs sm:text-sm text-gray-900 truncate">{team.name}</div>
+                        <div className="font-medium text-[10px] sm:text-sm text-gray-900 truncate max-w-[100px] sm:max-w-none">{team.name}</div>
                       </div>
                     </div>
                   </td>
-                  <td className="text-center px-1 sm:px-2 py-3.5 text-gray-500">{s.played}</td>
-                  <td className="text-center px-1 sm:px-2 py-3.5 font-semibold text-green-500">{s.won}</td>
-                  <td className="text-center px-1 sm:px-2 py-3.5 font-semibold text-yellow-500">{s.drawn}</td>
-                  <td className="text-center px-1 sm:px-2 py-3.5 font-semibold text-red-400">{s.lost}</td>
-                  <td className="text-center px-1 sm:px-2 py-3.5 text-purple-500 font-semibold hidden sm:table-cell">{s.sequences}</td>
-                  <td className="text-center px-1 sm:px-2 py-3.5 text-amber-500 font-semibold hidden sm:table-cell">{s.chipsUsed}</td>
-                  <td className="text-center px-1 sm:px-2 py-3.5">
+                  <td className="text-center px-1 py-2.5 sm:py-3.5 text-gray-500">{s.played}</td>
+                  <td className="text-center px-1 py-2.5 sm:py-3.5 font-semibold text-green-500">{s.won}</td>
+                  <td className="text-center px-1 py-2.5 sm:py-3.5 font-semibold text-yellow-500">{s.drawn}</td>
+                  <td className="text-center px-1 py-2.5 sm:py-3.5 font-semibold text-red-400">{s.lost}</td>
+                  <td className="text-center px-1 py-2.5 sm:py-3.5 text-purple-500 font-semibold">{s.sequences}</td>
+                  <td className="text-center px-1 py-2.5 sm:py-3.5 text-amber-500 font-semibold">{s.chipsUsed}</td>
+                  <td className="text-center px-1 py-2.5 sm:py-3.5">
                     <span className="font-bold text-blue-600">{s.points}</span>
                   </td>
-                  <td className="text-center px-1 sm:px-2 py-3.5 hidden sm:table-cell">
+                  <td className="text-center px-1 py-2.5 sm:py-3.5 hidden sm:table-cell">
                     {s.qualified ? (
                       <span className="inline-flex items-center gap-1 text-xs font-semibold text-green-500 bg-green-50 px-2 py-0.5 rounded-full">
                         <CheckCircle2 className="w-3 h-3" /> Q
@@ -91,7 +91,7 @@ export default function GroupTable({ group, standings, teams }: Props) {
         </table>
       </div>
 
-      <div className="px-5 py-3 border-t border-gray-200 text-xs text-gray-500 space-y-1">
+      <div className="px-3 sm:px-5 py-2 sm:py-3 border-t border-gray-200 text-[10px] sm:text-xs text-gray-500 space-y-1">
         <div>
           <span className="inline-block w-3 h-3 rounded mr-1 bg-blue-100" style={{ verticalAlign: 'middle' }} />
           Top 2 teams qualify for playoffs
