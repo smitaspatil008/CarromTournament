@@ -7,7 +7,7 @@ import LiveBadge from '../components/ui/LiveBadge';
 import { useTournamentStore, computeGroupStandings } from '../store/tournamentStore';
 import { GROUPS, SEQUENCE_DAYS } from '../data/mockData';
 
-function MatchRow({ match, teams }: { match: any; teams: any[] }) {
+function MatchRow({ match, teams, sequenceStats }: { match: any; teams: any[]; sequenceStats: Record<string, any> }) {
   const getTeam = (id: string) => teams.find((t: any) => t.id === id);
   const tA = getTeam(match.teamAId);
   const tB = getTeam(match.teamBId);
@@ -16,6 +16,7 @@ function MatchRow({ match, teams }: { match: any; teams: any[] }) {
   const isDraw = match.winner === 'draw';
   const winnerA = !isDraw && match.winner === tA?.id;
   const winnerB = !isDraw && match.winner === tB?.id;
+  const stats = sequenceStats[match.id];
 
   return (
     <Link to={`/match/${match.id}`} className="block min-w-0">
@@ -49,14 +50,23 @@ function MatchRow({ match, teams }: { match: any; teams: any[] }) {
             </span>
           </div>
           {/* Score */}
-          <div className="flex items-center gap-1 sm:gap-2 px-1 sm:px-3 flex-shrink-0">
-            <span className={`text-sm sm:text-lg font-bold tabular-nums ${winnerA ? 'text-green-600' : 'text-gray-900'}`}>
-              {isDone || isLive ? match.scoreA : '-'}
-            </span>
-            <span className="text-gray-300 text-xs sm:text-sm">vs</span>
-            <span className={`text-sm sm:text-lg font-bold tabular-nums ${winnerB ? 'text-green-600' : 'text-gray-900'}`}>
-              {isDone || isLive ? match.scoreB : '-'}
-            </span>
+          <div className="flex flex-col items-center px-1 sm:px-3 flex-shrink-0">
+            <div className="flex items-center gap-1 sm:gap-2">
+              <span className={`text-sm sm:text-lg font-bold tabular-nums ${winnerA ? 'text-green-600' : 'text-gray-900'}`}>
+                {isDone || isLive ? match.scoreA : '-'}
+              </span>
+              <span className="text-gray-300 text-xs sm:text-sm">vs</span>
+              <span className={`text-sm sm:text-lg font-bold tabular-nums ${winnerB ? 'text-green-600' : 'text-gray-900'}`}>
+                {isDone || isLive ? match.scoreB : '-'}
+              </span>
+            </div>
+            {(isDone || isLive) && stats && (
+              <div className="flex items-center gap-1 text-[9px] sm:text-[10px] text-gray-400 mt-0.5">
+                <span>{stats.chipsUsedA ?? 0}🪙</span>
+                <span>-</span>
+                <span>{stats.chipsUsedB ?? 0}🪙</span>
+              </div>
+            )}
           </div>
           {/* Team B */}
           <div className={`flex-1 flex items-center gap-1.5 px-2 sm:px-3 py-3 justify-end min-w-0 overflow-hidden ${winnerB ? 'bg-green-50' : isDraw && isDone ? 'bg-yellow-50' : ''}`}>
@@ -182,7 +192,7 @@ export default function SequenceGroups() {
               {/* Matches */}
               <div className={`grid gap-3 overflow-hidden ${isFinal ? 'max-w-lg mx-auto' : 'sm:grid-cols-2'}`}>
                 {dayMatches.map((m) => (
-                  <MatchRow key={m.id} match={m} teams={seqTeams} />
+                  <MatchRow key={m.id} match={m} teams={seqTeams} sequenceStats={sequenceStats} />
                 ))}
               </div>
             </motion.div>

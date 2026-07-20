@@ -10,7 +10,7 @@ import { getMatchLabel } from '../utils/matchLabels';
 
 export default function MatchDetails() {
   const { id } = useParams<{ id: string }>();
-  const { matches, teams, players } = useTournamentStore();
+  const { matches, teams, players, sequenceStats } = useTournamentStore();
 
   const match = matches.find((m) => m.id === id);
   if (!match) return (
@@ -106,6 +106,13 @@ export default function MatchDetails() {
                 <AnimatedScore score={match.scoreB} color={teamB?.color} size="xl" />
               </div>
               <div className="text-xs text-gray-500 mt-1">{match.game === 'carrom' ? 'Points' : 'Games'}</div>
+              {match.game === 'sequence' && sequenceStats[match.id] && (
+                <div className="flex items-center gap-3 mt-2 text-sm text-gray-500">
+                  <span className="font-semibold">{sequenceStats[match.id].chipsUsedA ?? 0} 🪙</span>
+                  <span className="text-gray-300">chips</span>
+                  <span className="font-semibold">{sequenceStats[match.id].chipsUsedB ?? 0} 🪙</span>
+                </div>
+              )}
             </div>
 
             {/* Team B */}

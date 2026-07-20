@@ -4,6 +4,7 @@ import { Clock, MapPin, Trophy, CircleDot } from 'lucide-react';
 import type { Match, Team, Player } from '../../types';
 import LiveBadge from '../ui/LiveBadge';
 import AnimatedScore from '../ui/AnimatedScore';
+import { useTournamentStore } from '../../store/tournamentStore';
 
 interface Props {
   match: Match;
@@ -31,6 +32,8 @@ function TeamLogoCircle({ team }: { team: Team }) {
 }
 
 export default function MatchCard({ match, teamA, teamB, playerA, playerB, compact }: Props) {
+  const sequenceStats = useTournamentStore((s) => s.sequenceStats);
+  const stats = match.game === 'sequence' ? sequenceStats[match.id] : null;
   const isLive = match.status === 'live';
   const isDone = match.status === 'completed';
   const time = new Date(match.scheduledAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -73,19 +76,28 @@ export default function MatchCard({ match, teamA, teamB, playerA, playerB, compa
           </div>
 
           {/* Scores */}
-          <div className="flex items-center gap-1.5 sm:gap-3 flex-shrink-0">
-            <AnimatedScore score={match.scoreA} color={match.winner === teamA.id ? teamA.color : '#111827'} size="md" />
-            <div className="flex flex-col items-center gap-0.5">
-              <span className="text-[10px] sm:text-xs text-gray-500 font-medium">VS</span>
-              {isLive && (
-                <motion.span
-                  animate={{ opacity: [1,0,1] }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
-                  className="text-[10px] text-red-500 font-bold"
-                >●</motion.span>
-              )}
+          <div className="flex flex-col items-center flex-shrink-0">
+            <div className="flex items-center gap-1.5 sm:gap-3">
+              <AnimatedScore score={match.scoreA} color={match.winner === teamA.id ? teamA.color : '#111827'} size="md" />
+              <div className="flex flex-col items-center gap-0.5">
+                <span className="text-[10px] sm:text-xs text-gray-500 font-medium">VS</span>
+                {isLive && (
+                  <motion.span
+                    animate={{ opacity: [1,0,1] }}
+                    transition={{ duration: 1.5, repeat: Infinity }}
+                    className="text-[10px] text-red-500 font-bold"
+                  >●</motion.span>
+                )}
+              </div>
+              <AnimatedScore score={match.scoreB} color={match.winner === teamB.id ? teamB.color : '#111827'} size="md" />
             </div>
-            <AnimatedScore score={match.scoreB} color={match.winner === teamB.id ? teamB.color : '#111827'} size="md" />
+            {(isDone || isLive) && stats && (
+              <div className="flex items-center gap-1 text-[9px] text-gray-400 mt-0.5">
+                <span>{stats.chipsUsedA ?? 0}🪙</span>
+                <span>-</span>
+                <span>{stats.chipsUsedB ?? 0}🪙</span>
+              </div>
+            )}
           </div>
 
           {/* Team B */}
