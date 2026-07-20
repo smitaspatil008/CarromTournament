@@ -31,6 +31,7 @@ export default function GroupTable({ group, standings, teams }: Props) {
               <th className="text-center px-1 sm:px-2 py-3 text-xs font-semibold text-gray-500">D</th>
               <th className="text-center px-1 sm:px-2 py-3 text-xs font-semibold text-gray-500">L</th>
               <th className="text-center px-1 sm:px-2 py-3 text-xs font-semibold text-gray-500 hidden sm:table-cell" title="Sequences">Seq</th>
+              <th className="text-center px-1 sm:px-2 py-3 text-xs font-semibold text-gray-500 hidden sm:table-cell" title="Chips Used">🪙</th>
               <th className="text-center px-1 sm:px-2 py-3 text-xs font-semibold text-gray-500">Pts</th>
               <th className="text-center px-1 sm:px-2 py-3 text-xs font-semibold text-gray-500 hidden sm:table-cell">Status</th>
             </tr>
@@ -70,6 +71,7 @@ export default function GroupTable({ group, standings, teams }: Props) {
                   <td className="text-center px-1 sm:px-2 py-3.5 font-semibold text-yellow-500">{s.drawn}</td>
                   <td className="text-center px-1 sm:px-2 py-3.5 font-semibold text-red-400">{s.lost}</td>
                   <td className="text-center px-1 sm:px-2 py-3.5 text-purple-500 font-semibold hidden sm:table-cell">{s.sequences}</td>
+                  <td className="text-center px-1 sm:px-2 py-3.5 text-amber-500 font-semibold hidden sm:table-cell">{s.chipsUsed}</td>
                   <td className="text-center px-1 sm:px-2 py-3.5">
                     <span className="font-bold text-blue-600">{s.points}</span>
                   </td>
